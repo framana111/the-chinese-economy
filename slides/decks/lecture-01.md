@@ -14,20 +14,6 @@
 
 ---
 
-## "China does…" / "China finds…"
-<!-- .slide: class="dense" -->
-
-- **The Economist** — *<mark>China</mark> has captured the market for hobbyist 3D printers* <small>(15 Oct 2026)</small>
-- **Financial Times** — *<mark>China</mark> resorts to Nvidia gaming chips in search for AI firepower* <small>(13 Oct 2026)</small>
-- **Wall Street Journal** — *<mark>China</mark>'s Weakening Economy Is Creating a Lost Generation* <small>(13 Oct 2026)</small>
-- **The New York Times** — *<mark>China</mark>'s Exports Soar, Putting Its Trade Surplus on Track for a Record* <small>(14 Oct 2026)</small>
-- **The Guardian** — *<mark>China</mark> agrees to 'halve' hybrid car exports to EU in landmark deal* <small>(9 Oct 2026)</small>
-- **The Economist** — *<mark>China</mark> won't apologise for overcapacity* <small>(3 Aug 2026)</small>
-
-Who is "China" here? <!-- .element: class="fragment" -->
-
----
-
 <div class="tw-wrap">
 <div class="tw"><h1>History</h1><p class="fragment def">"…the science of men in time."<small>Marc Bloch</small></p><p class="fragment use">we will <u>use</u> it</p></div>
 <div class="tw"><h1>Economics</h1><p class="fragment def">"…the science which studies human behaviour as a relationship between ends and scarce means which have alternative uses."<small>Lionel Robbins, 1932</small></p><p class="fragment use">we will <u>do</u> it</p></div>
