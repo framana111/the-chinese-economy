@@ -138,10 +138,14 @@ Average annual **real GDP growth, 2005-2024**
 
 ---
 
+<div style="text-align:center"><img src="assets/opium/poppy-herolt.jpg" style="max-height:590px;border-radius:3px"><p style="font-size:.42em;opacity:.7;margin-top:6px">Johanna Helena Herolt, <em>A Poppy in Three Stages of Flowering, with a Caterpillar, Pupa and Butterfly</em>, late 17th-early 18th century. Metropolitan Museum of Art (CC0)</p></div>
+
+---
+
 ## Trade, silver and opium
 <!-- .slide: class="dense" -->
 
-<div style="position:relative;width:820px;height:300px;margin:0 auto"><svg class="fl" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ah8fc59a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8fc59a"/></marker><marker id="ahffcf5a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffcf5a"/></marker></defs><rect x="20" y="40" width="170" height="150" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="105" y="124" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">Britain</text><rect x="630" y="40" width="170" height="150" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="715" y="124" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">China</text><rect x="325" y="235" width="170" height="60" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="410" y="274" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">India</text><line x1="625" y1="70" x2="200" y2="70" stroke="#8fc59a" stroke-width="5" marker-end="url(#ah8fc59a)"/><text x="412" y="56" fill="#8fc59a" text-anchor="middle" font-size="21" font-weight="600">tea, silk, porcelain</text><line x1="200" y1="118" x2="625" y2="118" stroke="#ffcf5a" stroke-width="5" marker-end="url(#ahffcf5a)"/><text x="412" y="106" fill="#ffcf5a" text-anchor="middle" font-size="21" font-weight="600">silver in  (until the 1820s)</text></svg><svg class="fl fragment" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ahd77a6a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d77a6a"/></marker></defs><line x1="500" y1="255" x2="715" y2="185" stroke="#d77a6a" stroke-width="5" marker-end="url(#ahd77a6a)"/><text x="660" y="268" fill="#d77a6a" text-anchor="middle" font-size="21" font-weight="600">opium, grown in India</text></svg><svg class="fl fragment" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ahffcf5a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffcf5a"/></marker></defs><line x1="625" y1="158" x2="200" y2="158" stroke="#ffcf5a" stroke-width="5" stroke-dasharray="9 7" marker-end="url(#ahffcf5a)"/><text x="412" y="148" fill="#ffcf5a" text-anchor="middle" font-size="21" font-weight="600">silver out of China  (1830s on)</text></svg></div>
+<div style="display:flex;align-items:center;justify-content:center;gap:22px"><div style="position:relative;width:600px;height:220px;flex:none"><svg class="fl" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ah8fc59a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8fc59a"/></marker><marker id="ahffcf5a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffcf5a"/></marker></defs><rect x="20" y="40" width="170" height="150" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="105" y="124" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">Britain</text><rect x="630" y="40" width="170" height="150" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="715" y="124" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">China</text><rect x="325" y="235" width="170" height="60" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="410" y="274" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">India</text><line x1="625" y1="70" x2="200" y2="70" stroke="#8fc59a" stroke-width="5" marker-end="url(#ah8fc59a)"/><text x="412" y="56" fill="#8fc59a" text-anchor="middle" font-size="21" font-weight="600">tea, silk, porcelain</text><line x1="200" y1="118" x2="625" y2="118" stroke="#ffcf5a" stroke-width="5" marker-end="url(#ahffcf5a)"/><text x="412" y="106" fill="#ffcf5a" text-anchor="middle" font-size="21" font-weight="600">silver in  (until the 1820s)</text></svg><svg class="fl fragment" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ahd77a6a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d77a6a"/></marker></defs><line x1="500" y1="255" x2="715" y2="185" stroke="#d77a6a" stroke-width="5" marker-end="url(#ahd77a6a)"/><text x="660" y="268" fill="#d77a6a" text-anchor="middle" font-size="21" font-weight="600">opium, grown in India</text></svg><svg class="fl fragment" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ahffcf5a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffcf5a"/></marker></defs><line x1="625" y1="158" x2="200" y2="158" stroke="#ffcf5a" stroke-width="5" stroke-dasharray="9 7" marker-end="url(#ahffcf5a)"/><text x="412" y="148" fill="#ffcf5a" text-anchor="middle" font-size="21" font-weight="600">silver out of China  (1830s on)</text></svg></div><figure style="margin:0;width:250px;flex:none;text-align:left"><img src="assets/opium/opium-fleet-ganges.jpg" style="width:250px;border-radius:3px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">The opium fleet on the Ganges, c. 1850. Lithograph after W. S. Sherwill (Wellcome, CC BY 4.0)</figcaption></figure></div>
 
 - For centuries China sold tea, silk, porcelain and received **silver**
 - "British merchants were unhappy with the steady drain of silver into China. […] They finally located such a commodity in **opium**." — *Naughton (2007), p. 41*
@@ -149,12 +153,30 @@ Average annual **real GDP growth, 2005-2024**
 
 ---
 
+## What the opium surge did
+
+<!-- .slide: class="dense" -->
+
+<div style="display:flex;gap:26px;align-items:center">
+<figure style="margin:0;width:400px;flex:none"><img src="assets/opium/opium-smokers-gouache.jpg" style="width:400px;border-radius:3px;display:block"><figcaption style="font-size:.4em;opacity:.7;margin-top:4px">Two wealthy Chinese opium smokers. Gouache on rice paper, 19th century (Wellcome Collection, CC BY 4.0)</figcaption></figure>
+<ul style="font-size:.56em;line-height:1.28;margin:0">
+<li>Imports of Indian opium doubled in five years: 21,885 chests (1834/35) to 40,200 (1838/39) — <em>Greenberg, via Farooqui (2016)</em></li>
+<li>More users, but no reliable count: estimates run from a few million to over ten million — <em>MIT Visualizing Cultures</em></li>
+<li>It reached officials, soldiers and the court; local officials took bribes to ignore the ban — <em>MIT Visualizing Cultures</em></li>
+<li>The court split between prohibition and legalisation — <em>Polachek (1992)</em></li>
+<li>Silver outflow and currency stress: usually blamed on opium, a link recent work questions — <em>Lin (2006); Irigoin et al.</em></li>
+</ul>
+</div>
+
+---
+
 ## The Opium Wars
 <!-- .slide: class="dense" -->
 
-- **1839-42** — China tries to stop the opium inflow; Britain attacks. *Treaty of Nanjing* (1842): Hong Kong ceded, five treaty ports opened, indemnity of 21 million silver dollars, end of the Cohong monopoly
-- **1856-60** — second war; treaties of Tianjin (1858) and Convention of Peking (1860): more ports, envoys in Beijing, missionaries, opium legalised
-- Through 1895 four more wars, all lost: reparations, more treaty ports (over 80 at the peak)
+<div style="display:flex;gap:26px;align-items:center">
+<ul style="font-size:.66em;line-height:1.3;margin:0"><li><strong>1839-42</strong> — China tries to stop the opium inflow; Britain attacks. <em>Treaty of Nanjing</em> (1842): Hong Kong ceded, five treaty ports opened, indemnity of 21 million silver dollars, end of the Cohong monopoly</li><li><strong>1856-60</strong> — second war; treaties of Tianjin (1858) and Convention of Peking (1860): more ports, envoys in Beijing, missionaries, opium legalised</li><li>Through 1895 four more wars, all lost: reparations, more treaty ports (over 80 at the peak)</li></ul>
+<figure style="margin:0;width:380px;flex:none"><img src="assets/opium/opium-war-nemesis.jpg" style="width:380px;border-radius:3px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">The <em>Nemesis</em> destroying Chinese war junks, Anson's Bay, 7 January 1841. Print by Edward Duncan, 1843 (public domain)</figcaption></figure>
+</div>
 
 ---
 
