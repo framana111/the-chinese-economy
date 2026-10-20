@@ -43,25 +43,28 @@
 ## Rules of the Journey
 <!-- .slide: class="dense" -->
 
-- **Syllabus** — grows over the course; lectures 1, 4, 5 first
 - **Website** — syllabus and slides: **framana111.github.io/the-chinese-economy**
 - **Exercises** — from time to time, a short problem to take home: tools to learn the logic of economics, analysis and reflection; **not graded**
-- **Assessment** — the **final exam only** is graded
+- **Assessment** — final written exam
 
 ---
 
-## Before we start — a yardstick
+## A quick poll
 <!-- .slide: class="dense" -->
+
+**Yardstick**
 
 Average annual **real GDP growth, 2005-2024**
 
 - **Italy** 0.3% a year
 - **European Union** 1.3% a year
 - **United Kingdom** 1.4% a year
+- **United States** 2.1% a year
+- **India** 6.3% a year
 
 ---
 
-## Before we start — poll 1
+## Poll 1
 <!-- .slide: class="dense" -->
 
 **1.** What was China's average annual real GDP growth, 2005-2024? *(a number, % a year)*
@@ -76,11 +79,11 @@ Average annual **real GDP growth, 2005-2024**
 **7.9% a year** — real GDP, 20 years
 
 - The economy became **4.6 times** larger (+356%)
-- Italy: +5% · European Union: +30% · United Kingdom: +30%
+- Italy +5% · European Union +30% · United Kingdom +30% · United States +51% · India +239%
 
 ---
 
-## Before we start — poll 2
+## Poll 2
 <!-- .slide: class="dense" -->
 
 **What drove this growth?** Rank all six, from 1 (most important) to 6 (least)
