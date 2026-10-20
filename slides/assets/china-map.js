@@ -55,7 +55,7 @@
     fetch(src).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }).then(function (items) {
       var base = src.replace(/[^/]*$/, "");
       var placeholder = !items.length;
-      if (placeholder) items = PLACEHOLDERS.map(function (t) { return { title: t + " (placeholder)" }; });
+      if (placeholder) { items = PLACEHOLDERS.map(function (t) { return { title: t + " (images could not be loaded)" }; }); }
       el.innerHTML = '<div class="il-frame">' +
         items.map(function (it) {
           return it.file
@@ -88,7 +88,7 @@
     Reveal.on("ready", init);
     Reveal.on("fragmentshown", function (e) { fragMap(e, true); });
     Reveal.on("fragmenthidden", function (e) { fragMap(e, false); });
-    Reveal.on("slidechanged", function () { document.querySelectorAll(".iconic-loop").forEach(function (l) { if (l._ilStop) l._ilStop(); }); });
+    Reveal.on("slidechanged", function (e) { document.querySelectorAll(".iconic-loop").forEach(function (l) { if (l._ilStop && !(e && e.currentSlide && e.currentSlide.contains(l))) l._ilStop(); }); });
     document.addEventListener("keydown", function (e) {
       if (e.key !== "m" && e.key !== "M") return;
       var cur = Reveal.getCurrentSlide(), m = cur && cur.querySelector(".china-map");
