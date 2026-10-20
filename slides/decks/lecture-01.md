@@ -52,7 +52,7 @@
 ## A quick poll
 <!-- .slide: class="dense" -->
 
-**Yardstick**
+**Yardsticks**
 
 Average annual **real GDP growth, 2005-2024**
 
@@ -60,16 +60,7 @@ Average annual **real GDP growth, 2005-2024**
 - **European Union** 1.3% a year
 - **United Kingdom** 1.4% a year
 - **United States** 2.1% a year
-- **India** 6.3% a year
-
----
-
-## Poll 1
-<!-- .slide: class="dense" -->
-
-**1.** What was China's average annual real GDP growth, 2005-2024? *(a number, % a year)*
-
-**2.** How confident are you in your answer? *(0-100%)*
+- **Japan** 0.6% a year
 
 ---
 
@@ -79,7 +70,7 @@ Average annual **real GDP growth, 2005-2024**
 **7.9% a year** — real GDP, 20 years
 
 - The economy became **4.6 times** larger (+356%)
-- Italy +5% · European Union +30% · United Kingdom +30% · United States +51% · India +239%
+- Italy +5% · European Union +30% · United Kingdom +30% · United States +51% · Japan +12%
 
 ---
 
