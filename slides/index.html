@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>The Chinese Economy — Slides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="vendor/reveal/reveal.css" />
+  <link rel="stylesheet" href="vendor/reveal/theme/black.css" id="theme" />
+  <link rel="stylesheet" href="vendor/reveal/plugin/highlight/monokai.css" />
+  <link rel="stylesheet" href="assets/china-map.css" />
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section data-markdown=""
+                data-separator="^\n---\n$"
+                data-separator-vertical="^\n--\n$"
+                data-separator-notes="^Note:"
+                data-charset="utf-8">
+      </section>
+    </div>
+  </div>
+
+  <script src="vendor/reveal/reveal.js"></script>
+  <script src="vendor/reveal/plugin/markdown.js"></script>
+  <script src="vendor/reveal/plugin/notes.js"></script>
+  <script src="vendor/reveal/plugin/highlight.js"></script>
+  <script src="vendor/reveal/plugin/math.js"></script>
+  <script src="assets/china-map-data.js"></script>
+  <script src="assets/china-map.js"></script>
+  <script>
+    // Pick the deck via ?deck=decks/lecture-NN.md — defaults to lecture 1.
+    const params = new URLSearchParams(window.location.search);
+    const deck = params.get("deck") || "decks/lecture-01.md";
+    document.querySelector("section[data-markdown]").setAttribute("data-markdown", deck);
+
+    Reveal.initialize({
+      hash: true,
+      slideNumber: true,
+      transition: "slide",
+      katex: {
+        version: "latest",
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+        ],
+      },
+      plugins: [RevealMarkdown, RevealNotes, RevealHighlight, RevealMath.KaTeX],
+    });
+  </script>
+</body>
+</html>
