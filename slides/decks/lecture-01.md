@@ -35,7 +35,7 @@
 - **Reallocation across sectors** — lectures 4-5 · from the farm to the factory: GDP, hukou, migration
 - **Reallocation within sectors** — lecture 6 · firms, state-owned enterprises, misallocation
 - **Trade** — lectures 7-8 · growth, the WTO, tariffs and trade wars
-- **Innovation** — lectures 9-11 · the big final theme
+- **Innovation** — lectures 9-11 · the present and the future of the Chinese economy
 - **Conclusions** — lecture 12
 
 ---
