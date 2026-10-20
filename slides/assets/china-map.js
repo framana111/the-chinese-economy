@@ -38,7 +38,7 @@
       '<circle cx="' + a[0].toFixed(1) + '" cy="' + a[1].toFixed(1) + '" r="8"/><circle cx="' + t[0].toFixed(1) + '" cy="' + t[1].toFixed(1) + '" r="8"/>' +
       '<text x="' + (a[0] + 16).toFixed(1) + '" y="' + (a[1] - 12).toFixed(1) + '">Aihui</text>' +
       '<text x="' + (t[0] + 16).toFixed(1) + '" y="' + (t[1] + 30).toFixed(1) + '">Tengchong</text>' +
-      '<text class="big" x="300" y="1010">West: 6% of the population</text>' +
+      '<text class="big" x="50" y="330">West: 6% of the population</text>' +
       '<text class="big e" x="1230" y="1010">East: 94%</text>';
     svg.appendChild(g);
   }

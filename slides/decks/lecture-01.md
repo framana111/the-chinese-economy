@@ -35,7 +35,7 @@
 - **Reallocation across sectors** — lectures 4-5 · from the farm to the factory: GDP, hukou, migration
 - **Reallocation within sectors** — lecture 6 · firms, state-owned enterprises, misallocation
 - **Trade** — lectures 7-8 · growth, the WTO, tariffs and trade wars
-- **Innovation** — lectures 9-11 · the present and the future of the Chinese economy
+- **Innovation** — lectures 9-11 · China at the Frontier
 - **Conclusions** — lecture 12
 
 ---
@@ -94,13 +94,6 @@ Average annual **real GDP growth, 2005-2024**
 - innovation and technology catch-up
 - high investment and saving
 - industrial policy and state direction
-
----
-
-## What do we think drove it?
-<!-- .slide: class="dense" -->
-
-*(live results: average points per factor, 6 for first place down to 1 for last)*
 
 ---
 
