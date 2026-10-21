@@ -455,6 +455,12 @@ $$\begin{aligned}\ln C_{c,t+1}&=\sum_{\tau}\left(a_\tau T_{c,t}+b_\tau R_{c,t}+s
 
 ---
 
+## Figure 4: the same question, by county
+
+<div style="text-align:center"><img src="assets/mqy/fig4abc.png" style="width:1100px;background:#fff;padding:6px;border-radius:4px"><p style="font-size:.42em;opacity:.7;margin-top:6px">Meng, Qian, Yared (2015), Fig. 4. Coefficients of (a) spring temperature, (b) spring rainfall and (c) land suitability, each interacted with birth-year dummies, with 95% intervals; outcome: log size of the birth cohort, 511 counties</p></div>
+
+---
+
 ## Is it just Great Leap zeal? And how big is it?
 <!-- .slide: class="dense" -->
 
