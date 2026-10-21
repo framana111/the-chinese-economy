@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A toy economy: fixed procurement</title>
+<style>
+/* single dark look so it sits inside the dark slide deck; sliders and bars share one palette */
+:root{--bg:#191919;--fg:#f2f2f2;--mute:#a9a9a9;--line:#3a3a3a;--a:#ffcf5a;--b:#8fc59a;--city:#8ea7c9;--bad:#d77a6a;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);font:15px/1.35 "Source Sans Pro",system-ui,sans-serif}
+.wrap{padding:6px 10px;max-width:640px;margin:0 auto}
+.note{color:var(--mute);font-size:12px;margin:2px 0 6px}
+.ctrl{display:grid;grid-template-columns:150px 1fr 46px;align-items:center;gap:6px 8px;margin-bottom:4px}
+.ctrl label{font-size:13px}
+.ctrl output{text-align:right;font-variant-numeric:tabular-nums;font-size:13px}
+input[type=range]{width:100%;accent-color:var(--a)}
+.mode{display:flex;gap:6px;margin:6px 0 4px}
+.mode button{flex:1;background:#262626;color:var(--fg);border:1px solid var(--line);border-radius:5px;padding:5px 6px;font:inherit;font-size:13px;cursor:pointer}
+.mode button[aria-pressed=true]{border-color:var(--a);background:#33301f}
+.panels{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.panel h3{font-size:13px;margin:4px 0 0;font-weight:600;text-align:center}
+svg{width:100%;height:auto;display:block}
+.sum{font-size:13px;margin-top:2px;min-height:2.6em}
+.sum b.bad{color:var(--bad)}
+</style></head><body>
+<div class="wrap">
+<div class="note">Stylised example inspired by the paper's illustration (Table 5), not its estimates. Each person needs 100 units of food. Two rural regions (A: better land, B) and a city.</div>
+<div class="ctrl"><label for="ya">Region A, normal harvest</label><input id="ya" type="range" min="150" max="320" step="5" value="250"><output id="oya"></output></div>
+<div class="ctrl"><label for="yb">Region B, normal harvest</label><input id="yb" type="range" min="150" max="320" step="5" value="170"><output id="oyb"></output></div>
+<div class="ctrl"><label for="sh">Shock to both regions</label><input id="sh" type="range" min="0" max="40" step="1" value="20"><output id="osh"></output></div>
+<div class="mode" role="group" aria-label="Procurement rule">
+<button id="m1" aria-pressed="true">Fixed in advance (past output)</button>
+<button id="m2" aria-pressed="false">Adjusted to this year's harvest</button></div>
+<div class="panels">
+<div class="panel"><h3>Normal year</h3><svg id="s1" viewBox="0 0 260 190" role="img" aria-label="Food per person in a normal year"></svg></div>
+<div class="panel"><h3>Bad year (the shock)</h3><svg id="s2" viewBox="0 0 260 190" role="img" aria-label="Food per person in a bad year"></svg></div>
+</div>
+<div class="sum" id="sum"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let mode=1;
+const P=0.8; // probability of a normal year (the planner's expectation)
+function calc(){
+  const A=+$("ya").value,B=+$("yb").value,s=+$("sh").value/100;
+  const outN=[A,B], outS=[A*(1-s),B*(1-s)];
+  const E=[P*outN[0]+(1-P)*outS[0], P*outN[1]+(1-P)*outS[1]];
+  const T=(E[0]+E[1])/3;                       // the plan equalises expected food: region A, region B, city
+  const proc=[E[0]-T,E[1]-T];                  // fixed quotas, set from expected (past) output
+  function state(out){
+    if(mode===1) return [out[0]-proc[0], out[1]-proc[1], proc[0]+proc[1]];
+    const t=(out[0]+out[1])/3; return [t,t,t]; // flexible rule: shortfall shared equally
+  }
+  return {A,B,s,proc,n:state(outN),b:state(outS)};
+}
+const COL=["var(--a)","var(--b)","var(--city)"], NAME=["A","B","City"];
+function draw(svg,vals,hl){
+  const W=260,H=190,x0=30,y0=165,ymax=170,sc=(y0-14)/ymax;
+  let h=`<line x1="${x0}" y1="${y0}" x2="${W-6}" y2="${y0}" stroke="#777"/>`;
+  const need=y0-100*sc;
+  h+=`<line x1="${x0}" y1="${need}" x2="${W-6}" y2="${need}" stroke="#fff" stroke-dasharray="4 4" opacity=".7"/><text x="${x0-4}" y="${need+4}" fill="#fff" font-size="11" text-anchor="end">100</text>`;
+  vals.forEach((v,i)=>{
+    const bw=52,gap=18,x=x0+10+i*(bw+gap),hh=Math.max(0,v)*sc;
+    const low=v<100;
+    h+=`<rect x="${x}" y="${y0-hh}" width="${bw}" height="${hh}" fill="${COL[i]}" ${low&&i<2?'stroke="var(--bad)" stroke-width="3"':''}/>`;
+    h+=`<text x="${x+bw/2}" y="${y0-hh-5}" fill="#fff" font-size="13" text-anchor="middle" font-weight="600">${Math.round(v)}</text>`;
+    h+=`<text x="${x+bw/2}" y="${y0+16}" fill="#ddd" font-size="12" text-anchor="middle">${NAME[i]}</text>`;
+  });
+  svg.innerHTML=h;
+}
+function render(){
+  const r=calc();
+  $("oya").textContent=r.A; $("oyb").textContent=r.B; $("osh").textContent=Math.round(r.s*100)+"%";
+  draw($("s1"),r.n); draw($("s2"),r.b);
+  const a=Math.round(r.b[0]), b=Math.round(r.b[1]);
+  let msg=`Bad year: A keeps <b>${a}</b>, B keeps <b>${b}</b>, the city <b>${Math.round(r.b[2])}</b>.`;
+  if(a<b) msg+=` <b class="bad">The region with the better land ends up with less food.</b>`;
+  else if(a<100||b<100) msg+=` At least one region falls below 100.`;
+  $("sum").innerHTML=msg;
+}
+["ya","yb","sh"].forEach(id=>$(id).addEventListener("input",render));
+[["m1",1],["m2",2]].forEach(([id,m])=>$(id).addEventListener("click",()=>{mode=m;$("m1").setAttribute("aria-pressed",m===1);$("m2").setAttribute("aria-pressed",m===2);render()}));
+render();
+</script></body></html>

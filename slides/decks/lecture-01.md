@@ -266,11 +266,7 @@ Average annual **real GDP growth, 2005-2024**
 
 ---
 
-## The planners' lever: investment
-
-- Gross capital formation was already **26% of GDP in 1954**; it peaked near **43% in 1958-59**, fell to about **15% in 1962**, then rose again to 30-35%
-
-*Source: Naughton (2007), *The Chinese Economy*, Fig. 3.1 — values read from the chart, approximate*
+<div style="text-align:center"><img src="assets/naughton2007-fig3-1.png" style="max-height:470px;background:#fff;padding:6px;border-radius:4px"><p style="font-size:.5em;opacity:.7">Naughton (2007), <em>The Chinese Economy</em>, Fig. 3.1</p></div>
 
 ---
 
@@ -283,7 +279,7 @@ Average annual **real GDP growth, 2005-2024**
 <li>Then <strong>retrenchment</strong>: slower investment, consolidation, often a more moderate climate (Hundred Flowers 1956-57; readjustment 1961-63; drift 1972-76)</li>
 <li>"Policy swings like a pendulum from left to right and back again" — and drives, and is driven by, economic developments</li>
 </ul>
-
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/naughton2007-fig3-2.png" style="width:640px;background:#fff;padding:6px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;margin-top:4px">Naughton (2007), <em>The Chinese Economy</em>, Fig. 3.2 — annual growth of investment</figcaption></figure>
 </div>
 
 ---
@@ -310,33 +306,104 @@ Average annual **real GDP growth, 2005-2024**
 ---
 
 ## The puzzle
+<!-- .slide: class="dense" -->
 
 > In 1959-61, average food availability in the Chinese countryside
 > was enough to feed the population.
 >
 > **So why did 16.5 to 45 million people die?**
 
----
+- After the state took its share, the rural average in 1959 was about **2,300 kcal a day**; the survival benchmark is about **800**
+- Production per person fell about 15% in 1959 — the largest fall of the period — but stayed far above that line
 
-## The institutional mechanism
-<!-- .slide: class="dense" -->
-
-Meng, Qian, Yared (2015), *Review of Economic Studies* 82(4), 1568-1611
-
-- Excess deaths: **16.5-45 million** (an explicit range; Naughton: 25-30 million through 1961)
-- Per capita grain output fell about 15% in 1959 — but stayed above subsistence
-- Regions with **higher** production had **higher** mortality
-- Explanation: **fixed quantity procurement** and a plan that cannot collect or respond to information after an aggregate shock
+<p style="font-size:.45em;opacity:.7">Meng, Qian, Yared (2015), <em>Review of Economic Studies</em> — 19 provinces, 77% of the population</p>
 
 ---
 
-## How do we know? Data, proxies, claims
+## How many died, and what "uneven" means
 <!-- .slide: class="dense" -->
 
-- There is no county-level data on output or deaths for the famine
-- Proxies: missing birth cohorts, land suitability for grain, official (inflated) production figures
-- The paper **documents** facts and **argues** for an institutional story
-- What it does not yet tell us: what would have happened otherwise
+<div style="display:flex;align-items:center;justify-content:center;gap:22px">
+<ul style="font-size:.6em;line-height:1.3;margin:0;text-align:left;width:410px;flex:none">
+<li>Nobody counted. Estimates of excess deaths: <strong>16.5 million</strong> (Coale 1981), <strong>30 million</strong> (Banister 1987), <strong>45 million</strong> (Dikötter 2010)</li>
+<li>In 1960 the national average death rate jumps from about 10 to about <strong>19 per 1,000</strong></li>
+<li>And so does the <em>spread</em> between provinces (dashed line): the same national shock, very different local outcomes</li>
+<li>That is what "uneven" means: not just more deaths, but more different deaths</li>
+</ul>
+
+</div>
+
+---
+
+## The surprise
+<!-- .slide: class="dense" -->
+
+<div style="display:flex;align-items:center;justify-content:center;gap:22px">
+<ul style="font-size:.6em;line-height:1.3;margin:0;text-align:left;width:390px;flex:none">
+<li>We would expect more deaths where there was <em>less</em> food</li>
+<li>Across provinces, the paper finds the opposite: <strong>more deaths where predicted grain output per head was higher</strong> — only in the famine years</li>
+<li>How to read the graph: each point is a year; the line says by how much mortality differs between provinces whose output differs by 1% (a coefficient). Dashed lines: 95% interval</li>
+<li>About zero in normal years; clearly positive in 1958-59</li>
+</ul>
+
+</div>
+
+---
+
+## How do we measure this with bad data?
+<!-- .slide: class="dense" -->
+
+<div style="display:flex;align-items:flex-start;justify-content:center;gap:20px">
+<ul style="font-size:.56em;line-height:1.3;margin:0;text-align:left;width:360px;flex:none">
+<li>Official figures for output and deaths are unreliable in these years</li>
+<li><strong>Proxy 1</strong>: output <em>predicted</em> from weather, geography and rural population, not the reported one</li>
+<li><strong>Proxy 2</strong>: the missing children. In the 1990 census, how large is each birth cohort, in 511 counties?</li>
+<li>A small cohort born in 1959-61 = more deaths and fewer births. And the counties with better land lose the most cohorts (right)</li>
+</ul>
+
+
+</div>
+
+---
+
+## How the state collected grain: a toy economy
+<!-- .slide: class="dense" -->
+
+<div style="display:flex;align-items:center;justify-content:center;gap:18px">
+<ul style="font-size:.58em;line-height:1.3;margin:0;text-align:left;width:330px;flex:none">
+<li>Quotas were set <strong>in advance</strong>, from past verified output, top-down (province, prefecture, county)</li>
+<li>Each collective delivered its quota <strong>even if the harvest fell short</strong></li>
+<li>Regions with higher output faced a <strong>higher share</strong> taken</li>
+<li>Try it: with the default numbers, after the shock region A (better land) is left with <strong>less</strong> than region B</li>
+</ul>
+<iframe data-src="assets/famine/toy.html" style="width:600px;height:490px;border:0;border-radius:6px;flex:none" title="Toy economy: fixed procurement"></iframe>
+</div>
+
+---
+
+## Is it just Great Leap zeal? And how big is it?
+<!-- .slide: class="dense" -->
+
+<div style="display:flex;align-items:center;justify-content:center;gap:26px">
+<ul style="font-size:.58em;line-height:1.3;margin:0;text-align:left;width:470px;flex:none">
+<li>Alternatives tested: Great Leap <strong>zealousness</strong> (sown-area cuts, steel output, communal dining, purges, late liberation), urban bias, misreported output</li>
+<li>More productive provinces were, if anything, <em>less</em> zealous</li>
+<li>Adding the zeal controls barely changes the result</li>
+<li>Back-of-the-envelope: the procurement mechanism accounts for roughly <strong>one third to 43%</strong> of famine mortality — which leaves room for the Leap's policies and for politics</li>
+</ul>
+<svg viewBox="0 0 340 250" style="width:340px;flex:none"><text x="170" y="22" fill="#fff" text-anchor="middle" font-size="15" font-weight="600">Effect on famine mortality</text><text x="170" y="40" fill="#bbb" text-anchor="middle" font-size="12">(standard deviations, for a 1 s.d. change)</text><line x1="60" y1="210" x2="320" y2="210" stroke="#888"/><rect x="90" y="80.0" width="70" height="130.0" fill="#ffcf5a"/><rect x="220" y="204.8" width="70" height="5.2" fill="#d77a6a"/><text x="125" y="72.0" fill="#fff" text-anchor="middle" font-size="16" font-weight="600">0.50</text><text x="255" y="197.0" fill="#fff" text-anchor="middle" font-size="16" font-weight="600">0.02</text><text x="125" y="230" fill="#ddd" text-anchor="middle" font-size="13">Grain productivity</text><text x="255" y="230" fill="#ddd" text-anchor="middle" font-size="13">Leap zealousness</text></svg>
+</div>
+
+---
+
+## The punchline, and what the paper does not say
+<!-- .slide: class="dense" -->
+
+- **The finding**: the famine was deadliest where there had been more food
+- **The authors' explanation**: a plan that fixes quantities from past output, and cannot hear a shock, takes the most from the regions that lost the most. It accounts for a large part of the deaths, not all of them
+- **Not shown**: what would have happened under another rule; that the Leap's policies did not matter; that the data are exact (they are official and approximate)
+- It cannot tell over-procurement from late relief; the link with the Soviet famine of 1932-33 is suggested, not shown
+- **Next lecture**: how do we move from "documents" to "causes"?
 
 ---
 
