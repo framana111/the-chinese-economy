@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Poll results</title>
+<style>
+:root{--bg:#161616;--fg:#f2f2f2;--mut:#9aa0a6;--acc:#ffcf5a;--bar:#6ea8e0;--true:#ff7a6a;--card:#222;--line:#3a3a3a}
+@media (prefers-color-scheme:light){:root[data-theme=auto]{--bg:#161616}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:14px 22px;border-bottom:1px solid var(--line)}
+h1{font-size:20px;margin:0 18px 0 0;font-weight:600}
+.tabs button,.ctl button,.ctl label{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--acc);color:#111;border-color:var(--acc)}
+.ctl{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ctl input[type=file]{display:none}
+main{padding:18px 22px 40px;max-width:1200px;margin:0 auto}
+.panel{display:none}.panel.on{display:block}
+h2{font-size:30px;margin:10px 0 2px}
+.sub{color:var(--mut);margin:0 0 14px}
+svg{width:100%;height:auto;display:block}
+.stats{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 18px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px}
+.stat b{font-size:26px;display:block}
+.stat span{color:var(--mut);font-size:14px}
+.warn{background:#3a2a10;color:#ffd58a;border:1px solid #6b4d1a;border-radius:8px;padding:8px 12px;margin:8px 0;display:none}
+textarea{width:100%;height:90px;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px;font:13px ui-monospace,monospace}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media (max-width:800px){.grid{grid-template-columns:1fr}}
+small{color:var(--mut)}
+
+/* embed mode (?embed=1&panel=1|2): only the chart panel, no header, no titles, same background as the slides */
+.embed{--bg:#191919}.embed header,.embed #pastebox,.embed h2,.embed .sub{display:none}
+.embed main{max-width:none;padding:6px 10px}.embed #warn{display:none!important}
+.embed .stats{margin:2px 0 10px}.embed .stat b{font-size:22px}
+.embed .empty{display:block;text-align:center;color:var(--mut);padding:90px 0;font-size:26px}
+.empty{display:none}
+.embed #firsts,.embed #conf,.embed #confsub{display:none}
+.embed #borda,.embed #hist{max-height:520px}
+#live{position:fixed;right:10px;bottom:8px;font-size:12px;color:var(--mut);display:flex;gap:8px;align-items:center;z-index:5}
+#live button{background:#262626;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:4px 10px;font:inherit;font-size:12px;cursor:pointer}
+#live .ok{color:#8fc59a}#live .err{color:#d77a6a}
+</style>
+<script src="config.js" onerror="void 0"></script>
+</head>
+<body>
+<header>
+  <h1>Poll results</h1>
+  <div class="tabs"><button id="t1" class="on">1 · Growth and confidence</button><button id="t2">2 · What drove growth</button></div>
+  <div class="ctl">
+    <label>Load CSV 1<input id="f1" type="file" accept=".csv,text/csv"></label>
+    <label>Load CSV 2<input id="f2" type="file" accept=".csv,text/csv"></label>
+    <button id="demo">Demo data</button>
+    <button id="paste">Paste CSV</button>
+  </div>
+</header>
+<div id="live" style="display:none"><span id="livemsg"></span><button id="liveb">Refresh</button></div>
+<main>
+  <div id="pastebox" style="display:none">
+    <p class="sub">Paste the CSV exported from the Google Sheet (first row = headers), then choose which poll it is:</p>
+    <textarea id="ta"></textarea>
+    <p><button id="ok1" class="tabs">It is poll 1</button> <button id="ok2" class="tabs">It is poll 2</button></p>
+  </div>
+  <div id="warn" class="warn"></div>
+
+  <section id="p1" class="panel on"><div class="empty" id="e1">Waiting for the responses…</div>
+    <h2>China's real GDP growth, 2005-2024: what we guessed</h2>
+    <p class="sub" id="p1sub">Load the CSV of the first form.</p>
+    <div class="stats" id="stats1"></div>
+    <svg id="hist" viewBox="0 0 1100 430"></svg>
+    <h2 style="font-size:22px">Confidence</h2><p class="sub" id="confsub"></p><svg id="conf" viewBox="0 0 1100 300"></svg>
+  </section>
+
+  <section id="p2" class="panel"><div class="empty" id="e2">Waiting for the responses…</div>
+    <h2>What drove China's growth? Average points</h2>
+    <p class="sub" id="p2sub">Load the CSV of the second form. 6 points for first place down to 1 for last; sum divided by the number of rankings that included the factor.</p>
+    <svg id="borda" viewBox="0 0 1100 520"></svg>
+    <h2 style="font-size:22px">First places</h2><svg id="firsts" viewBox="0 0 1100 330"></svg>
+  </section>
+</main>
+
+<script>
+const TRUE_GROWTH = 7.92;       // World Bank, simple mean of annual real growth 2005-2024
+const NS = "http://www.w3.org/2000/svg";
+const $ = id => document.getElementById(id);
+let poll1 = null, poll2 = null, isDemo = false;
+const Q = new URLSearchParams(location.search), EMBED = Q.get("embed") === "1", PANEL = parseInt(Q.get("panel") || "1", 10);
+if (EMBED) document.documentElement.classList.add("embed"), document.body.classList.add("embed");
+
+/* ---------- CSV ---------- */
+function parseCSV(text){
+  const rows=[]; let row=[], cur="", q=false;
+  text=text.replace(/\r\n?/g,"\n");
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){ if(c=='"'){ if(text[i+1]=='"'){cur+='"';i++} else q=false } else cur+=c }
+    else if(c=='"') q=true;
+    else if(c==','||c=='\t'||c==';'){ row.push(cur); cur="" }
+    else if(c=='\n'){ row.push(cur); rows.push(row); row=[]; cur="" }
+    else cur+=c;
+  }
+  if(cur!==""||row.length){ row.push(cur); rows.push(row) }
+  return rows.filter(r=>r.some(x=>x.trim()!==""));
+}
+const num = s => { const x=parseFloat(String(s).replace(",",".").replace("%","").trim()); return isFinite(x)?x:null };
+
+/* ---------- SVG helpers ---------- */
+function el(tag,attrs,text,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e}
+function wrap(t,n){const w=t.split(' '),out=[];let cur='';w.forEach(x=>{if((cur+' '+x).trim().length>n&&cur){out.push(cur);cur=x}else cur=(cur+' '+x).trim()});if(cur)out.push(cur);return out}
+function clear(svg){while(svg.firstChild)svg.removeChild(svg.firstChild)}
+
+/* ---------- Panel 1 ---------- */
+// Growth is answered in six brackets: [0-2], (2-4], (4-6], (6-8], (8-10], more than 10. Confidence has four levels.
+const BR = ["0-2","2-4","4-6","6-8","8-10","10+"];
+const TRUE_BR = 3;                                  // 7.92 falls in (6-8]
+const LEVELS = ["Pure guess","Not very confident","Fairly confident","Very confident"];
+function bracketOf(txt){
+  const t=String(txt).toLowerCase();
+  if(/more than 10|above 10|over 10|>\s*10|10\s*\+|10%\s*or more/.test(t)) return 5;
+  const nums=(t.match(/\d+([.,]\d+)?/g)||[]).map(x=>parseFloat(x.replace(",",".")));
+  if(!nums.length) return null;
+  const hi=Math.max(...nums);
+  if(nums.length===1 && /more than|above|over|>/.test(t)) return Math.min(5,Math.floor(hi/2));    // "more than 2" etc.
+  if(hi<=2) return 0; if(hi<=4) return 1; if(hi<=6) return 2; if(hi<=8) return 3; if(hi<=10) return 4; return 5;
+}
+function levelOf(txt){
+  const t=String(txt).toLowerCase();
+  if(/guess/.test(t)) return 0; if(/not (very|much)/.test(t)) return 1; if(/very/.test(t)) return 3; if(/fairly|quite|somewhat/.test(t)) return 2;
+  const x=num(txt); if(x!=null&&x>=0&&x<=100) return x<25?0:x<50?1:x<75?2:3;                          // old numeric answers, if any
+  return null;
+}
+function drawPoll1(rows){
+  const head=rows[0].map(h=>h.toLowerCase()); const data=rows.slice(1);
+  const find=(re,fallback)=>{const i=head.findIndex(h=>re.test(h)); return i>=0?i:fallback};
+  const cg=find(/growth|gdp|crescita/,1), cc=find(/confiden|sure|fiducia/,2);
+  const pairs=[]; let bad=0;
+  data.forEach(r=>{const b=bracketOf(r[cg]); if(b==null){bad++;return} pairs.push({b,l:levelOf(r[cc])})});
+  const n=pairs.length;
+  poll1={pairs,n:data.length};
+  $("p1sub").textContent=(isDemo?"DEMO DATA, INVENTED. ":"")+`${n} valid answers (${data.length} responses${bad?`, ${bad} not understood`:""}). Red marker: the true value, ${TRUE_GROWTH.toFixed(1)}%, in the bracket ${BR[TRUE_BR].replace("-"," to ")}.`;
+  const cnt=Array(6).fill(0); pairs.forEach(p=>cnt[p.b]++);
+  const right=cnt[TRUE_BR], near=cnt[TRUE_BR]+(cnt[TRUE_BR-1]||0)+(cnt[TRUE_BR+1]||0);
+  const mode=cnt.indexOf(Math.max(...cnt));
+  const st=$("stats1"); st.innerHTML="";
+  const add=(bb,ss)=>{const d=document.createElement("div");d.className="stat";d.innerHTML=`<b>${bb}</b><span>${ss}</span>`;st.appendChild(d)};
+  add(TRUE_GROWTH.toFixed(1)+"%","true value (World Bank)");
+  if(n){add(Math.round(100*right/n)+"%","in the right bracket"); add(Math.round(100*near/n)+"%","within one bracket"); add(BR[mode].replace("-"," to "),"most common bracket");}
+  const lv=Array(4).fill(0), lvr=Array(4).fill(0); pairs.forEach(p=>{if(p.l!=null){lv[p.l]++; if(p.b===TRUE_BR)lvr[p.l]++}});
+  const svg=$("hist"); clear(svg); const W=1100,H=430,L=60,R=20,T=44,B=60, K=6;
+  const ymax=Math.max(3,...cnt)+1, bw=(W-L-R)/K, sy=v=>H-B-(H-B-T)*v/ymax;
+  for(let v=0;v<=ymax;v++){el("line",{x1:L,x2:W-R,y1:sy(v),y2:sy(v),stroke:"#2c2c2c"},null,svg); if(v%Math.ceil(ymax/6)==0)el("text",{x:L-10,y:sy(v)+5,"text-anchor":"end",fill:"#9aa0a6","font-size":15},v,svg)}
+  cnt.forEach((c,i)=>{ if(c)el("rect",{x:L+i*bw+10,y:sy(c),width:bw-20,height:H-B-sy(c),fill:i===TRUE_BR?"#8fc59a":"#6ea8e0",rx:3},null,svg);
+    if(c)el("text",{x:L+i*bw+bw/2,y:sy(c)-8,"text-anchor":"middle",fill:"#f2f2f2","font-size":20,"font-weight":700},c,svg);
+    el("text",{x:L+i*bw+bw/2,y:H-B+26,"text-anchor":"middle",fill:"#cfd3d7","font-size":19},BR[i]===" 10+"?"":(i===5?"more than 10":BR[i].replace("-"," to ")),svg)});
+  el("text",{x:(L+W-R)/2,y:H-8,"text-anchor":"middle",fill:"#9aa0a6","font-size":16},"average annual real GDP growth, 2005-2024 (% per year)",svg);
+  const tx=L+TRUE_BR*bw+bw*((TRUE_GROWTH-6)/2); el("line",{x1:tx,x2:tx,y1:T,y2:H-B,stroke:"#ff7a6a","stroke-width":4},null,svg);
+  el("text",{x:tx-10,y:T-14,"text-anchor":"end",fill:"#ff7a6a","font-size":20,"font-weight":700},`true: ${TRUE_GROWTH.toFixed(1)}%`,svg);
+  // confidence: four levels, with how many of each were in the right bracket
+  const cs=$("conf"); clear(cs); const cm=Math.max(1,...lv);
+  lv.forEach((c,i)=>{const x=70+i*260,h=170*c/cm; el("rect",{x,y:210-h,width:190,height:h,fill:"#ffcf5a",rx:3},null,cs); el("text",{x:x+95,y:204-h,"text-anchor":"middle",fill:"#f2f2f2","font-size":20,"font-weight":700},c||"",cs);
+    el("text",{x:x+95,y:236,"text-anchor":"middle",fill:"#cfd3d7","font-size":17},LEVELS[i],cs);
+    el("text",{x:x+95,y:262,"text-anchor":"middle",fill:"#8fc59a","font-size":16},c?`${lvr[i]} of ${c} in the right bracket`:"",cs)});
+  const tot=lv.reduce((x,y)=>x+y,0);
+  $("confsub").textContent=tot?`${lv[3]+lv[2]} of ${tot} fairly or very confident; ${right} of ${n} in the right bracket`:"";
+}
+
+/* ---------- Panel 2 ---------- */
+function drawPoll2(rows){
+  const head=rows[0]; const data=rows.slice(1);
+  let cols=[]; head.forEach((h,i)=>{ if(/\[.+\]/.test(h)) cols.push([i,h.match(/\[(.+)\]/)[1]]) });
+  if(!cols.length) cols=head.map((h,i)=>[i,h]).slice(1);          // no brackets: every column after the timestamp
+  const N=cols.length, tally=cols.map(()=>({sum:0,n:0,first:0,dup:0}));
+  data.forEach(r=>{ cols.forEach(([i],k)=>{ const m=String(r[i]||"").match(/\d+/); if(!m)return; const rk=parseInt(m[0]);
+      if(rk>=1&&rk<=N){tally[k].sum+=N+1-rk; tally[k].n++; if(rk==1)tally[k].first++} }) });
+  poll2={cols,tally,n:data.length};
+  const items=cols.map(([,name],k)=>({name,avg:tally[k].n?tally[k].sum/tally[k].n:0,n:tally[k].n,first:tally[k].first})).sort((a,b)=>b.avg-a.avg);
+  $("p2sub").textContent=(isDemo?"DEMO DATA, INVENTED. ":"")+`${data.length} rankings. ${N} points for first place down to 1 for last; each factor: sum of points divided by the number of rankings that included it.`;
+  const svg=$("borda"); clear(svg); const W=1100,H=520,L=420,R=70,T=10,rowh=(H-T-40)/N, sx=v=>L+(W-L-R)*v/N;
+  for(let v=0;v<=N;v++){el("line",{x1:sx(v),x2:sx(v),y1:T,y2:H-40,stroke:"#2c2c2c"},null,svg); el("text",{x:sx(v),y:H-16,"text-anchor":"middle",fill:"#9aa0a6","font-size":15},v,svg)}
+  items.forEach((it,i)=>{const y=T+i*rowh+6,h=rowh-14; el("rect",{x:L,y,width:sx(it.avg)-L,height:h,fill:i==0?"#ffcf5a":"#6ea8e0",rx:4},null,svg);
+    const ls=wrap(it.name,34); ls.forEach((ln,j)=>el("text",{x:L-12,y:y+h/2+6-(ls.length-1)*11+j*22,"text-anchor":"end",fill:"#f2f2f2","font-size":19},ln,svg));
+    el("text",{x:sx(it.avg)+10,y:y+h/2+6,fill:"#f2f2f2","font-size":19,"font-weight":700},it.avg.toFixed(2)+(it.n<data.length?`  (n=${it.n})`:""),svg)});
+  const f=$("firsts"); clear(f); const fm=Math.max(1,...items.map(i=>i.first)), fw=(1100-40)/N;
+  items.forEach((it,i)=>{const x=20+i*fw,h=200*it.first/fm; el("rect",{x:x+10,y:230-h,width:fw-20,height:h,fill:"#6ea8e0",rx:3},null,f); el("text",{x:x+fw/2,y:222-h,"text-anchor":"middle",fill:"#f2f2f2","font-size":18},it.first||"",f);
+    wrap(it.name,22).forEach((ln,j)=>el("text",{x:x+fw/2,y:252+j*17,"text-anchor":"middle",fill:"#cfd3d7","font-size":13},ln,f))});
+}
+
+/* ---------- wiring ---------- */
+function warn(m){const w=$("warn");w.style.display=m?"block":"none";w.textContent=m||""}
+function readFile(file,which){const r=new FileReader();r.onload=()=>load(r.result,which);r.readAsText(file)}
+function load(text,which,silent){ try{const rows=parseCSV(text); if(rows.length<2)throw new Error("no data rows"); warn(""); (which==1?drawPoll1:drawPoll2)(rows);
+  if(!silent&&!isDemo){try{localStorage.setItem("poll"+which+"csv",text)}catch(e){}}
+  if(!EMBED) show(which);}catch(e){warn("Could not read the CSV: "+e.message)} }
+function show(n){$("p1").classList.toggle("on",n==1);$("p2").classList.toggle("on",n==2);$("t1").classList.toggle("on",n==1);$("t2").classList.toggle("on",n==2)}
+$("t1").onclick=()=>show(1); $("t2").onclick=()=>show(2);
+$("f1").onchange=e=>e.target.files[0]&&readFile(e.target.files[0],1);
+$("f2").onchange=e=>e.target.files[0]&&readFile(e.target.files[0],2);
+$("paste").onclick=()=>{const b=$("pastebox");b.style.display=b.style.display=="none"?"block":"none"};
+$("ok1").onclick=()=>{load($("ta").value,1);$("pastebox").style.display="none"}; $("ok2").onclick=()=>{load($("ta").value,2);$("pastebox").style.display="none"};
+
+/* demo: 17 invented students (for testing the page, not real data) */
+function demo(){
+  let s=7; const rnd=()=>(s=(s*16807)%2147483647)/2147483647;
+  const gauss=()=>{let u=0;for(let i=0;i<6;i++)u+=rnd();return (u-3)/Math.sqrt(0.5)};
+  const BRL=["0 to 2%","More than 2 to 4%","More than 4 to 6%","More than 6 to 8%","More than 8 to 10%","More than 10%"], LV=["Pure guess","Not very confident","Fairly confident","Very confident"];
+  let csv1="Timestamp,What was China's average annual real GDP growth 2005-2024?,How confident are you?\n";
+  for(let i=0;i<17;i++){const g=Math.max(1.5,Math.min(14,6.2+2.2*gauss())); const b=g<=2?0:g<=4?1:g<=6?2:g<=8?3:g<=10?4:5; csv1+=`2026-10-20 16:4${i%10},${BRL[b]},${LV[Math.floor(rnd()*4)]}\n`}
+  const F=["movement of workers from the countryside to the cities","reform of state enterprises and better allocation across firms","foreign trade and WTO entry","innovation and technology catch-up","high investment and saving","industrial policy and state direction"];
+  let csv2="Timestamp,"+F.map(f=>`Rank [${f}]`).join(",")+"\n"; const bias=[3.2,3.0,4.4,3.1,3.8,3.5];
+  for(let i=0;i<17;i++){const sc=F.map((_,k)=>bias[k]+0.9*gauss()); const order=sc.map((v,k)=>[v,k]).sort((a,b)=>b[0]-a[0]); const rk=Array(6); order.forEach(([,k],pos)=>rk[k]=pos+1);
+    csv2+=`2026-10-20 16:5${i%10},`+rk.join(",")+"\n"}
+  isDemo=true; load(csv1,1); load(csv2,2); isDemo=false; show(1);
+}
+$("demo").onclick=demo;
+if(location.search.includes("demo"))demo();
+/* ---------- live mode: read the responses straight from the Google Forms (Apps Script web apps, urls in config.js) ---------- */
+// config.js: window.POLL_LIVE = {1: "https://script.google.com/macros/s/.../exec", 2: "https://script.google.com/macros/s/.../exec"};
+function liveRows(j, which){
+  const items=j.items||[], resp=j.responses||[];
+  if(which===1){
+    const q1=items.find(i=>/growth|gdp/i.test(i.title))||items[0], q2=items.find(i=>/confiden/i.test(i.title))||items[1];
+    return [["Timestamp",q1.title,q2?q2.title:"confidence"]].concat(resp.map(r=>[r.t,String(r.a[q1.id]??""),q2?String(r.a[q2.id]??""):""]));
+  }
+  const g=items.find(i=>i.rows&&i.rows.length)||items[0];
+  return [["Timestamp"].concat(g.rows.map(x=>`Rank [${x}]`))].concat(resp.map(r=>[r.t].concat((r.a[g.id]||[]).map(String))));
+}
+const lastOK={1:0,2:0};
+async function livePull(which){
+  const url=window.POLL_LIVE&&window.POLL_LIVE[which]; if(!url) return;
+  try{
+    const r=await fetch(url,{cache:"no-store"}); if(!r.ok) throw new Error("HTTP "+r.status);
+    const j=await r.json(); const rows=liveRows(j,which);
+    if(rows.length<2){ seen[which]=null; syncEmpty(); }
+    else { seen[which]="live"; (which===1?drawPoll1:drawPoll2)(rows); syncEmpty(); }
+    lastOK[which]=Date.now();
+  }catch(e){ lastOK[which]=-1; console.warn("live poll "+which, e) }
+  liveMsg();
+}
+function liveMsg(){
+  const m=$("livemsg"); const w=EMBED?PANEL:(document.querySelector(".panel.on")&&document.querySelector(".panel.on").id=="p2"?2:1);
+  if(lastOK[w]>0){ m.className="ok"; m.textContent="live · "+new Date(lastOK[w]).toLocaleTimeString() }
+  else if(lastOK[w]===-1){ m.className="err"; m.textContent="cannot reach the form (check the connection)" }
+}
+
+/* data survive a reload and reach the embedded copy in the slide: the control page saves each CSV in localStorage, the embedded page re-reads it every second */
+const seen = {1: null, 2: null};
+function syncEmpty(){ [1,2].forEach(k=>{ const e=document.getElementById("e"+k); if(e) e.style.display=(EMBED&&!seen[k])?"block":"none" }) }
+function restore(){ [1,2].forEach(k=>{ if(window.POLL_LIVE&&window.POLL_LIVE[k]) return; let t=null; try{t=localStorage.getItem("poll"+k+"csv")}catch(e){} if(t&&t!==seen[k]){seen[k]=t; load(t,k,true)} }); syncEmpty() }
+restore();
+if(EMBED){ show(PANEL); setInterval(restore,1000); window.addEventListener("storage",restore) }
+if(window.POLL_LIVE && (window.POLL_LIVE[1]||window.POLL_LIVE[2])){
+  $("live").style.display="flex";
+  const tick=()=>{ if(EMBED) livePull(PANEL); else { livePull(1); livePull(2) } };
+  $("liveb").onclick=tick; tick(); setInterval(tick,4000);
+}
+</script>
+</body>
+</html>

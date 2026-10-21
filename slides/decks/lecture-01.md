@@ -64,6 +64,23 @@ Average annual **real GDP growth, 2005-2024**
 
 ---
 
+## Poll 1
+<!-- .slide: class="dense" -->
+
+<div style="display:flex;align-items:center;justify-content:center;gap:50px">
+<div style="text-align:left;font-size:.85em;max-width:560px">
+<p><strong>1.</strong> What was China's average annual real GDP growth, 2005-2024? <em>(choose a bracket, % a year)</em></p>
+<p><strong>2.</strong> How confident are you in your answer? <em>(pure guess · not very · fairly · very confident)</em></p>
+</div>
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/poll/qr1.png" style="width:270px;background:#fff;border-radius:6px;display:block"><figcaption style="font-size:.4em;opacity:.7;margin-top:4px">scan with your phone, or open:<br><a href="https://docs.google.com/forms/d/e/1FAIpQLSfTbC2Hm1iH0bD-tUPs4-LaKJ--5XZBKP0qDL7gKgFGAdqemA/viewform" target="_blank" style="font-size:.78em;word-break:break-all;display:block;width:270px;color:#8ab4f8">docs.google.com/forms/d/e/1FAIpQLSfTbC2Hm1iH0bD-tUPs4-LaKJ--5XZBKP0qDL7gKgFGAdqemA/viewform</a></figcaption></figure>
+</div>
+
+---
+
+<iframe data-src="assets/poll/results.html?embed=1&panel=1" style="width:100%;height:600px;border:0" title="Poll 1 results"></iframe>
+
+---
+
 ## China, 2005-2024
 <!-- .slide: class="dense" -->
 
@@ -89,8 +106,12 @@ Average annual **real GDP growth, 2005-2024**
 <li>industrial policy and state direction</li>
 </ul>
 </div>
-
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/poll/qr2.png" style="width:270px;background:#fff;border-radius:6px;display:block"><figcaption style="font-size:.4em;opacity:.7;margin-top:4px">scan with your phone, or open:<br><a href="https://docs.google.com/forms/d/e/1FAIpQLSdHRvs0LmjfFJTO84sf_KCfSaEThs8GHtHyVPeH-j882IEStg/viewform" target="_blank" style="font-size:.78em;word-break:break-all;display:block;width:270px;color:#8ab4f8">docs.google.com/forms/d/e/1FAIpQLSdHRvs0LmjfFJTO84sf_KCfSaEThs8GHtHyVPeH-j882IEStg/viewform</a></figcaption></figure>
 </div>
+
+---
+
+<iframe data-src="assets/poll/results.html?embed=1&panel=2" style="width:100%;height:600px;border:0" title="Poll 2 results"></iframe>
 
 ---
 
@@ -468,6 +489,6 @@ Average annual **real GDP growth, 2005-2024**
 <li>Open answers, anonymous, ungraded</li>
 </ul>
 </div>
-
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/poll/qr3.png" style="width:270px;background:#fff;border-radius:6px;display:block"><figcaption style="font-size:.4em;opacity:.7;margin-top:4px">scan with your phone, or open:<br><a href="https://docs.google.com/forms/d/e/1FAIpQLSdJ-sN-UY0IVRH3Mkkj20xz_2E9v7TsZBKiGN1arnVtdgiyfw/viewform" target="_blank" style="font-size:.78em;word-break:break-all;display:block;width:270px;color:#8ab4f8">docs.google.com/forms/d/e/1FAIpQLSdJ-sN-UY0IVRH3Mkkj20xz_2E9v7TsZBKiGN1arnVtdgiyfw/viewform</a></figcaption></figure>
 </div>
 <p style="font-size:.55em;font-weight:700">Answer before the next lecture. → Lecture 2: how do we answer a question like this?</p>
