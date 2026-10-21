@@ -144,7 +144,7 @@ Average annual **real GDP growth, 2005-2024**
 <li>Did opium push the silver out — or did the scarcity of silver push opium in? Historians disagree: Irigoin and co-authors find only a weak association; Lin (2006) told a supply-side story</li>
 <li>Two lines that move together can mean nothing, and can run either way: <a href="https://tylervigen.com/spurious-correlations" target="_blank">spurious correlations</a></li>
 </ul>
-
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/silver/irigoin-fig2.png" style="width:470px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Silver trade of China with India, Britain and the US, 1803-1874 (million rupees). Irigoin et al. (2023), Fig. 2</figcaption></figure>
 </div>
 
 ---
