@@ -344,7 +344,7 @@ Average annual **real GDP growth, 2005-2024**
 <li>And so does the <em>spread</em> between provinces (dashed line): the same national shock, very different local outcomes</li>
 <li>That is what "uneven" means: not just more deaths, but more different deaths</li>
 </ul>
-
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/mqy/fig1a.png" style="width:520px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Meng, Qian, Yared (2015), Fig. 1a</figcaption></figure>
 </div>
 
 ---
@@ -374,7 +374,7 @@ Average annual **real GDP growth, 2005-2024**
 <li>How to read the graph: each point is a year; the line says by how much mortality differs between provinces whose output differs by 1% (a coefficient). Dashed lines: 95% interval</li>
 <li>About zero in normal years; clearly positive in 1958-59</li>
 </ul>
-
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/mqy/fig3.png" style="width:540px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Meng, Qian, Yared (2015), Fig. 3</figcaption></figure>
 </div>
 
 ---
@@ -389,8 +389,8 @@ Average annual **real GDP growth, 2005-2024**
 <li><strong>Proxy 2</strong>: the missing children. In the 1990 census, how large is each birth cohort, in 511 counties?</li>
 <li>A small cohort born in 1959-61 = more deaths and fewer births. And the counties with better land lose the most cohorts (right)</li>
 </ul>
-
-
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/mqy/fig1b.png" style="height:330px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Fig. 1b: cohort size, by birth year</figcaption></figure>
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/mqy/fig4c.png" style="height:330px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Fig. 4c: land suitability x birth year</figcaption></figure>
 </div>
 
 ---
