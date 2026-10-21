@@ -68,3 +68,9 @@
 /* touch screens: the slide is scaled down on a phone, so make the play button large and tap-friendly */
 .il-play, .il-frame { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 @media (pointer: coarse) { .il-play { width: 170px; height: 170px; font-size: 70px; padding-left: 14px; } .il.playing .il-frame:hover .il-play { font-size: 60px; padding: 0; } }
+
+/* PDF export (?pdf=1): the image loop becomes a still mosaic, 5 columns x 4 rows */
+.il.il-print { display: block; }
+.il-mosaic { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; width: 940px; max-width: 100%; margin: 0 auto; }
+.il-mosaic > div { aspect-ratio: 3 / 2; background-size: cover; background-position: center; background-color: #0b0f17; }
+.il-mosaic-note { font-size: 13px; opacity: .6; margin-top: 6px; text-align: center; }

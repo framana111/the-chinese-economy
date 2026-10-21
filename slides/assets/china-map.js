@@ -56,6 +56,12 @@
       var base = src.replace(/[^/]*$/, "");
       var placeholder = !items.length;
       if (placeholder) { items = PLACEHOLDERS.map(function (t) { return { title: t + " (images could not be loaded)" }; }); }
+      if (new URLSearchParams(location.search).get("pdf") === "1" && !placeholder) {      // PDF export: one still picture, 5 x 4 tiles, instead of the loop
+        el.classList.add("il-print");
+        el.innerHTML = '<div class="il-mosaic">' + items.map(function (it) { return '<div style="background-image:url(\'' + base + it.file + '\')"></div>'; }).join("") + '</div>' +
+          '<div class="il-mosaic-note">' + items.length + ' images. Credits and licences: course website, Credits page</div>';
+        return;
+      }
       el.innerHTML = '<div class="il-frame">' +
         items.map(function (it) {
           return it.file
