@@ -345,7 +345,6 @@ Meng, Qian, Yared (2015), *Review of Economic Studies* 82(4), 1568-1611
 - **1961-63** readjustment: investment chopped back, about 20 million workers sent to the countryside
 - **1964-66** Third Front: a new expansion into the interior, "hijacked by radicalism"
 - **1966-76** Cultural Revolution: 17 million urban school-leavers sent to the countryside (*xiafang*); schools and universities closed
-- *Seed*: small rural industry — the precursors of the TVEs (lecture 6)
 - **1976**: Mao dies
 
 ---
