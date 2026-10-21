@@ -431,29 +431,42 @@ Average annual **real GDP growth, 2005-2024**
 
 ---
 
+## What the paper actually estimates
+<!-- .slide: class="dense" -->
+
+<div style="display:flex;align-items:center;justify-content:center;gap:22px">
+<ul style="font-size:.5em;line-height:1.25;margin:0;text-align:left;width:360px;flex:none">
+<li><strong>Unit</strong>: a province in a year; 19 provinces, 1953-1982. <strong>Outcome</strong>: log deaths the following year</li>
+<li><strong>Regressor</strong>: log grain output per head, <em>predicted</em> from weather, geography, rural population and land (not the reported figure)</li>
+<li><strong>Question</strong>: do provinces with more output per head have more deaths, and does this change in the famine years (1958-60)?</li>
+<li>Year effects absorb everything that hits all provinces alike; we control for total and urban population</li>
+<li><strong>Normal years</strong>: α ≈ 0. <strong>Famine years</strong>: α + β &gt; 0 (about 0.14)</li>
+</ul>
+<div style="font-size:.5em;text-align:left;flex:1;min-width:0">
+<div style="color:#8fc59a;font-size:.8em">(1) province, famine vs normal years &mdash; Table 2</div>
+$$m_{p,t+1}=\alpha P_{p,t}+\beta\,P_{p,t}I^{Fam}_t+Z_{p,t}'\gamma+\delta_t+\varepsilon_{p,t}$$
+<div style="color:#ffcf5a;font-size:.8em">(2) one coefficient per year &mdash; Figure 3</div>
+$$m_{p,t+1}=\sum_{\tau}\alpha_\tau P_{p,t}I^{\tau}_t+Z_{p,t}'\gamma+\delta_t+\varepsilon_{p,t}$$
+<div style="color:#d77a6a;font-size:.8em">(2&prime;) counties, birth cohorts &mdash; Figure 4 (rebuilt from the text)</div>
+$$\begin{aligned}\ln C_{c,t+1}&=\sum_{\tau}\left(a_\tau T_{c,t}+b_\tau R_{c,t}+s_\tau S_c\right)I^{\tau}_t\\&\quad+\gamma\ln\bar C_c+\delta_{p(c)}+\delta_t+\varepsilon_{c,t}\end{aligned}$$
+<div style="opacity:.75;font-size:.72em;line-height:1.3">m: log deaths · P: log predicted grain output per head · I<sup>Fam</sup>: 1 in 1958-60 · I<sup>τ</sup>: year dummy · Z: log total and urban population · δ: fixed effects<br>C: size of the birth cohort (1990 census) · T, R: log spring temperature, rainfall · S: grain suitability · &#x0304;C: county average cohort</div>
+</div>
+</div>
+
+---
+
 ## Is it just Great Leap zeal? And how big is it?
 <!-- .slide: class="dense" -->
 
 <div style="display:flex;align-items:center;justify-content:center;gap:26px">
 <ul style="font-size:.58em;line-height:1.3;margin:0;text-align:left;width:470px;flex:none">
-<li>Alternatives tested: Great Leap <strong>zealousness</strong> (sown-area cuts, steel output, communal dining, purges, late liberation), urban bias, misreported output</li>
-<li>More productive provinces were, if anything, <em>less</em> zealous</li>
-<li>Adding the zeal controls barely changes the result</li>
+<li>Robustness of equation (1). Alternative: Great Leap <strong>zealousness</strong> (sown-area cuts, steel output, communal dining, purges, late liberation), urban bias, misreported output</li>
+<li>First check, in 17 provinces: were more productive provinces more zealous? If anything, <em>less</em></li>
+<li>Add the zeal measure (their first principal component) and its interaction with the famine dummy to equation (1): the result barely changes</li>
 <li>Back-of-the-envelope: the procurement mechanism accounts for roughly <strong>one third to 43%</strong> of famine mortality — which leaves room for the Leap's policies and for politics</li>
 </ul>
 <svg viewBox="0 0 340 250" style="width:340px;flex:none"><text x="170" y="22" fill="#fff" text-anchor="middle" font-size="15" font-weight="600">Effect on famine mortality</text><text x="170" y="40" fill="#bbb" text-anchor="middle" font-size="12">(standard deviations, for a 1 s.d. change)</text><line x1="60" y1="210" x2="320" y2="210" stroke="#888"/><rect x="90" y="80.0" width="70" height="130.0" fill="#ffcf5a"/><rect x="220" y="204.8" width="70" height="5.2" fill="#d77a6a"/><text x="125" y="72.0" fill="#fff" text-anchor="middle" font-size="16" font-weight="600">0.50</text><text x="255" y="197.0" fill="#fff" text-anchor="middle" font-size="16" font-weight="600">0.02</text><text x="125" y="230" fill="#ddd" text-anchor="middle" font-size="13">Grain productivity</text><text x="255" y="230" fill="#ddd" text-anchor="middle" font-size="13">Leap zealousness</text></svg>
 </div>
-
----
-
-## The punchline, and what the paper does not say
-<!-- .slide: class="dense" -->
-
-- **The finding**: the famine was deadliest where there had been more food
-- **The authors' explanation**: a plan that fixes quantities from past output, and cannot hear a shock, takes the most from the regions that lost the most. It accounts for a large part of the deaths, not all of them
-- **Not shown**: what would have happened under another rule; that the Leap's policies did not matter; that the data are exact (they are official and approximate)
-- It cannot tell over-procurement from late relief; the link with the Soviet famine of 1932-33 is suggested, not shown
-- **Next lecture**: how do we move from "documents" to "causes"?
 
 ---
 
