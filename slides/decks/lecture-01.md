@@ -301,10 +301,11 @@ Average annual **real GDP growth, 2005-2024**
 ## The Great Leap Forward, 1958-60
 <!-- .slide: class="dense" -->
 
-- "A vision, rather than a plan": do everything at once, regardless of real resource constraints
-- Communes; bonuses and free markets abolished; decisions decentralised; "walking on two legs"
-- Two fateful decisions: **less labour and land for farming; more grain taken by the state**
-- Inflated reports: the statistical system, the leaders' "eyes and ears", collapsed
+- **Goal: industrialise fast**
+  - Everything at once, regardless of real resource constraints: "a vision, rather than a plan"
+- **Organisation**: communes; bonuses and free markets abolished; decisions decentralised; "walking on two legs"
+- **Two fateful decisions**: less labour and land for farming; more grain taken by the state
+- **Why nobody braked**: inflated reports — the statistical system, the leaders' "eyes and ears", collapsed
 
 ---
 
