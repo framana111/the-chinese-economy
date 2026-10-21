@@ -102,11 +102,10 @@ Average annual **real GDP growth, 2005-2024**
 ---
 
 ## …already under strain
-<!-- .slide: class="dense" -->
 
-- Land: nearly all cultivable land in use by 1800 — "high-level equilibrium trap" (Elvin 1973)
-- State: a thin layer — revenue 2-3% of national income; one official per 32,000 people (Europe: one per 600-800)
-- Inequality: the gentry (under 1% of people) took about 20% of income
+- **Land**: nearly all cultivable land in use by 1800 — a "high-level equilibrium trap" (Elvin 1973)
+- **State**: a thin layer — revenue 2-3% of national income; one official per 32,000 people (Europe: one per 600-800)
+- **Inequality**: the gentry (under 1% of people) took about 20% of national income
 - "The Chinese peasant is like a man standing on tiptoe up to his nose in water" (Tawney)
 
 ---
@@ -118,11 +117,29 @@ Average annual **real GDP growth, 2005-2024**
 ## Trade, silver and opium
 <!-- .slide: class="dense" -->
 
-<div style="display:flex;align-items:center;justify-content:center;gap:22px"><div style="position:relative;width:600px;height:220px;flex:none"><svg class="fl" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ah8fc59a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8fc59a"/></marker><marker id="ahffcf5a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffcf5a"/></marker></defs><rect x="20" y="40" width="170" height="150" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="105" y="124" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">Britain</text><rect x="630" y="40" width="170" height="150" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="715" y="124" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">China</text><rect x="325" y="235" width="170" height="60" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="410" y="274" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">India</text><line x1="625" y1="70" x2="200" y2="70" stroke="#8fc59a" stroke-width="5" marker-end="url(#ah8fc59a)"/><text x="412" y="56" fill="#8fc59a" text-anchor="middle" font-size="21" font-weight="600">tea, silk, porcelain</text><line x1="200" y1="118" x2="625" y2="118" stroke="#ffcf5a" stroke-width="5" marker-end="url(#ahffcf5a)"/><text x="412" y="106" fill="#ffcf5a" text-anchor="middle" font-size="21" font-weight="600">silver in  (until the 1820s)</text></svg><svg class="fl fragment" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ahd77a6a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d77a6a"/></marker></defs><line x1="500" y1="255" x2="715" y2="185" stroke="#d77a6a" stroke-width="5" marker-end="url(#ahd77a6a)"/><text x="660" y="268" fill="#d77a6a" text-anchor="middle" font-size="21" font-weight="600">opium, grown in India</text></svg><svg class="fl fragment" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ahffcf5a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffcf5a"/></marker></defs><line x1="625" y1="158" x2="200" y2="158" stroke="#ffcf5a" stroke-width="5" stroke-dasharray="9 7" marker-end="url(#ahffcf5a)"/><text x="412" y="148" fill="#ffcf5a" text-anchor="middle" font-size="21" font-weight="600">silver out of China  (1830s on)</text></svg></div><figure style="margin:0;width:250px;flex:none;text-align:left"><img src="assets/opium/opium-fleet-ganges.jpg" style="width:250px;border-radius:3px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">The opium fleet on the Ganges, c. 1850. Lithograph after W. S. Sherwill (Wellcome, CC BY 4.0)</figcaption></figure></div>
+<div style="display:flex;align-items:center;justify-content:center;gap:22px"><div style="position:relative;width:600px;height:220px;flex:none"><svg class="fl" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ah8fc59a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8fc59a"/></marker><marker id="ahffcf5a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffcf5a"/></marker></defs><rect x="20" y="40" width="170" height="150" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="105" y="124" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">Britain</text><rect x="630" y="40" width="170" height="150" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="715" y="124" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">China</text><rect x="325" y="235" width="170" height="60" rx="8" fill="none" stroke="#fff" stroke-width="2"/><text x="410" y="274" fill="#fff" text-anchor="middle" font-size="26" font-weight="700">India</text><line x1="625" y1="70" x2="200" y2="70" stroke="#8fc59a" stroke-width="5" marker-end="url(#ah8fc59a)"/><text x="412" y="56" fill="#8fc59a" text-anchor="middle" font-size="21" font-weight="600">tea, silk, porcelain</text><line x1="200" y1="118" x2="625" y2="118" stroke="#ffcf5a" stroke-width="5" marker-end="url(#ahffcf5a)"/><text x="412" y="106" fill="#ffcf5a" text-anchor="middle" font-size="21" font-weight="600">silver in  (until the 1820s)</text></svg><svg class="fl fragment" data-fragment-index="1" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ahd77a6a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d77a6a"/></marker></defs><line x1="500" y1="255" x2="715" y2="185" stroke="#d77a6a" stroke-width="5" marker-end="url(#ahd77a6a)"/><text x="660" y="268" fill="#d77a6a" text-anchor="middle" font-size="21" font-weight="600">opium, grown in India</text></svg><svg class="fl fragment" data-fragment-index="2" viewBox="0 0 820 300" style="position:absolute;inset:0;width:100%;height:100%"><defs><marker id="ahffcf5a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffcf5a"/></marker></defs><line x1="625" y1="158" x2="200" y2="158" stroke="#ffcf5a" stroke-width="5" stroke-dasharray="9 7" marker-end="url(#ahffcf5a)"/><text x="412" y="148" fill="#ffcf5a" text-anchor="middle" font-size="21" font-weight="600">silver out of China  (1830s on)</text></svg></div><figure style="margin:0;width:250px;flex:none;text-align:left"><img src="assets/opium/opium-fleet-ganges.jpg" style="width:250px;border-radius:3px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">The opium fleet on the Ganges, c. 1850. Lithograph after W. S. Sherwill (Wellcome, CC BY 4.0)</figcaption></figure></div>
 
-- For centuries China sold tea, silk, porcelain and received **silver**
-- "British merchants were unhappy with the steady drain of silver into China. […] They finally located such a commodity in **opium**." — *Naughton (2007), p. 41*
-- By the 1830s China imported more than it exported
+<ul>
+<li>For centuries China sold tea, silk and porcelain, and received <strong>silver</strong></li>
+<li class="fragment" data-fragment-index="1">Britain needed something China would buy: <strong>opium</strong>, grown in India and sold at Canton by private British traders. Its proceeds paid for the tea</li>
+<li class="fragment" data-fragment-index="2">By the 1830s China imported more than it exported</li>
+</ul>
+
+---
+
+## Silver and opium: what the series show
+<!-- .slide: class="dense" -->
+
+<div style="display:flex;align-items:center;justify-content:center;gap:20px">
+<ul style="font-size:.5em;line-height:1.28;margin:0;text-align:left;width:390px;flex:none">
+<li>Silver left China for India in the late 1830s and the 1840s (black bars below zero)</li>
+<li>Then the 1850s: a very large inflow from Britain. And in the 1860s, a new outflow</li>
+<li>Opium shipped from India roughly doubled in five years: <strong>21,885 chests</strong> (1834/35) to <strong>40,200</strong> (1838/39)</li>
+<li>Did opium push the silver out — or did the scarcity of silver push opium in? Historians disagree: Irigoin and co-authors find only a weak association; Lin (2006) told a supply-side story</li>
+<li>Two lines that move together can mean nothing, and can run either way: <a href="https://tylervigen.com/spurious-correlations" target="_blank">spurious correlations</a></li>
+</ul>
+
+</div>
 
 ---
 
@@ -147,7 +164,7 @@ Average annual **real GDP growth, 2005-2024**
 <!-- .slide: class="dense" -->
 
 <div style="display:flex;gap:26px;align-items:center">
-<ul style="font-size:.66em;line-height:1.3;margin:0"><li><strong>1839-42</strong> — China tries to stop the opium inflow; Britain attacks. <em>Treaty of Nanjing</em> (1842): Hong Kong ceded, five treaty ports opened, indemnity of 21 million silver dollars, end of the Cohong monopoly</li><li><strong>1856-60</strong> — second war; treaties of Tianjin (1858) and Convention of Peking (1860): more ports, envoys in Beijing, missionaries, opium legalised</li><li>Through 1895 four more wars, all lost: reparations, more treaty ports (over 80 at the peak)</li></ul>
+<ul style="font-size:.66em;line-height:1.3;margin:0"><li><strong>1839-42</strong> — China tries to stop the opium inflow; Britain attacks. <em>Treaty of Nanjing</em> (1842): Hong Kong ceded, five treaty ports opened, indemnity of 21 million silver dollars, end of the Cohong monopoly</li><li><strong>1856-60</strong> — second war; treaties of Tianjin (1858) and Convention of Peking (1860): more ports, envoys in Beijing, missionaries, opium legalised</li><li>Through 1895, <strong>three more</strong> wars, all lost: reparations, more treaty ports (over 80 at the peak)</li></ul>
 <figure style="margin:0;width:380px;flex:none"><img src="assets/opium/opium-war-nemesis.jpg" style="width:380px;border-radius:3px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">The <em>Nemesis</em> destroying Chinese war junks, Anson's Bay, 7 January 1841. Print by Edward Duncan, 1843 (public domain)</figcaption></figure>
 </div>
 
@@ -427,15 +444,15 @@ Average annual **real GDP growth, 2005-2024**
 
 ---
 
-## A question
+## A question, for next week
 <!-- .slide: class="dense" -->
 
-> China grew about **10% a year** from 1978 to 2005 (official data).
+> The Big Push accelerated growth in China. In **Taiwan and Hong Kong**, which did the opposite — light industry first, markets, open to the world — it accelerated even more.
 >
-> **Did the reforms cause it — or would China have grown fast anyway?**
+> **Does that show that the plan held China back?**
 
-- Economists: continuity — a traditional economy well suited to growth
-- Historians: discontinuity — 1949 was a social revolution
-- Hong Kong and Taiwan accelerated even more, without socialism
+- What would you compare, and with what? What can't you observe?
+- A second task: pick **one number** from today that you would not trust. What would you need to check it?
+- Open answers, anonymous, ungraded; web search for facts is fine, an AI's answer is not
 
-**Think about it. → Lecture 2: how do we answer a question like this?**
+<p style="font-size:.6em;font-weight:700;margin-top:.4em">Answer before the next lecture. → Lecture 2: how do we answer a question like this?</p>
