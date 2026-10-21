@@ -72,7 +72,7 @@
       var slides = el.querySelectorAll(".il-slide"), i = 0, timer = null, count = el.querySelector(".il-count");
       function show(k) { slides.forEach(function (s, j) { s.classList.toggle("on", j === k); }); count.textContent = (k + 1) + " / " + slides.length; }
       function stop() { clearInterval(timer); timer = null; el.classList.remove("playing"); }
-      function play() { if (timer) return; el.classList.add("playing"); show(i); timer = setInterval(function () { i = (i + 1) % slides.length; show(i); }, 3200); }
+      function play() { if (timer) return; el.classList.add("playing"); i = (i + 1) % slides.length; show(i); timer = setInterval(function () { i = (i + 1) % slides.length; show(i); }, 3000); }
       el._ilStop = stop;
       if (window.Reveal && Reveal.layout) Reveal.layout();   // the frame is built after reveal's first layout (slow network): re-centre the slide
       el.querySelector(".il-play").addEventListener("click", function () { timer ? stop() : play(); });
