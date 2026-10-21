@@ -355,21 +355,6 @@ Average annual **real GDP growth, 2005-2024**
 
 ---
 
-## The puzzle
-<!-- .slide: class="dense" -->
-
-> In 1959-61, average food availability in the Chinese countryside
-> was enough to feed the population.
->
-> **So why did 16.5 to 45 million people die?**
-
-- After the state took its share, the rural average in 1959 was about **2,300 kcal a day**; the survival benchmark is about **800**
-- Production per person fell about 15% in 1959 — the largest fall of the period — but stayed far above that line
-
-<p style="font-size:.45em;opacity:.7">Meng, Qian, Yared (2015), <em>Review of Economic Studies</em> — 19 provinces, 77% of the population</p>
-
----
-
 ## How many died, and what "uneven" means
 <!-- .slide: class="dense" -->
 
@@ -382,6 +367,21 @@ Average annual **real GDP growth, 2005-2024**
 </ul>
 
 </div>
+
+---
+
+## The puzzle
+<!-- .slide: class="dense" -->
+
+> In 1959-61, average food availability in the Chinese countryside
+> was enough to feed the population.
+>
+> **So why did 16.5 to 45 million people die?**
+
+- After the state took its share, the rural average in 1959 was about **2,300 kcal a day**; the survival benchmark is about **800**
+- Production per person fell about 15% in 1959 — the largest fall of the period — but stayed far above that line
+
+<p style="font-size:.45em;opacity:.7">Meng, Qian, Yared (2015), <em>Review of Economic Studies</em> — 19 provinces, 77% of the population</p>
 
 ---
 
