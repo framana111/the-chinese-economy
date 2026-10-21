@@ -453,7 +453,7 @@ $$\begin{aligned}\ln C_{c,t+1}&=\sum_{\tau}\left(a_\tau T_{c,t}+b_\tau R_{c,t}+s
 <!-- .slide: class="dense" -->
 
 - **1961-63** readjustment: investment chopped back, about 20 million workers sent to the countryside
-- **1964-66** Third Front: a new expansion into the interior, "hijacked by radicalism"
+- **1964-66** Third Front: a new expansion into the interior
 - **1966-76** Cultural Revolution: 17 million urban school-leavers sent to the countryside (*xiafang*); schools and universities closed
 - **1976**: Mao dies
 
