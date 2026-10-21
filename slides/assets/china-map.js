@@ -74,6 +74,7 @@
       function stop() { clearInterval(timer); timer = null; el.classList.remove("playing"); }
       function play() { if (timer) return; el.classList.add("playing"); show(i); timer = setInterval(function () { i = (i + 1) % slides.length; show(i); }, 3200); }
       el._ilStop = stop;
+      if (window.Reveal && Reveal.layout) Reveal.layout();   // the frame is built after reveal's first layout (slow network): re-centre the slide
       el.querySelector(".il-play").addEventListener("click", function () { timer ? stop() : play(); });
       el.querySelector(".il-frame").addEventListener("click", function (e) { if (e.target.closest(".il-play")) return; if (timer) stop(); });
       show(0);
@@ -84,6 +85,7 @@
   function init() {
     document.querySelectorAll(".china-map").forEach(buildMap);
     document.querySelectorAll(".iconic-loop").forEach(buildLoop);
+    if (window.Reveal && Reveal.layout) Reveal.layout();
   }
   function fragMap(e, shown) {
     if (!e.fragment || !e.fragment.classList.contains("map-physical")) return;
