@@ -77,14 +77,20 @@ Average annual **real GDP growth, 2005-2024**
 ## Poll 2
 <!-- .slide: class="dense" -->
 
-**What drove this growth?** Rank all six, from 1 (most important) to 6 (least)
+<div style="display:flex;align-items:center;justify-content:center;gap:40px">
+<div style="text-align:left;font-size:.8em;max-width:620px">
+<p><strong>What drove this growth?</strong> Rank all six, from 1 (most important) to 6 (least)</p>
+<ul style="font-size:.85em">
+<li>movement of workers from the countryside to the cities</li>
+<li>reform of state enterprises and better allocation across firms</li>
+<li>foreign trade and WTO entry</li>
+<li>innovation and technology catch-up</li>
+<li>high investment and saving</li>
+<li>industrial policy and state direction</li>
+</ul>
+</div>
 
-- movement of workers from the countryside to the cities
-- reform of state enterprises and better allocation across firms
-- foreign trade and WTO entry
-- innovation and technology catch-up
-- high investment and saving
-- industrial policy and state direction
+</div>
 
 ---
 
@@ -453,12 +459,15 @@ Average annual **real GDP growth, 2005-2024**
 ## A question, for next week
 <!-- .slide: class="dense" -->
 
-> The Big Push accelerated growth in China. In **Taiwan and Hong Kong**, which did the opposite — light industry first, markets, open to the world — it accelerated even more.
->
-> **Does that show that the plan held China back?**
+<div style="display:flex;align-items:center;justify-content:center;gap:34px">
+<div style="text-align:left;font-size:.78em;max-width:700px">
+<blockquote style="width:100%;font-size:.95em">The famine paper argues that fixed procurement quotas, and not just the Leap's policies, made the famine deadlier where there had been more food. <strong>Imagine you could run any experiment you like.</strong> What would you change, in which places, and what would you measure? And what is the thing you still could not observe?</blockquote>
+<ul style="font-size:.8em">
+<li>Also: pick <strong>one number</strong> from today that you would not trust. Describe the <strong>ideal data</strong>: what would be measured, for whom, by whom, and what would still be missing</li>
+<li>And: what was the least clear point in today's lecture?</li>
+<li>Open answers, anonymous, ungraded</li>
+</ul>
+</div>
 
-- What would you compare, and with what? What can't you observe?
-- A second task: pick **one number** from today that you would not trust. What would you need to check it?
-- Open answers, anonymous, ungraded; web search for facts is fine, an AI's answer is not
-
-<p style="font-size:.6em;font-weight:700;margin-top:.4em">Answer before the next lecture. → Lecture 2: how do we answer a question like this?</p>
+</div>
+<p style="font-size:.55em;font-weight:700">Answer before the next lecture. → Lecture 2: how do we answer a question like this?</p>
