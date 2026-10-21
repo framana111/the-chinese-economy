@@ -173,10 +173,16 @@ Average annual **real GDP growth, 2005-2024**
 ## From Britain to Japan
 <!-- .slide: class="dense" -->
 
-- **1895**: Sino-Japanese War → Taiwan to Japan; the Treaty of Shimonoseki lets foreigners invest — modern industry begins
-- **1901**: after the Boxer Rebellion, eight powers occupy Beijing; Boxer Protocol: indemnity, tariff revenue under foreign control
-- **1911**: the Qing dynasty collapses
-- Share of world GDP: **32% (1820) → 9% (1913)**
+<div style="display:flex;align-items:center;justify-content:center;gap:20px">
+<ul style="font-size:.56em;line-height:1.3;margin:0;text-align:left;width:380px;flex:none">
+<li><strong>1895</strong>: Sino-Japanese War → Taiwan to Japan; the Treaty of Shimonoseki lets foreigners invest — modern industry begins</li>
+<li><strong>1901</strong>: after the Boxer Rebellion, eight powers occupy Beijing; Boxer Protocol: indemnity, tariff revenue under foreign control</li>
+<li><strong>1911</strong>: the Qing dynasty collapses</li>
+<li>Share of world GDP: <strong>32% (1820) → 9% (1913)</strong></li>
+</ul>
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/history/cake-1898.jpg" style="height:400px;border-radius:3px;display:block"><figcaption style="font-size:.38em;opacity:.7;line-height:1.25;margin-top:4px;max-width:250px">China, the cake of kings and... emperors. <em>Le Petit Journal</em>, January 1898 (public domain)</figcaption></figure>
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/history/yalu-1894.jpg" style="width:330px;border-radius:3px;display:block"><figcaption style="font-size:.38em;opacity:.7;line-height:1.25;margin-top:4px;max-width:330px">The Battle of the Yalu River, 17 September 1894. Kobayashi Kiyochika (British Library, public domain)</figcaption></figure>
+</div>
 
 ---
 
