@@ -245,12 +245,14 @@ Average annual **real GDP growth, 2005-2024**
 ## China's command economy
 <!-- .slide: class="dense" -->
 
+- Initially inspired by the **USSR model**, but with differences
 - The state owns the big factories; collectives own the land
 - **Commands**: production targets; resources allocated directly — prices lose their role as the main signal
 - The state still *sets* prices — industry dear, agriculture cheap — to channel resources to itself; compulsory grain procurement from 1953
 - The Party controls managers' careers
 - Labour fixed in place: tight limits on movement, jobs for life
-- Scale: Beijing allocated at most 600 product varieties; the USSR, 60,000 by the 1970s
+- **Main limitations**
+  - **Weak control**: weaker than in the USSR (Naughton). Symbol: Beijing could allocate at most 600 product varieties; the USSR, 60,000 by the 1970s
 
 ---
 
@@ -267,19 +269,22 @@ Average annual **real GDP growth, 2005-2024**
 ## The planners' lever: investment
 
 - Gross capital formation was already **26% of GDP in 1954**; it peaked near **43% in 1958-59**, fell to about **15% in 1962**, then rose again to 30-35%
-- A year in which investment grows by more than **20%** is a "leap": 1953, 1956, 1958-59, 1963-66, 1970, 1978
-- Between the leaps, retrenchments: 1960-62, 1967
 
-*Source: Naughton (2007), *The Chinese Economy*, Figs. 3.1 and 3.2 — values read from the charts, approximate*
+*Source: Naughton (2007), *The Chinese Economy*, Fig. 3.1 — values read from the chart, approximate*
 
 ---
 
 ## Leaps and retrenchments
 <!-- .slide: class="dense" -->
 
-- A **leap**: investment grows more than 20% in a year — rapid growth *and* political mobilisation; radical, "leftist" phases
-- Then **retrenchment**: slower investment, consolidation, often a more moderate climate (Hundred Flowers 1956-57; readjustment 1961-63; drift 1972-76)
-- "Policy swings like a pendulum from left to right and back again" — and drives, and is driven by, economic developments
+<div style="display:flex;align-items:center;justify-content:center;gap:26px">
+<ul style="font-size:.6em;line-height:1.3;margin:0;text-align:left;width:440px;flex:none">
+<li>A <strong>leap</strong>: investment grows more than 20% in a year — rapid growth <em>and</em> political mobilisation; radical, "leftist" phases</li>
+<li>Then <strong>retrenchment</strong>: slower investment, consolidation, often a more moderate climate (Hundred Flowers 1956-57; readjustment 1961-63; drift 1972-76)</li>
+<li>"Policy swings like a pendulum from left to right and back again" — and drives, and is driven by, economic developments</li>
+</ul>
+
+</div>
 
 ---
 
