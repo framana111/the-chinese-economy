@@ -40,7 +40,7 @@
 .tw .use { color: #ffcf5a; font-size: .58em; margin-top: 10px; font-weight: 600; }
 
 /* timeline */
-.tl { position: relative; width: 900px; height: 520px; margin: 0 auto; font-size: 15px; text-align: left; }
+.tl { transform: translateY(25px) scale(1.3); transform-origin: 50% 35%; position: relative; width: 900px; height: 520px; margin: 0 auto; font-size: 15px; text-align: left; }
 .tl .axis { position: absolute; left: 0; right: 0; top: 50%; height: 22px; margin-top: -11px; display: flex; }
 .tl .era { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; letter-spacing: .03em; color: #0d1829; white-space: nowrap; overflow: hidden; }
 .tl .g { position: absolute; inset: 0; }
@@ -74,3 +74,6 @@
 .il-mosaic { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; width: 940px; max-width: 100%; margin: 0 auto; }
 .il-mosaic > div { aspect-ratio: 3 / 2; background-size: cover; background-position: center; background-color: #0b0f17; }
 .il-mosaic-note { font-size: 13px; opacity: .6; margin-top: 6px; text-align: center; }
+
+/* Slide titles ~25% smaller than the reveal black theme default (2.11em), to give figures room (2026-10-21 debrief) */
+.reveal .slides section h2 { font-size: calc(var(--r-heading2-size) * 0.75); margin-bottom: 0.4em; }
