@@ -158,14 +158,14 @@ Average annual **real GDP growth, 2005-2024**
 <!-- .slide: class="dense" -->
 
 <div style="display:flex;align-items:center;justify-content:center;gap:20px">
-<ul style="font-size:.5em;line-height:1.28;margin:0;text-align:left;width:390px;flex:none">
+<ul style="font-size:.5em;line-height:1.28;margin:0;text-align:left;width:350px;flex:none">
 <li>Silver left China for India in the late 1830s and the 1840s (black bars below zero)</li>
 <li>Then the 1850s: a very large inflow from Britain. And in the 1860s, a new outflow</li>
 <li>Opium shipped from India roughly doubled in five years: <strong>21,885 chests</strong> (1834/35) to <strong>40,200</strong> (1838/39)</li>
 <li>Did opium push the silver out — or did the scarcity of silver push opium in? Historians disagree: Irigoin and co-authors find only a weak association; Lin (2006) told a supply-side story</li>
 <li>Two lines that move together can mean nothing, and can run either way: <a href="https://tylervigen.com/spurious-correlations" target="_blank">spurious correlations</a></li>
 </ul>
-<figure style="margin:0;flex:none;text-align:center"><img src="assets/silver/irigoin-fig2.png" style="width:470px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Silver trade of China with India, Britain and the US, 1803-1874 (million rupees). Irigoin et al. (2023), Fig. 2</figcaption></figure>
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/silver/irigoin-fig2.png" style="width:540px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Silver trade of China with India, Britain and the US, 1803-1874 (million rupees). Irigoin et al. (2023), Fig. 2</figcaption></figure>
 </div>
 
 ---
@@ -316,7 +316,7 @@ Average annual **real GDP growth, 2005-2024**
 
 ---
 
-<div style="text-align:center"><img src="assets/naughton2007-fig3-1.png" style="max-height:470px;background:#fff;padding:6px;border-radius:4px"><p style="font-size:.5em;opacity:.7">Naughton (2007), <em>The Chinese Economy</em>, Fig. 3.1</p></div>
+<div style="text-align:center"><img src="assets/naughton2007-fig3-1.png" style="max-height:560px;background:#fff;padding:6px;border-radius:4px"><p style="font-size:.5em;opacity:.7">Naughton (2007), <em>The Chinese Economy</em>, Fig. 3.1</p></div>
 
 ---
 
@@ -359,13 +359,13 @@ Average annual **real GDP growth, 2005-2024**
 <!-- .slide: class="dense" -->
 
 <div style="display:flex;align-items:center;justify-content:center;gap:22px">
-<ul style="font-size:.6em;line-height:1.3;margin:0;text-align:left;width:410px;flex:none">
+<ul style="font-size:.6em;line-height:1.3;margin:0;text-align:left;width:370px;flex:none">
 <li>Nobody counted. Estimates of excess deaths: <strong>16.5 million</strong> (Coale 1981), <strong>30 million</strong> (Banister 1987), <strong>45 million</strong> (Dikötter 2010)</li>
 <li>In 1960 the national average death rate jumps from about 10 to about <strong>19 per 1,000</strong></li>
 <li>And so does the <em>spread</em> between provinces (dashed line): the same national shock, very different local outcomes</li>
 <li>That is what "uneven" means: not just more deaths, but more different deaths</li>
 </ul>
-<figure style="margin:0;flex:none;text-align:center"><img src="assets/mqy/fig1a.png" style="width:520px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Meng, Qian, Yared (2015), Fig. 1a</figcaption></figure>
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/mqy/fig1a.png" style="width:570px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Meng, Qian, Yared (2015), Fig. 1a</figcaption></figure>
 </div>
 
 ---
@@ -389,13 +389,13 @@ Average annual **real GDP growth, 2005-2024**
 <!-- .slide: class="dense" -->
 
 <div style="display:flex;align-items:center;justify-content:center;gap:22px">
-<ul style="font-size:.6em;line-height:1.3;margin:0;text-align:left;width:390px;flex:none">
+<ul style="font-size:.6em;line-height:1.3;margin:0;text-align:left;width:350px;flex:none">
 <li>We would expect more deaths where there was <em>less</em> food</li>
 <li>Across provinces, the paper finds the opposite: <strong>more deaths where predicted grain output per head was higher</strong> — only in the famine years</li>
 <li>How to read the graph: each point is a year; the line says by how much mortality differs between provinces whose output differs by 1% (a coefficient). Dashed lines: 95% interval</li>
 <li>About zero in normal years; clearly positive in 1958-59</li>
 </ul>
-<figure style="margin:0;flex:none;text-align:center"><img src="assets/mqy/fig3.png" style="width:540px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Meng, Qian, Yared (2015), Fig. 3</figcaption></figure>
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/mqy/fig3.png" style="width:590px;background:#fff;padding:4px;border-radius:4px;display:block"><figcaption style="font-size:.4em;opacity:.7;line-height:1.25;margin-top:4px">Meng, Qian, Yared (2015), Fig. 3</figcaption></figure>
 </div>
 
 ---
@@ -404,7 +404,7 @@ Average annual **real GDP growth, 2005-2024**
 <!-- .slide: class="dense" -->
 
 <div style="display:flex;align-items:flex-start;justify-content:center;gap:20px">
-<ul style="font-size:.56em;line-height:1.3;margin:0;text-align:left;width:360px;flex:none">
+<ul style="font-size:.56em;line-height:1.3;margin:0;text-align:left;width:300px;flex:none">
 <li>Official figures for output and deaths are unreliable in these years</li>
 <li><strong>Proxy 1</strong>: output <em>predicted</em> from weather, geography and rural population, not the reported one</li>
 <li><strong>Proxy 2</strong>: the missing children. In the 1990 census, how large is each birth cohort, in 511 counties?</li>
