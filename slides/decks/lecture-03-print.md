@@ -379,7 +379,7 @@
 <p style="margin:0">Read the brief (the paper if you like) and answer the questions: causal graphs, the ideal experiment, data, China, theory.</p>
 <p style="margin:0;opacity:.85">Please no AI chatbots: use the papers, the lectures and, only if needed, a search without AI (google.com/search?udm=14)</p>
 </div>
-<div style="flex:none;width:200px;height:200px;border:3px dashed #ffcf5a;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.45em;color:#ffcf5a;padding:12px;box-sizing:border-box">QR of the folder<br>(link to come)</div>
+<figure style="margin:0;flex:none;text-align:center"><img src="assets/poll/qr-riddle3.png" style="width:210px;background:#fff;border-radius:6px;display:block"><figcaption style="font-size:.5em;margin-top:6px"><a href="https://www.dropbox.com/scl/fo/gpum1ybbxglmjs02cfh5z/ALCpanzHGHwOsCdPYNCdVoQ?rlkey=ze7jq90ew8yxea583lfl0plnh&amp;st=ykdm1f7i&amp;dl=0" target="_blank" style="color:#8ab4f8;font-weight:700">Click HERE to access the folder</a></figcaption></figure>
 </div>
 
 <p style="font-size:.62em;margin-top:1em;font-weight:700">Send your answers to francesco.manaresi@bancaditalia.it<br><span style="color:#ffcf5a">They won't be graded!</span></p>
