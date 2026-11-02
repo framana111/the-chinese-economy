@@ -1,6 +1,6 @@
 
 # The Chinese Economy
-### A Journey into History and Economics
+### A Journey into History, Economics, and Policy
 <small>Lecture 1: Foundations</small>
 
 ---
@@ -14,9 +14,10 @@
 
 ---
 
-<div class="tw-wrap">
+<div class="tw-wrap three">
 <div class="tw"><h1>History</h1><p class="fragment def">"…the science of men in time."<small>Marc Bloch</small></p><p class="fragment use">we will <u>use</u> it</p></div>
 <div class="tw"><h1>Economics</h1><p class="fragment def">"…the science which studies human behaviour as a relationship between ends and scarce means which have alternative uses."<small>Lionel Robbins, 1932</small></p><p class="fragment use">we will <u>do</u> it</p></div>
+<div class="tw"><h1>Policy</h1><p class="fragment def">"…whatever governments choose to do or not to do."<small>Thomas R. Dye, 1972</small></p><p class="fragment use">we will <u>evaluate</u> it</p></div>
 </div>
 
 ---

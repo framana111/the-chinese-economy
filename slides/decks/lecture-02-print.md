@@ -1,6 +1,6 @@
 
 # The Chinese Economy
-### A Journey into History and Economics
+### A Journey into History, Economics, and Policy
 <small>Lecture 2: How do we know? The Great Famine</small>
 
 ---

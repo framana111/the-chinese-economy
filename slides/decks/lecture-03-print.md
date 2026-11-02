@@ -1,6 +1,6 @@
 
 # The Chinese Economy
-### A Journey into History and Economics
+### A Journey into History, Economics, and Policy
 <small>Lecture 3: How do economists estimate causal effects? From Mao to the reforms</small>
 
 ---
