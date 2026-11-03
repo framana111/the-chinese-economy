@@ -1,0 +1,470 @@
+<!-- Standalone copy of artefatti-chat/04-hukou-wedge-lab.html for the deck (lecture 4). Edit the source, then re-copy. -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;font-size:14px}[hidden]{display:none!important}img{max-width:100%}</style></head><body>
+<title>Hukou Wedge Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: controls and four stat tiles on top; worker dots and the two-origin wage diagram side by side; two production functions below; notes last. */
+:root {
+  --bg: #f3f5f8;
+  --panel: #ffffff;
+  --fg: #18212c;
+  --muted: #5a6675;
+  --line: #d3dae3;
+  --rural: #5b8a28;
+  --urban: #2b62b4;
+  --wedge: #d1432a;
+  --wedge-soft: rgba(209, 67, 42, 0.18);
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161c;
+    --panel: #1b212a;
+    --fg: #e6ebf2;
+    --muted: #9aa6b6;
+    --line: #333d4a;
+    --rural: #93c45a;
+    --urban: #6ea6f2;
+    --wedge: #ff8a6b;
+    --wedge-soft: rgba(255, 138, 107, 0.2);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161c;
+  --panel: #1b212a;
+  --fg: #e6ebf2;
+  --muted: #9aa6b6;
+  --line: #333d4a;
+  --rural: #93c45a;
+  --urban: #6ea6f2;
+  --wedge: #ff8a6b;
+  --wedge-soft: rgba(255, 138, 107, 0.2);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  padding-inline: 16px;
+  padding-block: 24px 48px;
+}
+.wrap { max-width: 1120px; margin-inline: auto; display: flex; flex-direction: column; gap: 20px; }
+h1 { font-size: 1.7rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.lede { color: var(--muted); margin: 4px 0 0; max-width: 62ch; }
+h2 { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 10px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+
+.controls { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 20px; }
+.hero-slider label { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-weight: 500; }
+.hero-slider .val { font-family: var(--font-num); font-size: 1.25rem; color: var(--wedge); }
+input[type="range"] { width: 100%; accent-color: var(--wedge); margin: 10px 0 2px; }
+.sub { color: var(--muted); font-size: 0.85rem; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+button {
+  font: inherit; font-size: 0.88rem; color: var(--fg); background: transparent;
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer;
+}
+button:hover { border-color: var(--muted); }
+button.primary { background: var(--wedge); border-color: var(--wedge); color: #fff; font-weight: 500; }
+:root[data-theme="dark"] button.primary { color: #1b1210; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) button.primary { color: #1b1210; } }
+button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--urban); outline-offset: 2px; }
+details summary { cursor: pointer; font-weight: 500; }
+.params { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; margin-top: 10px; }
+.params label { display: flex; justify-content: space-between; font-size: 0.85rem; gap: 8px; }
+.params .val { font-family: var(--font-num); }
+.params input[type="range"] { accent-color: var(--muted); margin: 4px 0 0; }
+.preset-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.preset-row button { font-size: 0.8rem; padding: 4px 10px; }
+
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+.stat .k { font-size: 0.78rem; color: var(--muted); }
+.stat .v { font-family: var(--font-num); font-size: 1.55rem; font-weight: 500; line-height: 1.2; margin-top: 2px; }
+.stat .d { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+.stat.warn .v { color: var(--wedge); }
+
+.viz { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 20px; }
+canvas { width: 100%; display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.82rem; color: var(--muted); margin-top: 8px; }
+.chk { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.chk input { accent-color: var(--wedge); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.chart svg { width: 100%; height: auto; display: block; }
+.pf { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+svg text { font-family: var(--font-ui); font-size: 11px; fill: var(--muted); }
+svg text.fg { fill: var(--fg); }
+svg text.num { font-family: var(--font-num); }
+svg .axis { stroke: var(--line); stroke-width: 1; fill: none; }
+svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: none; }
+.eq { font-family: var(--font-num); font-size: 0.92rem; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: nowrap; }
+.notes ul { margin: 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; max-width: 78ch; }
+.foot { color: var(--muted); font-size: 0.8rem; max-width: 78ch; }
+
+@media (max-width: 860px) {
+  .controls, .viz, .pf { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) { .params { grid-template-columns: 1fr; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Hukou Wedge Lab</h1>
+    <p class="lede">Two sectors, a fixed number of workers, and a cost <b>τ</b> that a worker pays to live and work in the city. Raise it and workers stay on the farm, wages diverge and output is lost. Lower it and watch the allocation recover.</p>
+  </header>
+
+  <section class="controls panel">
+    <div class="hero-slider">
+      <label for="s"><span>Hukou strength (τ as % of the free-mobility wage)</span><span class="val" id="sVal"></span></label>
+      <input type="range" id="s" min="0" max="150" step="1" value="60">
+      <div class="sub">0% means workers move freely. At 100%, the move costs as much as the wage a worker earns at the free-mobility optimum.</div>
+      <div class="btn-row">
+        <button class="primary" id="relax" type="button">Relax the hukou</button>
+        <button id="reset" type="button">Reset</button>
+      </div>
+    </div>
+    <details open>
+      <summary>Technology of the two sectors</summary>
+      <div class="sub">Output Y = A · L<sup>β</sup>. Same price in both sectors.</div>
+      <div class="params">
+        <div><label for="AA"><span>A rural</span><span class="val" id="AAv"></span></label><input type="range" id="AA" min="2" max="30" step="0.5"></div>
+        <div><label for="aA"><span>β rural</span><span class="val" id="aAv"></span></label><input type="range" id="aA" min="0.2" max="0.9" step="0.01"></div>
+        <div><label for="AM"><span>A urban</span><span class="val" id="AMv"></span></label><input type="range" id="AM" min="2" max="60" step="0.5"></div>
+        <div><label for="aM"><span>β urban</span><span class="val" id="aMv"></span></label><input type="range" id="aM" min="0.2" max="0.9" step="0.01"></div>
+      </div>
+      <div class="preset-row" id="presets"></div>
+    </details>
+  </section>
+
+  <section class="stats" id="stats"></section>
+
+  <section class="viz">
+    <div class="panel">
+      <h2>400 workers</h2>
+      <canvas id="dots" aria-label="Workers placed in the countryside and in the city"></canvas>
+      <div class="legend">
+        <span><i style="background:var(--rural)"></i>working in agriculture</span>
+        <span><i style="background:var(--urban)"></i>working in the city</span>
+        <label class="chk"><input type="checkbox" id="held"> mark workers held back by the hukou</label>
+      </div>
+      <div class="sub" style="margin-top:6px">Each dot is a worker. Workers drift at random inside their sector and cross over when the hukou allows it.</div>
+    </div>
+    <div class="panel chart">
+      <h2>Wages and the wedge (two-origin diagram)</h2>
+      <div id="diagram"></div>
+    </div>
+  </section>
+
+  <section class="pf">
+    <div class="panel chart"><h2>Agriculture: output and marginal product</h2><div id="pfA"></div></div>
+    <div class="panel chart"><h2>City: output and marginal product</h2><div id="pfM"></div></div>
+  </section>
+
+  <section class="panel notes">
+    <h2>Reading the model</h2>
+    <div class="eq" id="eq"></div>
+    <ul style="margin-top:12px">
+      <li><b>A wage gap is not a welfare gap.</b> The marginal worker is indifferent: the urban wage exceeds the rural one by exactly τ, and τ is what moving costs.</li>
+      <li><b>τ is a cost, not a tax.</b> Nobody collects it, so the output the held-back workers would have produced is simply lost: the shaded triangle in the diagram.</li>
+      <li><b>Output is lost at the margin.</b> The first workers held back lose little; each additional one costs more because the urban marginal product keeps rising as the city empties.</li>
+    </ul>
+    <p class="foot">Static two-sector model with decreasing returns and a mobility wedge, in the spirit of the draft prepared for lecture 4. Parameters are illustrative and not calibrated to China. Wages are in arbitrary output units per worker.</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  var N = 400;
+  var DEF = { AA: 10, aA: 0.6, AM: 24, aM: 0.5, s: 60 };
+  var S = Object.assign({}, DEF);
+  var PRESETS = [
+    { name: "Default", p: { AA: 10, aA: 0.6, AM: 24, aM: 0.5, s: 60 } },
+    { name: "Urban sector much more productive", p: { AA: 10, aA: 0.6, AM: 40, aM: 0.5, s: 60 } },
+    { name: "Similar technologies", p: { AA: 10, aA: 0.5, AM: 12, aM: 0.5, s: 60 } }
+  ];
+  var $ = function (id) { return document.getElementById(id); };
+  var css = function (name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); };
+
+  function vm(A, a, L) { return A * a * Math.pow(Math.max(L, 1e-9), a - 1); }
+  function yf(A, a, L) { return A * Math.pow(Math.max(L, 0), a); }
+  function solveLA(tau) {
+    var lo = 1e-6, hi = N - 1e-6;
+    for (var i = 0; i < 80; i++) {
+      var m = (lo + hi) / 2;
+      var f = vm(S.AM, S.aM, N - m) - vm(S.AA, S.aA, m) - tau;
+      if (f < 0) lo = m; else hi = m;
+    }
+    return (lo + hi) / 2;
+  }
+  function model() {
+    var LA0 = solveLA(0);
+    var w0 = vm(S.AA, S.aA, LA0);
+    var tau = S.s / 100 * w0;
+    var LA1 = solveLA(tau);
+    var LM0 = N - LA0, LM1 = N - LA1;
+    var Y0 = yf(S.AA, S.aA, LA0) + yf(S.AM, S.aM, LM0);
+    var Y1 = yf(S.AA, S.aA, LA1) + yf(S.AM, S.aM, LM1);
+    return { LA0: LA0, LA1: LA1, LM0: LM0, LM1: LM1, w0: w0, tau: tau, Y0: Y0, Y1: Y1,
+             wA: vm(S.AA, S.aA, LA1), wM: vm(S.AM, S.aM, LM1) };
+  }
+  var f2 = function (x) { return x.toFixed(2); };
+  var pct = function (x) { return (100 * x).toFixed(0) + "%"; };
+  var sub = function (t) { return '<tspan dy="3" font-size="8">' + t + '</tspan><tspan dy="-3">'; };
+  function fixSvg(svg) {
+    return svg.replace(/<text([^>]*)>([\s\S]*?)<\/text>/g, function (all, attrs, inner) {
+      var open = (inner.match(/<tspan dy="-3">/g) || []).length;
+      return '<text' + attrs + '>' + inner + new Array(open + 1).join('</tspan>') + '</text>';
+    });
+  }
+
+  /* ---------- controls ---------- */
+  var sliders = ["AA", "aA", "AM", "aM"];
+  function syncControls() {
+    $("s").value = S.s;
+    $("sVal").textContent = S.s.toFixed(0) + "%";
+    sliders.forEach(function (k) {
+      $(k).value = S[k];
+      $(k + "v").textContent = (k[0] === "A" ? S[k].toFixed(1) : S[k].toFixed(2));
+    });
+  }
+  $("s").addEventListener("input", function (e) { S.s = +e.target.value; render(); });
+  sliders.forEach(function (k) {
+    $(k).addEventListener("input", function (e) { S[k] = +e.target.value; render(); });
+  });
+  PRESETS.forEach(function (pr) {
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = pr.name;
+    b.addEventListener("click", function () { stopAnim(); Object.assign(S, pr.p); render(); });
+    $("presets").appendChild(b);
+  });
+  var anim = null;
+  function stopAnim() { if (anim) { cancelAnimationFrame(anim); anim = null; } }
+  $("relax").addEventListener("click", function () {
+    stopAnim();
+    var from = S.s, t0 = null, dur = 3600;
+    if (from <= 0) return;
+    function step(ts) {
+      if (t0 === null) t0 = ts;
+      var k = Math.min(1, (ts - t0) / dur);
+      var e = k * k * (3 - 2 * k);
+      S.s = from * (1 - e);
+      render();
+      anim = k < 1 ? requestAnimationFrame(step) : null;
+    }
+    anim = requestAnimationFrame(step);
+  });
+  $("reset").addEventListener("click", function () { stopAnim(); S = Object.assign({}, DEF); render(); });
+
+  /* ---------- stats ---------- */
+  function renderStats(m) {
+    var held = Math.max(0, Math.round(m.LM0) - Math.round(m.LM1));
+    var loss = 1 - m.Y1 / m.Y0;
+    var tiles = [
+      { k: "Workers in agriculture", v: pct(m.LA1 / N), d: "free mobility: " + pct(m.LA0 / N) },
+      { k: "Workers held back", v: String(held), d: pct(held / N) + " of the workforce would be in the city", cls: held > 0 ? "warn" : "" },
+      { k: "Wage gap, city minus countryside", v: f2(m.wM - m.wA), d: "equals τ; " + pct(m.wA > 0 ? (m.wM - m.wA) / m.wA : 0) + " of the rural wage" },
+      { k: "Output lost", v: (100 * loss).toFixed(1) + "%", d: "Y = " + m.Y1.toFixed(0) + " vs " + m.Y0.toFixed(0) + " at free mobility", cls: loss > 0.0005 ? "warn" : "" }
+    ];
+    $("stats").innerHTML = tiles.map(function (t) {
+      return '<div class="stat ' + (t.cls || "") + '"><div class="k">' + t.k + '</div><div class="v">' + t.v + '</div><div class="d">' + t.d + '</div></div>';
+    }).join("");
+    $("eq").innerHTML = "VMPL<sub>M</sub>(L<sub>M</sub>′) − VMPL<sub>A</sub>(L<sub>A</sub>′) = τ &nbsp;→&nbsp; " + f2(m.wM) + " − " + f2(m.wA) + " = " + f2(m.tau) + " &nbsp;&nbsp;|&nbsp;&nbsp; L<sub>A</sub>′ = " + m.LA1.toFixed(0) + ", L<sub>A</sub>* = " + m.LA0.toFixed(0);
+  }
+
+  /* ---------- dots ---------- */
+  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  var r = rng(20260801);
+  var G = 0.14, canvas = $("dots"), ctx = canvas.getContext("2d"), cw = 0, chh = 0, dpr = 1, lastM = null, looping = false, lastT = 0;
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var showHeld = false;
+  var W = [];
+  for (var i = 0; i < N; i++) W.push({ sec: 0, x: 0, y: 0, vx: 0, vy: 0, trav: null, init: false });
+  function gauss() { return (r() + r() + r() - 1.5) * 2; }
+  function sqX(k) { return k * (1 + G); }
+  function sizeCanvas() {
+    var w = canvas.parentElement.clientWidth - 32;
+    if (w < 100) return;
+    dpr = window.devicePixelRatio || 1;
+    var sq = w / (2 + G);
+    cw = w; chh = Math.round(sq + 40);
+    canvas.style.height = chh + "px";
+    canvas.width = Math.round(cw * dpr); canvas.height = Math.round(chh * dpr);
+  }
+  function randIn(k) { return { x: sqX(k) + 0.06 + 0.88 * Math.random(), y: 0.06 + 0.88 * Math.random() }; }
+  function tick(now) {
+    requestAnimationFrame(tick);
+    if (!lastM || !cw) return;
+    var dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 0.016;
+    lastT = now;
+    var m = lastM, Mu = Math.round(m.LM1), Ms = Math.round(m.LM0), order = 0;
+    var u = cw / (2 + G), sq = u, top = 30;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, cw, chh);
+    var line = css("--line"), rural = css("--rural"), urban = css("--urban"), wedge = css("--wedge");
+    ctx.lineWidth = 1; ctx.strokeStyle = line;
+    [0, 1].forEach(function (k) { ctx.strokeRect(k * (sq + G * u) + 0.5, top + 0.5, sq - 1, sq - 1); });
+    for (var i = 0; i < N; i++) {
+      var w = W[i], want = i < Mu ? 1 : 0;
+      if (!w.init) { var p0 = randIn(want); w.sec = want; w.x = p0.x; w.y = p0.y; w.init = true; }
+      if (w.trav) {
+        var T = w.trav; T.t += dt;
+        var s = (T.t - T.delay) / T.dur;
+        if (s >= 1) { w.sec = T.to; w.x = T.tx; w.y = T.ty; w.trav = null; }
+        else if (s > 0) { var e = s * s * (3 - 2 * s); w.x = T.x0 + (T.tx - T.x0) * e; w.y = T.y0 + (T.ty - T.y0) * e - Math.sin(Math.PI * s) * 0.1; }
+      } else if (w.sec !== want) {
+        var q = randIn(want);
+        w.trav = { to: want, x0: w.x, y0: w.y, tx: q.x, ty: q.y, t: 0, delay: reduce ? 0 : order++ * 0.004 + Math.random() * 0.5, dur: reduce ? 0.01 : 1.1 + Math.random() * 0.7 };
+      } else if (!reduce) {
+        w.vx += -w.vx * 2 * dt + 0.09 * Math.sqrt(dt) * gauss();
+        w.vy += -w.vy * 2 * dt + 0.09 * Math.sqrt(dt) * gauss();
+        w.x += w.vx * dt; w.y += w.vy * dt;
+        var lo = sqX(w.sec) + 0.05, hi = lo + 0.9;
+        if (w.x < lo) { w.x = lo; w.vx = Math.abs(w.vx); } else if (w.x > hi) { w.x = hi; w.vx = -Math.abs(w.vx); }
+        if (w.y < 0.05) { w.y = 0.05; w.vy = Math.abs(w.vy); } else if (w.y > 0.95) { w.y = 0.95; w.vy = -Math.abs(w.vy); }
+      }
+      var toSec = w.trav ? w.trav.to : w.sec;
+      var px = w.x * u, py = top + w.y * sq;
+      ctx.beginPath(); ctx.arc(px, py, 2.4, 0, 6.2832);
+      ctx.fillStyle = toSec ? urban : rural; ctx.fill();
+      if (showHeld && !w.trav && w.sec === 0 && i >= Mu && i < Ms) {
+        ctx.lineWidth = 1.4; ctx.strokeStyle = wedge; ctx.beginPath(); ctx.arc(px, py, 4.2, 0, 6.2832); ctx.stroke(); ctx.lineWidth = 1;
+      }
+    }
+    ctx.fillStyle = css("--fg"); ctx.font = '500 12px ' + css("--font-ui"); ctx.textAlign = "left";
+    ctx.fillText("Countryside · " + (N - Mu), 2, 18);
+    ctx.fillText("City · " + Mu, sq + G * u + 2, 18);
+  }
+  function kickDots(m) {
+    lastM = m;
+    if (!looping) { looping = true; requestAnimationFrame(tick); }
+  }
+  $("held").addEventListener("change", function (e) { showHeld = e.target.checked; });
+
+  /* ---------- diagram ---------- */
+  function diagram(m) {
+    var Wd = 640, Hd = 390, ml = 54, mr = 20, mt = 16, mb = 70, pw = Wd - ml - mr, ph = Hd - mt - mb;
+    var ymax = Math.max(2.6 * m.w0, 1.15 * m.wM);
+    var X = function (x) { return ml + pw * x / N; };
+    var Y = function (v) { return mt + ph * (1 - v / ymax); };
+    var base = Y(0);
+    var pa = "", pm = "";
+    for (var x = 2; x <= N - 2; x += 2) {
+      pa += (x === 2 ? "M" : "L") + X(x).toFixed(1) + " " + Y(vm(S.AA, S.aA, x)).toFixed(1);
+      pm += (x === 2 ? "M" : "L") + X(x).toFixed(1) + " " + Y(vm(S.AM, S.aM, N - x)).toFixed(1);
+    }
+    var shade = "";
+    if (m.LA1 - m.LA0 > 0.5) {
+      var up = [], dn = [];
+      for (var xx = m.LA0; xx <= m.LA1; xx += (m.LA1 - m.LA0) / 40) {
+        up.push(X(xx).toFixed(1) + "," + Y(vm(S.AM, S.aM, N - xx)).toFixed(1));
+        dn.push(X(xx).toFixed(1) + "," + Y(vm(S.AA, S.aA, xx)).toFixed(1));
+      }
+      up.push(X(m.LA1).toFixed(1) + "," + Y(m.wM).toFixed(1));
+      dn.push(X(m.LA1).toFixed(1) + "," + Y(m.wA).toFixed(1));
+      shade = '<polygon points="' + up.concat(dn.reverse()).join(" ") + '" fill="var(--wedge-soft)" stroke="none"/>';
+    }
+    var sepClose = Math.abs(X(m.LA1) - X(m.LA0)) < 44;
+    var s = '<svg viewBox="0 0 ' + Wd + ' ' + Hd + '" role="img" aria-label="Value of marginal product of labor in both sectors with and without the hukou wedge">';
+    s += '<defs><clipPath id="clipD"><rect x="' + ml + '" y="' + mt + '" width="' + pw + '" height="' + ph + '"/></clipPath></defs>';
+    s += '<line class="grid" x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + Y(m.w0).toFixed(1) + '" y2="' + Y(m.w0).toFixed(1) + '"/>';
+    s += '<path class="axis" d="M' + ml + ' ' + mt + 'V' + base + 'H' + (ml + pw) + '"/>';
+    s += '<g clip-path="url(#clipD)">' + shade;
+    s += '<path d="' + pa + '" fill="none" stroke="var(--rural)" stroke-width="2.4"/>';
+    s += '<path d="' + pm + '" fill="none" stroke="var(--urban)" stroke-width="2.4"/></g>';
+    s += '<text x="' + (ml - 8) + '" y="' + (Y(m.w0) + 4) + '" text-anchor="end" class="num">w*</text>';
+    s += '<text x="' + (ml - 8) + '" y="' + (base + 4) + '" text-anchor="end" class="num">0</text>';
+    s += '<text x="' + (ml + pw - 8) + '" y="' + (Y(vm(S.AA, S.aA, 0.9 * N)) + 22).toFixed(1) + '" text-anchor="end" style="fill:var(--rural);font-weight:600">VMPL' + sub("A") + ' · countryside</text>';
+    s += '<text x="' + (ml + 8) + '" y="' + (Y(vm(S.AM, S.aM, 0.9 * N)) - 10).toFixed(1) + '" style="fill:var(--urban);font-weight:600">VMPL' + sub("M") + ' · city</text>';
+    // optimum
+    s += '<circle cx="' + X(m.LA0).toFixed(1) + '" cy="' + Y(m.w0).toFixed(1) + '" r="5" fill="var(--panel)" stroke="var(--fg)" stroke-width="1.6"/>';
+    s += '<text x="' + (X(m.LA0) - 9).toFixed(1) + '" y="' + (Y(m.w0) - 9).toFixed(1) + '" text-anchor="end" class="fg" style="font-weight:600">E*</text>';
+    // hukou allocation
+    if (m.tau > 1e-6) {
+      var xh = X(m.LA1);
+      s += '<line x1="' + xh.toFixed(1) + '" x2="' + xh.toFixed(1) + '" y1="' + Y(m.wM).toFixed(1) + '" y2="' + Y(m.wA).toFixed(1) + '" stroke="var(--wedge)" stroke-width="2.2"/>';
+      s += '<line x1="' + xh.toFixed(1) + '" x2="' + xh.toFixed(1) + '" y1="' + Y(m.wA).toFixed(1) + '" y2="' + base + '" stroke="var(--wedge)" stroke-width="1" stroke-dasharray="3 3"/>';
+      s += '<circle cx="' + xh.toFixed(1) + '" cy="' + Y(m.wA).toFixed(1) + '" r="4.5" fill="var(--rural)"/>';
+      s += '<circle cx="' + xh.toFixed(1) + '" cy="' + Y(m.wM).toFixed(1) + '" r="4.5" fill="var(--urban)"/>';
+      s += '<text x="' + (xh + 9).toFixed(1) + '" y="' + ((Y(m.wA) + Y(m.wM)) / 2 + 4).toFixed(1) + '" style="fill:var(--wedge);font-weight:600" font-size="13">τ = ' + f2(m.tau) + '</text>';
+      s += '<text x="' + xh.toFixed(1) + '" y="' + (base + (sepClose ? 28 : 15)) + '" text-anchor="middle" style="fill:var(--wedge)">L' + sub("A") + '′ = ' + m.LA1.toFixed(0) + '</text>';
+    }
+    s += '<line x1="' + X(m.LA0).toFixed(1) + '" x2="' + X(m.LA0).toFixed(1) + '" y1="' + Y(m.w0).toFixed(1) + '" y2="' + base + '" stroke="var(--fg)" stroke-width="1" stroke-dasharray="3 3"/>';
+    s += '<text x="' + X(m.LA0).toFixed(1) + '" y="' + (base + 15) + '" text-anchor="middle" class="fg">L' + sub("A") + '* = ' + m.LA0.toFixed(0) + '</text>';
+    s += '<text x="' + ml + '" y="' + (base + 46) + '" text-anchor="start" class="fg" style="font-weight:600">O' + sub("A") + '</text>';
+    s += '<text x="' + (ml + pw) + '" y="' + (base + 46) + '" text-anchor="end" class="fg" style="font-weight:600">O' + sub("M") + '</text>';
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (base + 46) + '" text-anchor="middle">L' + sub("A") + ' grows to the right · L' + sub("M") + ' grows to the left</text>';
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (base + 62) + '" text-anchor="middle">workers in agriculture + workers in the city = ' + N + '</text>';
+    s += '</svg>';
+    $("diagram").innerHTML = fixSvg(s);
+  }
+
+  /* ---------- production functions ---------- */
+  function pfChart(target, id, A, a, Lopt, Lcur, color, Ymax, mplMax, name, wCur, wOpt) {
+    var Wd = 360, Hd = 280, ml = 46, mr = 46, mt = 20, mb = 42, pw = Wd - ml - mr, ph = Hd - mt - mb;
+    var X = function (x) { return ml + pw * x / N; };
+    var YL = function (v) { return mt + ph * (1 - v / Ymax); };
+    var YR = function (v) { return mt + ph * (1 - v / mplMax); };
+    var py = "", pmp = "";
+    for (var x = 1; x <= N; x += 2) {
+      py += (x === 1 ? "M" : "L") + X(x).toFixed(1) + " " + YL(yf(A, a, x)).toFixed(1);
+      pmp += (x === 1 ? "M" : "L") + X(x).toFixed(1) + " " + YR(vm(A, a, x)).toFixed(1);
+    }
+    var base = YL(0);
+    var s = '<svg viewBox="0 0 ' + Wd + ' ' + Hd + '" role="img" aria-label="' + name + ' output and marginal product">';
+    s += '<defs><clipPath id="' + id + '"><rect x="' + ml + '" y="' + mt + '" width="' + pw + '" height="' + ph + '"/></clipPath></defs>';
+    s += '<path class="axis" d="M' + ml + ' ' + mt + 'V' + base + 'H' + (ml + pw) + 'V' + mt + '"/>';
+    s += '<line class="grid" x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + YR(wOpt).toFixed(1) + '" y2="' + YR(wOpt).toFixed(1) + '"/>';
+    s += '<g clip-path="url(#' + id + ')">';
+    s += '<path d="' + py + '" fill="none" stroke="' + color + '" stroke-width="2.4"/>';
+    s += '<path d="' + pmp + '" fill="none" stroke="var(--fg)" stroke-width="1.6" stroke-dasharray="5 4"/>';
+    var slope = vm(A, a, Lcur), dxT = N * 0.14, y1 = yf(A, a, Lcur);
+    s += '<line x1="' + X(Lcur - dxT).toFixed(1) + '" y1="' + YL(y1 - slope * dxT).toFixed(1) + '" x2="' + X(Lcur + dxT).toFixed(1) + '" y2="' + YL(y1 + slope * dxT).toFixed(1) + '" stroke="var(--wedge)" stroke-width="1.6"/>';
+    s += '</g>';
+    // markers on Y
+    s += '<line x1="' + X(Lcur).toFixed(1) + '" x2="' + X(Lcur).toFixed(1) + '" y1="' + YL(y1).toFixed(1) + '" y2="' + base + '" stroke="var(--wedge)" stroke-width="1" stroke-dasharray="3 3"/>';
+    s += '<circle cx="' + X(Lopt).toFixed(1) + '" cy="' + YL(yf(A, a, Lopt)).toFixed(1) + '" r="5" fill="var(--panel)" stroke="var(--fg)" stroke-width="1.6"/>';
+    s += '<circle cx="' + X(Lcur).toFixed(1) + '" cy="' + YL(y1).toFixed(1) + '" r="4.5" fill="var(--wedge)"/>';
+    // markers on MPL
+    s += '<circle cx="' + X(Lopt).toFixed(1) + '" cy="' + YR(wOpt).toFixed(1) + '" r="3.5" fill="var(--panel)" stroke="var(--fg)" stroke-width="1.4"/>';
+    s += '<circle cx="' + X(Lcur).toFixed(1) + '" cy="' + YR(Math.min(wCur, mplMax)).toFixed(1) + '" r="3.5" fill="var(--wedge)"/>';
+    // labels
+    s += '<text x="' + (ml - 6) + '" y="' + (mt + 4) + '" text-anchor="end" class="num">' + Ymax.toFixed(0) + '</text>';
+    s += '<text x="' + (ml - 6) + '" y="' + (base + 4) + '" text-anchor="end" class="num">0</text>';
+    s += '<text x="' + (ml + pw + 6) + '" y="' + (YR(wOpt) + 4).toFixed(1) + '" class="num">w*</text>';
+    s += '<text x="' + (ml + pw + 6) + '" y="' + (base + 4) + '" class="num">0</text>';
+    s += '<text x="' + ml + '" y="' + (mt - 7) + '" style="fill:' + color + ';font-weight:600">output Y (left axis)</text>';
+    s += '<text x="' + (ml + pw) + '" y="' + (mt - 7) + '" text-anchor="end" class="fg">MPL (right axis)</text>';
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (Hd - 22) + '" text-anchor="middle">workers in the sector</text>';
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (Hd - 7) + '" text-anchor="middle" class="fg">now ' + Lcur.toFixed(0) + ' · free-mobility optimum ' + Lopt.toFixed(0) + ' · MPL now ' + f2(wCur) + ' vs ' + f2(wOpt) + '</text>';
+    s += '</svg>';
+    $(target).innerHTML = fixSvg(s);
+  }
+
+  function render() {
+    syncControls();
+    var m = model();
+    renderStats(m);
+    diagram(m);
+    var Ymax = Math.max(yf(S.AA, S.aA, N), yf(S.AM, S.aM, N));
+    var mplMax = Math.max(2.6 * m.w0, 1.15 * m.wM);
+    pfChart("pfA", "clipA", S.AA, S.aA, m.LA0, m.LA1, "var(--rural)", Ymax, mplMax, "Agriculture", m.wA, m.w0);
+    pfChart("pfM", "clipM", S.AM, S.aM, m.LM0, m.LM1, "var(--urban)", Ymax, mplMax, "City", m.wM, m.w0);
+    kickDots(m);
+  }
+
+  window.addEventListener("resize", sizeCanvas);
+
+  sizeCanvas();
+  render();
+  setTimeout(sizeCanvas, 120);
+})();
+</script>
+
+</body></html>
