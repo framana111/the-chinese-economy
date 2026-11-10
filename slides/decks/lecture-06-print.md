@@ -398,9 +398,10 @@ Two steel mills. Mill B makes <strong>twice</strong> the steel of mill A with th
 <p style="margin:.2em 0">Industry TFP, given the allocation:</p>
 <p style="text-align:center;margin:.3em 0">$TFP_s = \left[\sum_{i}\left(A_i\,\dfrac{\overline{TFPR}_s}{TFPR_i}\right)^{\sigma-1}\right]^{\frac{1}{\sigma-1}}$</p>
 <p class="fragment" style="margin:.4em 0">If TFPQ and TFPR are jointly log-normal:</p>
-<p class="fragment" style="text-align:center;margin:.3em 0">$\log TFP_s = \dfrac{1}{\sigma-1}\log\left(\sum_i A_i^{\sigma-1}\right) - \dfrac{\sigma}{2}\,\mathrm{var}\left(\log TFPR_i\right)$</p>
+<p class="fragment" style="text-align:center;margin:.2em 0;font-size:.82em">$\begin{aligned}\log TFP_s = {} & \dfrac{1}{\sigma-1}\log\left(\textstyle\sum_i A_i^{\sigma-1}\right)\\ & - \dfrac{\sigma}{2}\,\mathrm{var}\left(\log TFPR_i\right) - \dfrac{\alpha(1-\alpha)}{2}\,\mathrm{var}\left(\log \dfrac{MRPK_i}{MRPL_i}\right)\end{aligned}$</p>
 <ul class="fragment" style="font-size:.85em;margin:.4em 0 0">
-<li>The first term: how good the firms are. The second: how badly inputs are spread among them</li>
-<li>More dispersion of TFPR, lower TFP. With $\sigma = 3$, the loss is 1.5 times the variance of log TFPR</li>
+<li>Three terms: how good the firms are; how badly inputs are spread among firms; firms with the wrong mix of capital and workers</li>
+<li>With $\sigma = 3$, the second term is 1.5 times the variance of log TFPR</li>
+<li>Equation (2.16) of the working paper leaves out the third term, which is zero only if all firms have the same ratio of capital wedge to labour wedge</li>
 </ul>
 </div>
