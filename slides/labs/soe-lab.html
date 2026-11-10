@@ -1,0 +1,426 @@
+<!-- Standalone copy of artefatti-chat/30-soe-lab.html for lecture 6. Edit the source, then re-copy. -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;font-size:14px}[hidden]{display:none!important}img{max-width:100%}</style></head><body>
+<title>SOE Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* SOE Lab (lecture 6). Source file: artefatti-chat/30-soe-lab.html; slides/labs/soe-lab.html is a wrapped copy.
+   Layout: controls, four tiles, the upgrade readout; then "who gets the inputs" and "marginal products" side by side; notes last.
+   Designed to read at half a 1920px screen (about 960px wide). */
+:root {
+  --bg: #f4f3f0;
+  --panel: #ffffff;
+  --fg: #1d1f24;
+  --muted: #5d6270;
+  --line: #d9d6cf;
+  --state: #c0392b;
+  --state-soft: rgba(192, 57, 43, 0.16);
+  --priv: #1f6f9f;
+  --priv-soft: rgba(31, 111, 159, 0.16);
+  --good: #2f7d4a;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15161a; --panel: #1e2026; --fg: #e8e9ec; --muted: #a0a5b1; --line: #353843;
+    --state: #ff7b6b; --state-soft: rgba(255, 123, 107, 0.2); --priv: #6cb8e6; --priv-soft: rgba(108, 184, 230, 0.2);
+    --good: #7fcf98; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15161a; --panel: #1e2026; --fg: #e8e9ec; --muted: #a0a5b1; --line: #353843;
+  --state: #ff7b6b; --state-soft: rgba(255, 123, 107, 0.2); --priv: #6cb8e6; --priv-soft: rgba(108, 184, 230, 0.2);
+  --good: #7fcf98; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; padding-inline: 16px; padding-block: 20px 44px; }
+.wrap { max-width: 1180px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
+h1 { font-size: 1.6rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 .tag { font-size: 0.8rem; font-weight: 500; color: var(--muted); letter-spacing: 0.04em; margin-left: 8px; }
+.lede { color: var(--muted); margin: 2px 0 0; max-width: 70ch; }
+.lede b.s { color: var(--state); } .lede b.p { color: var(--priv); }
+h2 { font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 8px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+
+.controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; }
+.slider label { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-weight: 500; }
+.slider .val { font-family: var(--font-num); font-size: 1.15rem; color: var(--state); }
+input[type="range"] { width: 100%; accent-color: var(--state); margin: 8px 0 2px; }
+.sub { color: var(--muted); font-size: 0.84rem; }
+.row { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.row .sep { flex: 1; }
+button { font: inherit; font-size: 0.88rem; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+button:hover { border-color: var(--muted); }
+button.primary { background: var(--fg); border-color: var(--fg); color: var(--panel); font-weight: 500; }
+button.toggle[aria-pressed="true"] { background: var(--state); border-color: var(--state); color: #fff; }
+:root[data-theme="dark"] button.toggle[aria-pressed="true"] { color: #1b1210; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) button.toggle[aria-pressed="true"] { color: #1b1210; } }
+button.small { font-size: 0.8rem; padding: 4px 10px; }
+button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--priv); outline-offset: 2px; }
+details { grid-column: 1 / -1; }
+details summary { cursor: pointer; font-weight: 500; font-size: 0.9rem; }
+.params { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px 18px; margin-top: 8px; }
+.params label { display: flex; justify-content: space-between; font-size: 0.84rem; gap: 8px; }
+.params .val { font-family: var(--font-num); }
+.params input[type="range"] { accent-color: var(--muted); margin: 4px 0 0; }
+
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; min-width: 0; }
+.stat .k { font-size: 0.78rem; color: var(--muted); }
+.stat .v { font-family: var(--font-num); font-size: 1.5rem; font-weight: 500; line-height: 1.2; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.stat .d { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+.stat.warn .v { color: var(--state); }
+
+.upgrade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px; align-items: center; border-color: var(--state); }
+.upgrade .txt { font-size: 0.9rem; }
+.upgrade .txt b { font-family: var(--font-num); font-weight: 500; }
+.upgrade svg { width: 100%; height: auto; display: block; }
+
+.viz { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.chart svg { width: 100%; height: auto; display: block; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.82rem; color: var(--muted); margin-top: 6px; align-items: center; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.legend i.ghost { background: transparent; border: 1.5px solid var(--muted); }
+.chk { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.chk input { accent-color: var(--state); }
+svg text { font-family: var(--font-ui); font-size: 14px; fill: var(--muted); }
+svg text.fg { fill: var(--fg); }
+svg text.num { font-family: var(--font-num); font-size: 13px; }
+svg .axis { stroke: var(--line); stroke-width: 1; fill: none; }
+svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: none; }
+
+.eq { font-family: var(--font-num); font-size: 0.88rem; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: nowrap; line-height: 1.8; }
+.notes ul { margin: 12px 0 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; max-width: 80ch; }
+.foot { color: var(--muted); font-size: 0.8rem; max-width: 80ch; margin: 12px 0 0; }
+
+@media (max-width: 900px) {
+  .viz, .upgrade { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .params { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) { .controls { grid-template-columns: minmax(0, 1fr); } .params { grid-template-columns: minmax(0, 1fr); } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>SOE Lab <span class="tag">one industry · 48 firms</span></h1>
+    <p class="lede">Twelve <b class="s">state firms</b> and thirty-six <b class="p">private firms</b> share a fixed amount of capital and labour. The state gives its firms cheap credit and pushes them to keep workers. Inputs go to the wrong firms, marginal products spread out, and output is lost.</p>
+  </header>
+
+  <section class="controls panel">
+    <div class="slider">
+      <label for="credit"><span>Cheap credit for state firms</span><span class="val" id="creditV"></span></label>
+      <input type="range" id="credit" min="0" max="0.8" step="0.01">
+      <div class="sub">How much less a state firm pays for capital than a private firm.</div>
+    </div>
+    <div class="slider">
+      <label for="extra"><span>Pressure to keep workers</span><span class="val" id="extraV"></span></label>
+      <input type="range" id="extra" min="0" max="0.7" step="0.01">
+      <div class="sub">State firms hire as if a worker cost this much less: they keep workers they do not need.</div>
+    </div>
+    <div class="row">
+      <button class="primary" id="realloc" type="button">Reallocate (no wedges)</button>
+      <button class="toggle" id="upgrade" type="button" aria-pressed="false">Upgrade state firms +30%</button>
+      <button id="reset" type="button">Reset</button>
+      <span class="sep"></span>
+      <span class="sub">China, illustrative:</span>
+      <span id="presets" style="display:contents"></span>
+    </div>
+    <details>
+      <summary>More settings</summary>
+      <div class="params">
+        <div><label for="constr"><span>Credit constraint, private firms</span><span class="val" id="constrV"></span></label><input type="range" id="constr" min="0" max="0.6" step="0.01"></div>
+        <div><label for="d"><span>Other frictions (all firms)</span><span class="val" id="dV"></span></label><input type="range" id="d" min="0" max="0.4" step="0.01"></div>
+        <div><label for="gap"><span>State firms' TFPQ gap</span><span class="val" id="gapV"></span></label><input type="range" id="gap" min="0" max="0.7" step="0.01"></div>
+        <div><label for="sd"><span>How different firms are</span><span class="val" id="sdV"></span></label><input type="range" id="sd" min="0.2" max="0.9" step="0.01"></div>
+      </div>
+    </details>
+    <details id="errBox">
+      <summary>Errors in the data</summary>
+      <div class="params">
+        <div><label for="eS"><span>Error in recorded capital, state firms</span><span class="val" id="eSV"></span></label><input type="range" id="eS" min="0" max="0.8" step="0.01"></div>
+        <div><label for="eP"><span>Error in recorded capital, private firms</span><span class="val" id="ePV"></span></label><input type="range" id="eP" min="0" max="0.8" step="0.01"></div>
+        <div class="sub" style="grid-column: span 2">Each firm's capital is recorded with a random error of about this size. Nothing real changes, only what the economist sees: the strips then show the data as recorded.</div>
+      </div>
+    </details>
+  </section>
+
+  <section class="stats" id="stats"></section>
+
+  <section class="panel upgrade" id="upPanel" hidden>
+    <div class="txt" id="upTxt"></div>
+    <div id="upChart"></div>
+  </section>
+
+  <section class="viz">
+    <div class="panel chart">
+      <h2>Who gets the capital and labour</h2>
+      <div id="scatter"></div>
+      <div class="legend">
+        <span><i style="background:var(--state)"></i>state firm</span>
+        <span><i style="background:var(--priv)"></i>private firm</span>
+        <span><i class="ghost"></i>where it would be without wedges (on the dashed line)</span>
+        <label class="chk"><input type="checkbox" id="ghosts" checked> show</label>
+      </div>
+    </div>
+    <div class="panel chart">
+      <h2>Productivity and marginal products, firm by firm</h2>
+      <div id="strips"></div>
+      <div class="sub" id="stripNote" style="margin-top:6px"></div>
+    </div>
+  </section>
+
+  <section class="panel notes">
+    <h2>Reading the model</h2>
+    <div class="eq">
+      Y<sub>i</sub> = A<sub>i</sub> K<sub>i</sub><sup>α</sup> L<sub>i</sub><sup>1−α</sup> &nbsp;&nbsp;·&nbsp;&nbsp; TFPQ<sub>i</sub> = A<sub>i</sub> &nbsp;&nbsp;·&nbsp;&nbsp; TFPR<sub>i</sub> = P<sub>i</sub>A<sub>i</sub><br>
+      MRPL<sub>i</sub> ∝ P<sub>i</sub>Y<sub>i</sub>/L<sub>i</sub> = (1+τ<sub>L,i</sub>) w &nbsp;&nbsp;·&nbsp;&nbsp; MRPK<sub>i</sub> ∝ P<sub>i</sub>Y<sub>i</sub>/K<sub>i</sub> = (1+τ<sub>K,i</sub>) r &nbsp;&nbsp;·&nbsp;&nbsp; TFPR<sub>i</sub> ∝ (1+τ<sub>K,i</sub>)<sup>α</sup>(1+τ<sub>L,i</sub>)<sup>1−α</sup>
+    </div>
+    <ul>
+      <li><b>Without wedges, every firm has the same MRPL, MRPK and TFPR.</b> The more productive firms are simply bigger: a higher TFPQ means more output, a lower price, and the same revenue per unit of input as everybody else.</li>
+      <li><b>TFPQ differences are technology; TFPR differences are the wedges.</b> A wedge changes how much a firm uses and sells, and so its price, not what it can make with each unit of input. Press "Reallocate": the TFPQ row does not move, the other three collapse onto one line.</li>
+      <li><b>Errors in the data look like wedges.</b> Open "Errors in the data": the true loss stays the same, the measured one rises. Press "Reallocate" with errors on: no wedge is left, yet the economist still measures a loss.</li>
+      <li><b>Cheap credit lowers the state firms' MRPK; extra workers lower their MRPL.</b> They hold far more capital than their productivity justifies, and the good private firms are too small.</li>
+      <li><b>Making a favoured firm more productive is not a free lunch.</b> It also pulls capital and workers away from firms where they produce more. In Hsieh and Song's data, with a fixed capital stock, this drag can exceed the gain (2015, Table 8).</li>
+    </ul>
+    <p class="foot">Model of Hsieh and Klenow (2009) with the labour and capital wedges of Hsieh and Song (2015): one industry, elasticity of substitution σ = 3, capital share α = 1/3, total capital and labour fixed. Firm productivities are drawn once. The 1998 and 2007 presets set the two state-firm wedges so that state firms' output per worker and per unit of capital, relative to private firms, match Hsieh and Song's figures: about 60% and 35% in 1998, 75% and 47% in 2007 (BPEA 2015, pp. 310 and 314). Everything else is illustrative.</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  var SIG = 3, RHO = (SIG - 1) / SIG, AL = 1 / 3, N = 48, NS = 12, BOOST = 1.3;
+  var DEF = { credit: 0.59, extra: 0.42, constr: 0.2, d: 0.15, gap: 0.4, sd: 0.5, eS: 0, eP: 0 };
+  var PRESETS = [
+    { name: "1998", p: { credit: 0.59, extra: 0.42 } },
+    { name: "2007", p: { credit: 0.45, extra: 0.27 } },
+    { name: "No favours", p: { credit: 0, extra: 0 } }
+  ];
+  var S = Object.assign({}, DEF), wscale = 1, boost = 1, upOn = false;
+  var $ = function (id) { return document.getElementById(id); };
+  var pct = function (x) { return (100 * x).toFixed(0) + "%"; };
+
+  /* ---------- fixed draws: stratified normal quantiles, shuffled with a seed ---------- */
+  function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function invn(p) {
+    var a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239],
+        b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572],
+        c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783],
+        d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416], q, r;
+    if (p < 0.02425) { q = Math.sqrt(-2 * Math.log(p)); return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+    if (p > 1 - 0.02425) { q = Math.sqrt(-2 * Math.log(1 - p)); return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
+    q = p - 0.5; r = q * q; return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+  }
+  var R = rng(20261105);
+  function strat(n) { var z = [], i, j, t; for (i = 0; i < n; i++) z.push(invn((i + 0.5) / n)); for (i = n - 1; i > 0; i--) { j = Math.floor(R() * (i + 1)); t = z[i]; z[i] = z[j]; z[j] = t; } return z; }
+  var zA = strat(N), zK = strat(N), zL = strat(N), jit = [];
+  for (var q = 0; q < N; q++) jit.push(R() * 2 - 1);
+  var zM = strat(N); // errors in recorded capital (drawn after the others, so the firms stay the same)
+
+  /* ---------- the model ---------- */
+  function firms(mult) {
+    var F = [];
+    for (var i = 0; i < N; i++) {
+      var soe = i < NS;
+      var A = Math.exp(S.sd * zA[i] + (soe ? Math.log(1 - S.gap) : 0)) * (soe ? mult : 1);
+      var cK = (soe ? 1 - S.credit : 1 + S.constr) * Math.exp(S.d * zK[i]);
+      var cL = (soe ? 1 - S.extra : 1) * Math.exp(S.d * zL[i]);
+      F.push({ soe: soe, A: A, cK: cK, cL: cL });
+    }
+    return F;
+  }
+  // s scales the wedges in logs: 1 = as set, 0 = no wedges
+  function solve(F, s) {
+    var sL = 0, sK = 0, G = F.map(function (f) {
+      var cK = Math.pow(f.cK, s), cL = Math.pow(f.cL, s);
+      var PY = Math.pow(f.A / (Math.pow(cK, AL) * Math.pow(cL, 1 - AL)), SIG - 1);
+      var g = { f: f, l: PY / cL, k: PY / cK }; sL += g.l; sK += g.k; return g;
+    });
+    var Ys = 0;
+    G.forEach(function (g) { g.L = g.l / sL; g.K = g.k / sK; g.X = Math.pow(g.K, AL) * Math.pow(g.L, 1 - AL); g.Y = g.f.A * g.X; Ys += Math.pow(g.Y, RHO); });
+    var Y = Math.pow(Ys, 1 / RHO), PYt = 0, Xt = 0;
+    G.forEach(function (g) { g.PY = Math.pow(Y, 1 / SIG) * Math.pow(g.Y, RHO); PYt += g.PY; Xt += g.X; });
+    G.forEach(function (g) { g.mrpl = (g.PY / g.L) / PYt; g.mrpk = (g.PY / g.K) / PYt; g.tfpr = (g.PY / g.X) / (PYt / Xt); });
+    return { G: G, Y: Y, PY: PYt };
+  }
+  // what an economist measures when each firm's capital is recorded as K * exp(e * z): Hsieh-Klenow applied to the recorded data
+  function measure(cur) {
+    var Ko = cur.G.map(function (g, i) { return g.K * Math.exp((g.f.soe ? S.eS : S.eP) * zM[i]); });
+    var Kt = 0, Xt = 0, sA = 0, Xo = [];
+    cur.G.forEach(function (g, i) { var x = Math.pow(Ko[i], AL) * Math.pow(g.L, 1 - AL); Xo.push(x); Kt += Ko[i]; Xt += x; sA += Math.pow(g.Y / x, SIG - 1); });
+    var G = cur.G.map(function (g, i) { return { f: g.f, A: g.Y / Xo[i], mrpl: g.mrpl, mrpk: (g.PY / Ko[i]) / (cur.PY / Kt), tfpr: (g.PY / Xo[i]) / (cur.PY / Xt) }; });
+    return { G: G, loss: 1 - cur.Y / (Math.pow(sA, 1 / (SIG - 1)) * Math.pow(Kt, AL)) };
+  }
+  function yWith(F, inputsFrom) { var s = 0; inputsFrom.G.forEach(function (g, i) { s += Math.pow(F[i].A * g.X, RHO); }); return Math.pow(s, 1 / RHO); }
+  function ratio(G, key) {
+    var n1 = 0, d1 = 0, n0 = 0, d0 = 0;
+    G.forEach(function (g) { if (g.f.soe) { n1 += g.PY; d1 += g[key]; } else { n0 += g.PY; d0 += g[key]; } });
+    return (n1 / d1) / (n0 / d0);
+  }
+  function median(a) { var b = a.slice().sort(function (x, y) { return x - y; }); var m = b.length >> 1; return b.length % 2 ? b[m] : (b[m - 1] + b[m]) / 2; }
+  function q9010(a) { var b = a.slice().sort(function (x, y) { return x - y; }); var p = function (t) { var k = t * (b.length - 1), lo = Math.floor(k); return b[lo] + (b[Math.min(lo + 1, b.length - 1)] - b[lo]) * (k - lo); }; return p(0.9) / p(0.1); }
+
+  /* ---------- controls ---------- */
+  var main = ["credit", "extra"], more = ["constr", "d", "gap", "sd"], errs = ["eS", "eP"];
+  var errFmt = function (x) { return x < 0.005 ? "none" : "±" + pct(x); };
+  var fmt = { credit: pct, extra: pct, constr: pct, gap: pct, d: function (x) { return x.toFixed(2); }, sd: function (x) { return x.toFixed(2); }, eS: errFmt, eP: errFmt };
+  function sync() { main.concat(more, errs).forEach(function (k) { $(k).value = S[k]; $(k + "V").textContent = fmt[k](S[k]); }); }
+  main.concat(more).forEach(function (k) { $(k).addEventListener("input", function (e) { stop(); wscale = 1; S[k] = +e.target.value; render(); }); });
+  // errors change only what is recorded: they keep the world as it is (also after "Reallocate")
+  errs.forEach(function (k) { $(k).addEventListener("input", function (e) { S[k] = +e.target.value; if (!anim) render(); }); });
+  PRESETS.forEach(function (pr) {
+    var b = document.createElement("button"); b.type = "button"; b.className = "small"; b.textContent = pr.name;
+    b.addEventListener("click", function () { stop(); wscale = 1; Object.assign(S, pr.p); render(); });
+    $("presets").appendChild(b);
+  });
+  var anim = null;
+  function stop() { if (anim) { cancelAnimationFrame(anim); anim = null; } }
+  function tween(get, set, to, dur) {
+    stop(); var from = get(), t0 = null;
+    if (Math.abs(from - to) < 1e-9) return;
+    function step(ts) { if (t0 === null) t0 = ts; var k = Math.min(1, (ts - t0) / dur), e = k * k * (3 - 2 * k); set(from + (to - from) * e); render(); anim = k < 1 ? requestAnimationFrame(step) : null; }
+    anim = requestAnimationFrame(step);
+  }
+  var reduce = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  $("realloc").addEventListener("click", function () { tween(function () { return wscale; }, function (v) { wscale = v; }, 0, reduce ? 1 : 2600); });
+  $("upgrade").addEventListener("click", function () {
+    upOn = !upOn; this.setAttribute("aria-pressed", String(upOn));
+    tween(function () { return boost; }, function (v) { boost = v; }, upOn ? BOOST : 1, reduce ? 1 : 1400);
+  });
+  $("reset").addEventListener("click", function () { stop(); S = Object.assign({}, DEF); wscale = 1; boost = 1; upOn = false; $("upgrade").setAttribute("aria-pressed", "false"); render(); });
+  $("ghosts").addEventListener("change", function () { render(); });
+
+  /* ---------- tiles and upgrade readout ---------- */
+  function renderStats(cur, eff, meas) {
+    var loss = 1 - cur.Y / eff.Y;
+    var lossD = meas ? 'with these data an economist would measure <b style="color:var(--state)">' + (100 * meas.loss).toFixed(1) + '%</b>' :
+      "removing every wedge raises output by +" + (100 * (eff.Y / cur.Y - 1)).toFixed(0) + "%";
+    var Ks = 0, Kse = 0;
+    cur.G.forEach(function (g) { if (g.f.soe) Ks += g.K; }); eff.G.forEach(function (g) { if (g.f.soe) Kse += g.K; });
+    var apk = ratio(cur.G, "K"), apl = ratio(cur.G, "L");
+    var tiles = [
+      { k: "Output lost to misallocation", v: (100 * loss).toFixed(1) + "%", d: lossD, cls: loss > 0.0005 ? "warn" : "" },
+      { k: "Capital held by state firms", v: pct(Ks), d: "without wedges: " + pct(Kse), cls: Ks - Kse > 0.02 ? "warn" : "" },
+      { k: "Output per unit of capital, state ÷ private", v: pct(apk), d: "Hsieh-Song: 35% in 1998, 47% in 2007" },
+      { k: "Output per worker, state ÷ private", v: pct(apl), d: "Hsieh-Song: 60% in 1998, 75% in 2007" }
+    ];
+    $("stats").innerHTML = tiles.map(function (t) { return '<div class="stat ' + (t.cls || "") + '"><div class="k">' + t.k + '</div><div class="v">' + t.v + '</div><div class="d">' + t.d + '</div></div>'; }).join("");
+  }
+  function renderUpgrade(F0, base, Fb, cur) {
+    var show = boost > 1.0001;
+    $("upPanel").hidden = !show;
+    if (!show) return;
+    var direct = yWith(Fb, base) / base.Y - 1, total = cur.Y / base.Y - 1, drag = total - direct;
+    var sh = (100 * (boost - 1)).toFixed(0);
+    var sg = function (v) { return (v >= 0 ? "+" : "") + (100 * v).toFixed(1) + "%"; };
+    $("upTxt").innerHTML = 'The state firms’ TFPQ rises by <b>' + sh + '%</b>. Holding inputs where they were, industry output would rise by <b style="color:var(--good)">' + sg(direct) + '</b>. ' +
+      (drag < -0.0005 ? 'But the upgraded firms also pull capital and workers away from private firms, where they produce more: <b style="color:var(--state)">' + sg(drag) + '</b>. ' :
+       'Without wedges, moving inputs to the upgraded firms is itself a small gain: <b style="color:var(--good)">' + sg(drag) + '</b>. ') +
+      'Net: <b>' + sg(total) + '</b>.';
+    var W = 520, H = 120, x0 = 120, x1 = W - 60, vmax = Math.max(0.05, direct, Math.abs(drag), Math.abs(total)) * 1.1;
+    var X = function (v) { return x0 + (x1 - x0) * (v + vmax) / (2 * vmax); };
+    var bar = function (y, a, b, col, lab, val) {
+      var l = Math.min(X(a), X(b)), w = Math.abs(X(b) - X(a));
+      return '<text x="' + (x0 - 10) + '" y="' + (y + 15) + '" text-anchor="end" class="fg">' + lab + '</text><rect x="' + l.toFixed(1) + '" y="' + y + '" width="' + Math.max(1, w).toFixed(1) + '" height="20" rx="3" fill="' + col + '"/><text x="' + (Math.max(X(a), X(b)) + 6).toFixed(1) + '" y="' + (y + 15) + '" class="num" style="fill:' + col + '">' + (val >= 0 ? "+" : "") + (100 * val).toFixed(1) + '%</text>';
+    };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Upgrade: direct effect, drag from reallocation, net effect">';
+    s += '<line x1="' + X(0) + '" x2="' + X(0) + '" y1="4" y2="' + (H - 4) + '" stroke="var(--line)"/>';
+    s += bar(8, 0, direct, "var(--good)", "direct gain", direct);
+    s += bar(46, direct, direct + drag, drag < 0 ? "var(--state)" : "var(--good)", "inputs moved", drag);
+    s += bar(84, 0, total, "var(--fg)", "net effect", total);
+    $("upChart").innerHTML = s + "</svg>";
+  }
+
+  /* ---------- scatter: TFPQ vs inputs used ---------- */
+  var LX = Math.log(2);
+  function scatter(cur, eff) {
+    var W = 500, H = 430, ml = 58, mr = 12, mt = 12, mb = 52, pw = W - ml - mr, ph = H - mt - mb;
+    var med = median(cur.G.map(function (g) { return g.f.A; }));
+    var xs = cur.G.map(function (g) { return Math.log(g.f.A / med) / LX; });
+    var ys = cur.G.map(function (g) { return Math.log(g.X * N) / LX; }), ye = eff.G.map(function (g) { return Math.log(g.X * N) / LX; });
+    var xr = [-2.5, 2.5], yr = [-6, 4];
+    var X = function (v) { return ml + pw * (Math.max(xr[0], Math.min(xr[1], v)) - xr[0]) / (xr[1] - xr[0]); };
+    var Y = function (v) { return mt + ph * (1 - (Math.max(yr[0], Math.min(yr[1], v)) - yr[0]) / (yr[1] - yr[0])); };
+    var lab = function (k) { return k === 0 ? "1" : k > 0 ? "×" + Math.pow(2, k) : "÷" + Math.pow(2, -k); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Firms by physical productivity and inputs used, with their positions without wedges">';
+    for (var gx = -2; gx <= 2; gx++) { s += '<line class="grid" x1="' + X(gx) + '" x2="' + X(gx) + '" y1="' + mt + '" y2="' + (mt + ph) + '"/><text x="' + X(gx) + '" y="' + (mt + ph + 16) + '" text-anchor="middle" class="num">' + lab(gx) + '</text>'; }
+    for (var gy = -6; gy <= 4; gy += 2) { s += '<line class="grid" x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + Y(gy) + '" y2="' + Y(gy) + '"/><text x="' + (ml - 8) + '" y="' + (Y(gy) + 4) + '" text-anchor="end" class="num">' + lab(gy) + '</text>'; }
+    s += '<path class="axis" d="M' + ml + ' ' + mt + 'V' + (mt + ph) + 'H' + (ml + pw) + '"/>';
+    // efficient line: inputs ∝ A^(σ-1); fit through the efficient points
+    var c = 0; eff.G.forEach(function (g, i) { c += ye[i] - (SIG - 1) * xs[i]; }); c /= N;
+    var Yu = function (v) { return mt + ph * (1 - (v - yr[0]) / (yr[1] - yr[0])); };
+    s += '<defs><clipPath id="clipS"><rect x="' + ml + '" y="' + mt + '" width="' + pw + '" height="' + ph + '"/></clipPath></defs>';
+    s += '<line clip-path="url(#clipS)" x1="' + X(xr[0]) + '" y1="' + Yu(c + (SIG - 1) * xr[0]).toFixed(1) + '" x2="' + X(xr[1]) + '" y2="' + Yu(c + (SIG - 1) * xr[1]).toFixed(1) + '" stroke="var(--muted)" stroke-width="1.4" stroke-dasharray="6 5"/>';
+    var showG = $("ghosts").checked && wscale > 0.02;
+    var order = cur.G.map(function (g, i) { return i; }).sort(function (a, b) { return (cur.G[a].f.soe ? 1 : 0) - (cur.G[b].f.soe ? 1 : 0); });
+    if (showG) order.forEach(function (i) {
+      s += '<line x1="' + X(xs[i]).toFixed(1) + '" y1="' + Y(ys[i]).toFixed(1) + '" x2="' + X(xs[i]).toFixed(1) + '" y2="' + Y(ye[i]).toFixed(1) + '" stroke="' + (cur.G[i].f.soe ? "var(--state)" : "var(--priv)") + '" stroke-opacity="0.35" stroke-width="1.2"/>';
+      s += '<circle cx="' + X(xs[i]).toFixed(1) + '" cy="' + Y(ye[i]).toFixed(1) + '" r="4" fill="none" stroke="var(--muted)" stroke-width="1.2"/>';
+    });
+    order.forEach(function (i) {
+      var soe = cur.G[i].f.soe;
+      s += '<circle cx="' + X(xs[i]).toFixed(1) + '" cy="' + Y(ys[i]).toFixed(1) + '" r="' + (soe ? 6 : 5) + '" fill="' + (soe ? "var(--state)" : "var(--priv)") + '" stroke="var(--panel)" stroke-width="1.2"/>';
+    });
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (H - 10) + '" text-anchor="middle" class="fg">TFPQ, physical productivity (1 = the median firm)</text>';
+    s += '<text transform="translate(14 ' + (mt + ph / 2) + ') rotate(-90)" text-anchor="middle" class="fg">capital and labour used (1 = an equal share)</text>';
+    $("scatter").innerHTML = s + "</svg>";
+  }
+
+  /* ---------- strips: TFPQ, MRPL, MRPK, TFPR ---------- */
+  function strips(cur, meas) {
+    var W = 500, H = 430, ml = 104, mr = 62, mt = 22, rowH = 96, pw = W - ml - mr;
+    var src = meas ? meas.G : cur.G.map(function (g) { return { f: g.f, A: g.f.A, mrpl: g.mrpl, mrpk: g.mrpk, tfpr: g.tfpr }; });
+    var med = median(src.map(function (g) { return g.A; }));
+    var rows = [
+      { k: "TFPQ", sub: meas ? "as recorded" : "technology", v: src.map(function (g) { return g.A / med; }) },
+      { k: "MRPL", sub: "labour wedge", v: src.map(function (g) { return g.mrpl; }) },
+      { k: "MRPK", sub: meas ? "as recorded" : "capital wedge", v: src.map(function (g) { return g.mrpk; }) },
+      { k: "TFPR", sub: meas ? "as recorded" : "both wedges", v: src.map(function (g) { return g.tfpr; }) }
+    ];
+    // MRPL, MRPK and TFPR are relative to the industry average: revenue per unit of each input
+    var lim = 2.2; // log2 range: about ÷4.6 to ×4.6
+    var X = function (v) { var t = Math.log(v) / LX; return ml + pw * (Math.max(-lim, Math.min(lim, t)) + lim) / (2 * lim); };
+    var lab = function (k) { return k === 0 ? "1" : k > 0 ? "×" + Math.pow(2, k) : "÷" + Math.pow(2, -k); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Distribution across firms of TFPQ, MRPL, MRPK and TFPR">';
+    for (var gx = -2; gx <= 2; gx++) s += '<line class="grid" x1="' + X(Math.pow(2, gx)) + '" x2="' + X(Math.pow(2, gx)) + '" y1="' + (mt - 6) + '" y2="' + (mt + 4 * rowH - 18) + '"/><text x="' + X(Math.pow(2, gx)) + '" y="' + (mt + 4 * rowH) + '" text-anchor="middle" class="num">' + lab(gx) + '</text>';
+    rows.forEach(function (r, j) {
+      var yc = mt + j * rowH + 34;
+      s += '<text x="' + (ml - 10) + '" y="' + (yc - 2) + '" text-anchor="end" class="fg" style="font-weight:600">' + r.k + '</text>';
+      s += '<text x="' + (ml - 10) + '" y="' + (yc + 13) + '" text-anchor="end" style="font-size:12.5px">' + r.sub + '</text>';
+      s += '<line x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + (yc + 30) + '" y2="' + (yc + 30) + '" stroke="var(--line)"/>';
+      var idx = r.v.map(function (v, i) { return i; }).sort(function (a, b) { return (a < NS ? 1 : 0) - (b < NS ? 1 : 0); });
+      idx.forEach(function (i) {
+        var soe = i < NS, y = yc + jit[i] * 22;
+        s += '<circle cx="' + X(r.v[i]).toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (soe ? 5 : 4.2) + '" fill="' + (soe ? "var(--state)" : "var(--priv)") + '" fill-opacity="0.85" stroke="var(--panel)" stroke-width="0.8"/>';
+      });
+      var spread = q9010(r.v);
+      s += '<text x="' + (ml + pw + 10) + '" y="' + (yc - 2) + '" class="num fg">90/10</text><text x="' + (ml + pw + 10) + '" y="' + (yc + 13) + '" class="num" style="fill:' + (j > 0 && spread > 1.05 ? "var(--state)" : "var(--fg)") + '">' + spread.toFixed(1) + '×</text>';
+    });
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (H - 6) + '" text-anchor="middle" class="fg">relative to the industry average</text>';
+    $("strips").innerHTML = s + "</svg>";
+    var tS = [], tP = [];
+    src.forEach(function (g) { (g.f.soe ? tS : tP).push(Math.log(g.tfpr)); });
+    var m = function (a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; };
+    var gapT = Math.exp(m(tS) - m(tP)) - 1;
+    var noWedge = Math.abs(gapT) < 0.005 && q9010(rows[3].v) < 1.05;
+    $("stripNote").innerHTML = (meas ? "<b>Capital recorded with errors</b>: TFPQ, MRPK and TFPR as the economist sees them. " : "") +
+      (noWedge ? "Every firm now has the same TFPR: no wedge is left." :
+      "State firms' TFPR is <b style=\"color:var(--state)\">" + Math.abs(100 * gapT).toFixed(0) + "% " + (gapT < 0 ? "lower" : "higher") + "</b> than private firms' on average. Hsieh and Klenow find 41% lower in China's state plants.");
+  }
+
+  function render() {
+    sync();
+    var Fb = firms(boost), cur = solve(Fb, wscale), eff = solve(Fb, 0);
+    var F0 = firms(1), base = solve(F0, wscale);
+    var meas = S.eS > 0.004 || S.eP > 0.004 ? measure(cur) : null;
+    renderStats(cur, eff, meas);
+    renderUpgrade(F0, base, Fb, cur);
+    scatter(cur, eff);
+    strips(cur, meas);
+  }
+  render();
+})();
+</script>
+
+</body></html>
