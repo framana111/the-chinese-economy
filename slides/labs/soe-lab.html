@@ -98,10 +98,10 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
 .names label { display: inline-flex; align-items: center; gap: 6px; }
 .names input { font: inherit; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; width: 11em; }
 .names i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
-.dop { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px; align-items: center; border-color: var(--good); }
+.dop { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px; align-items: center; margin-top: 10px; }
+#dopBox > summary, #prodBox > summary { font-size: 0.95rem; font-weight: 600; }
 .dop .txt { font-size: 0.9rem; }
 .dop svg { width: 100%; height: auto; display: block; }
-#prodBox > summary { font-size: 0.95rem; font-weight: 600; }
 .prod2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 12px; }
 .prod3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
 #surf { touch-action: none; cursor: grab; }
@@ -172,10 +172,6 @@ svg circle[data-i] { cursor: pointer; }
     <div id="upChart"></div>
   </section>
 
-  <section class="panel dop" id="dopPanel" hidden>
-    <div class="txt" id="dopTxt"></div>
-    <div id="dopChart"></div>
-  </section>
 
   <section class="viz">
     <div class="panel chart">
@@ -195,6 +191,14 @@ svg circle[data-i] { cursor: pointer; }
       <div class="sub" id="stripNote" style="margin-top:6px"></div>
     </div>
   </section>
+
+  <details class="panel" id="dopBox">
+    <summary>Where productivity growth comes from: firms that improve, reallocation, entry, exit</summary>
+    <div class="dop">
+      <div class="txt" id="dopTxt"></div>
+      <div id="dopChart"></div>
+    </div>
+  </details>
 
   <details class="panel" id="prodBox">
     <summary>Production: technology, demand and marginal products, firm by firm</summary>
@@ -222,8 +226,8 @@ svg circle[data-i] { cursor: pointer; }
       <li><b>Errors in the data look like wedges.</b> Open "Errors in the data": the true loss stays the same, the measured one rises. Press "Reallocate" with errors on: no wedge is left, yet the economist still measures a loss.</li>
       <li><b>Cheap credit lowers the state firms' MRPK; extra workers lower their MRPL.</b> They hold far more capital than their productivity justifies, and the good private firms are too small.</li>
       <li><b>Licences are a wedge on entry.</b> Press "Introduce licences": some <span class="nlp">private firms</span> may not sell (hollow, at the bottom; how many is under More settings, a third by default). Set it to all of them and the two groups become licence holders and firms without one: rename them. Press "Reallocate": every firm that sells has the same TFPR, yet output is still below its potential. Hsieh and Klenow measure only the firms they see. Then "Remove licences": the excluded firms enter, as in Khandelwal, Schott and Wei (2013).</li>
-      <li><b>Where productivity growth comes from.</b> The green panel splits the change of average TFPQ (weighted by inputs) into four parts: firms that stay get better ("Upgrade"), inputs move among them ("Reallocate"), entry ("Remove licences") and exit ("Fixed cost", under More settings). This is the dynamic Olley-Pakes decomposition of Melitz and Polanec (2015).</li>
-      <li><b>Production, one firm up close</b> (the panel under the charts): the firm's production function, capital against workers for every firm, the demand curve, and for each input the marginal revenue product against the firm's own cost.</li>
+      <li><b>Where productivity growth comes from</b> (the first panel under the charts, closed until you open it). It splits the change of average TFPQ (weighted by inputs) into four parts: firms that stay get better ("Upgrade"), inputs move among them ("Reallocate"), entry ("Remove licences") and exit ("Fixed cost", under More settings). This is the dynamic Olley-Pakes decomposition of Melitz and Polanec (2015).</li>
+      <li><b>Production, one firm up close</b> (the second panel under the charts): the firm's production function, capital against workers for every firm, the demand curve, and for each input the marginal revenue product against the firm's own cost.</li>
       <li><b>Making a favoured firm more productive is not a free lunch.</b> It also pulls capital and workers away from firms where they produce more. In Hsieh and Song's data, with a fixed capital stock, this drag can exceed the gain (2015, Table 8).</li>
     </ul>
     <p class="foot">Model of Hsieh and Klenow (2009) with the labour and capital wedges of Hsieh and Song (2015): one industry, elasticity of substitution σ = 3, capital share α = 1/3, total capital and labour fixed. Firm productivities are drawn once. The 1998 and 2007 presets set the two state-firm wedges so that state firms' output per worker and per unit of capital, relative to private firms, match Hsieh and Song's figures: about 60% and 35% in 1998, 75% and 47% in 2007 (BPEA 2015, pp. 310 and 314). Licences: private firms are left without one in an order drawn once; the licence wedge is not removed by "Reallocate". Fixed cost: firms are dropped one at a time, the smallest first, while their share of sales is below it. Everything else is illustrative.</p>
@@ -390,6 +394,7 @@ svg circle[data-i] { cursor: pointer; }
     inp.addEventListener("input", function () { NAMES[k] = inp.value.trim() || DEFN[k]; applyNames(); render(); });
   });
   $("prodBox").addEventListener("toggle", function () { render(); });
+  $("dopBox").addEventListener("toggle", function () { render(); });
   document.querySelector(".wrap").addEventListener("click", function (e) {
     var t = e.target.closest ? e.target.closest("[data-i]") : null;
     if (t) { sel = +t.getAttribute("data-i"); render(); }
@@ -439,10 +444,10 @@ svg circle[data-i] { cursor: pointer; }
       { lab: "net effect", a: 0, b: total, col: "var(--fg)" }], "Upgrade: direct effect, drag from reallocation, net effect");
   }
   function renderDop(cur) {
+    if (!$("dopBox").open) return;
     var r = dop(base0, snap(cur));
     var show = [r.within, r.realloc, r.entry, r.exit].some(function (v) { return Math.abs(v) > 0.0005; });
-    $("dopPanel").hidden = !show;
-    if (!show) return;
+    if (!show) { $("dopTxt").innerHTML = 'Nothing has changed yet since the start or the last preset. Press "Upgrade", "Reallocate" or the licence button, or move the fixed cost, and this panel splits the change in average productivity into its sources.'; $("dopChart").innerHTML = ""; return; }
     var c = function (v) { return v < 0 ? "var(--state)" : "var(--good)"; };
     $("dopTxt").innerHTML = 'Average TFPQ of the capital and labour in use (each firm weighted by its share of the inputs), since the start or the last preset: <b>' + sg(r.total) + '</b>. ' +
       'Where it comes from, as in Melitz and Polanec (2015), the "dynamic Olley-Pakes" split: firms that stay get better (Upgrade), inputs move among them (Reallocate), firms enter (' + r.nE + '), firms exit (' + r.nX + ').';
