@@ -94,8 +94,20 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
 .notes ul { margin: 12px 0 0; padding-left: 1.1em; display: flex; flex-direction: column; gap: 6px; max-width: 80ch; }
 .foot { color: var(--muted); font-size: 0.8rem; max-width: 80ch; margin: 12px 0 0; }
 
+.names { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; margin-top: 8px; font-size: 0.86rem; color: var(--muted); }
+.names label { display: inline-flex; align-items: center; gap: 6px; }
+.names input { font: inherit; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 3px 8px; width: 11em; }
+.names i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.dop { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px; align-items: center; border-color: var(--good); }
+.dop .txt { font-size: 0.9rem; }
+.dop svg { width: 100%; height: auto; display: block; }
+#prodBox > summary { font-size: 0.95rem; font-weight: 600; }
+.prod2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 12px; }
+.prod3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+#surf { touch-action: none; cursor: grab; }
+svg circle[data-i] { cursor: pointer; }
 @media (max-width: 900px) {
-  .viz, .upgrade { grid-template-columns: minmax(0, 1fr); }
+  .viz, .upgrade, .dop, .prod2, .prod3 { grid-template-columns: minmax(0, 1fr); }
   .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .params { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -105,23 +117,28 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
 <div class="wrap">
   <header>
     <h1>SOE Lab <span class="tag">one industry · 48 firms</span></h1>
-    <p class="lede">Twelve <b class="s">state firms</b> and thirty-six <b class="p">private firms</b> share a fixed amount of capital and labour. The state gives its firms cheap credit and pushes them to keep workers. Inputs go to the wrong firms, marginal products spread out, and output is lost.</p>
+    <p class="lede">Twelve <b class="s nls">state firms</b> and thirty-six <b class="p nlp">private firms</b> share a fixed amount of capital and labour. The state gives its firms cheap credit and pushes them to keep workers. Inputs go to the wrong firms, marginal products spread out, and output is lost.</p>
+    <div class="names">Names of the two groups (type your own):
+      <label><i style="background:var(--state)"></i><input id="names" type="text" maxlength="28" aria-label="Name of the red group"></label>
+      <label><i style="background:var(--priv)"></i><input id="namep" type="text" maxlength="28" aria-label="Name of the blue group"></label>
+    </div>
   </header>
 
   <section class="controls panel">
     <div class="slider">
-      <label for="credit"><span>Cheap credit for state firms</span><span class="val" id="creditV"></span></label>
+      <label for="credit"><span>Cheap credit for <span class="nls">state firms</span></span><span class="val" id="creditV"></span></label>
       <input type="range" id="credit" min="0" max="0.8" step="0.01">
-      <div class="sub">How much less a state firm pays for capital than a private firm.</div>
+      <div class="sub">How much less they pay for capital than <span class="nlp">private firms</span>.</div>
     </div>
     <div class="slider">
       <label for="extra"><span>Pressure to keep workers</span><span class="val" id="extraV"></span></label>
       <input type="range" id="extra" min="0" max="0.7" step="0.01">
-      <div class="sub">State firms hire as if a worker cost this much less: they keep workers they do not need.</div>
+      <div class="sub"><span class="nms">State firms</span> hire as if a worker cost this much less: they keep workers they do not need.</div>
     </div>
     <div class="row">
       <button class="primary" id="realloc" type="button">Reallocate (no wedges)</button>
       <button class="toggle" id="upgrade" type="button" aria-pressed="false">Upgrade state firms +30%</button>
+      <button class="toggle" id="lic" type="button" aria-pressed="false">Introduce licences</button>
       <button id="reset" type="button">Reset</button>
       <span class="sep"></span>
       <span class="sub">China, illustrative:</span>
@@ -130,17 +147,19 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
     <details>
       <summary>More settings</summary>
       <div class="params">
-        <div><label for="constr"><span>Credit constraint, private firms</span><span class="val" id="constrV"></span></label><input type="range" id="constr" min="0" max="0.6" step="0.01"></div>
+        <div><label for="constr"><span>Credit constraint, <span class="nlp">private firms</span></span><span class="val" id="constrV"></span></label><input type="range" id="constr" min="0" max="0.6" step="0.01"></div>
         <div><label for="d"><span>Other frictions (all firms)</span><span class="val" id="dV"></span></label><input type="range" id="d" min="0" max="0.4" step="0.01"></div>
-        <div><label for="gap"><span>State firms' TFPQ gap</span><span class="val" id="gapV"></span></label><input type="range" id="gap" min="0" max="0.7" step="0.01"></div>
+        <div><label for="gap"><span>TFPQ gap, <span class="nls">state firms</span></span><span class="val" id="gapV"></span></label><input type="range" id="gap" min="0" max="0.7" step="0.01"></div>
         <div><label for="sd"><span>How different firms are</span><span class="val" id="sdV"></span></label><input type="range" id="sd" min="0.2" max="0.9" step="0.01"></div>
+        <div><label for="lsh"><span>Without a licence: <span class="nlp">private firms</span></span><span class="val" id="lshV"></span></label><input type="range" id="lsh" min="0" max="1" step="0.01"></div>
+        <div><label for="fc"><span>Fixed cost: firms selling less than this share exit</span><span class="val" id="fcV"></span></label><input type="range" id="fc" min="0" max="0.015" step="0.0005"></div>
       </div>
     </details>
     <details id="errBox">
       <summary>Errors in the data</summary>
       <div class="params">
-        <div><label for="eS"><span>Error in recorded capital, state firms</span><span class="val" id="eSV"></span></label><input type="range" id="eS" min="0" max="0.8" step="0.01"></div>
-        <div><label for="eP"><span>Error in recorded capital, private firms</span><span class="val" id="ePV"></span></label><input type="range" id="eP" min="0" max="0.8" step="0.01"></div>
+        <div><label for="eS"><span>Error in recorded capital, <span class="nls">state firms</span></span><span class="val" id="eSV"></span></label><input type="range" id="eS" min="0" max="0.8" step="0.01"></div>
+        <div><label for="eP"><span>Error in recorded capital, <span class="nlp">private firms</span></span><span class="val" id="ePV"></span></label><input type="range" id="eP" min="0" max="0.8" step="0.01"></div>
         <div class="sub" style="grid-column: span 2">Each firm's capital is recorded with a random error of about this size. Nothing real changes, only what the economist sees: the strips then show the data as recorded.</div>
       </div>
     </details>
@@ -153,13 +172,19 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
     <div id="upChart"></div>
   </section>
 
+  <section class="panel dop" id="dopPanel" hidden>
+    <div class="txt" id="dopTxt"></div>
+    <div id="dopChart"></div>
+  </section>
+
   <section class="viz">
     <div class="panel chart">
       <h2>Who gets the capital and labour</h2>
       <div id="scatter"></div>
       <div class="legend">
-        <span><i style="background:var(--state)"></i>state firm</span>
-        <span><i style="background:var(--priv)"></i>private firm</span>
+        <span><i style="background:var(--state)"></i><span class="nms">State firms</span></span>
+        <span><i style="background:var(--priv)"></i><span class="nmp">Private firms</span></span>
+        <span><i class="ghost" style="border-style:dashed"></i>at the bottom: not selling</span>
         <span><i class="ghost"></i>where it would be without wedges (on the dashed line)</span>
         <label class="chk"><input type="checkbox" id="ghosts" checked> show</label>
       </div>
@@ -170,6 +195,20 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
       <div class="sub" id="stripNote" style="margin-top:6px"></div>
     </div>
   </section>
+
+  <details class="panel" id="prodBox">
+    <summary>Production: technology, demand and marginal products, firm by firm</summary>
+    <p class="sub" id="prodHead" style="margin:8px 0 0"></p>
+    <div class="prod2">
+      <div class="chart"><h2>The production function of one firm</h2><div id="surf"></div><div class="sub" id="surfNote"></div></div>
+      <div class="chart"><h2>Capital and workers, firm by firm</h2><div id="kl"></div><div class="sub">Each dot is a firm. On the dashed diagonal a firm has the same capital per worker as the whole industry: without wedges every firm is on it (hollow dots). Above it, too much capital per worker; further along it, a bigger firm. The dashed line through the chosen firm ("same output"): all the mixes of capital and workers that give it the same output.</div></div>
+    </div>
+    <div class="prod3">
+      <div class="chart"><h2>Demand: one curve for all</h2><div id="dem"></div><div class="sub">To sell more, a firm must cut its price (σ = 3). Every firm sits on the same curve.</div></div>
+      <div class="chart"><h2>Workers</h2><div id="slL"></div><div class="sub">Top: more workers, more output, but less and less each time; revenue rises even less, because the price falls. Bottom: what one more worker adds to revenue (MRPL). The firm hires until it equals its own cost of a worker. Hollow dot: where it would stop if it paid what everybody pays, holding its capital.</div></div>
+      <div class="chart"><h2>Capital</h2><div id="slK"></div><div class="sub">The same for capital (MRPK). Cheap credit lowers the firm's cost line, so it piles up capital until its MRPK is that low.</div></div>
+    </div>
+  </details>
 
   <section class="panel notes">
     <h2>Reading the model</h2>
@@ -182,24 +221,30 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
       <li><b>TFPQ differences are technology; TFPR differences are the wedges.</b> A wedge changes how much a firm uses and sells, and so its price, not what it can make with each unit of input. Press "Reallocate": the TFPQ row does not move, the other three collapse onto one line.</li>
       <li><b>Errors in the data look like wedges.</b> Open "Errors in the data": the true loss stays the same, the measured one rises. Press "Reallocate" with errors on: no wedge is left, yet the economist still measures a loss.</li>
       <li><b>Cheap credit lowers the state firms' MRPK; extra workers lower their MRPL.</b> They hold far more capital than their productivity justifies, and the good private firms are too small.</li>
+      <li><b>Licences are a wedge on entry.</b> Press "Introduce licences": some <span class="nlp">private firms</span> may not sell (hollow, at the bottom; how many is under More settings, a third by default). Set it to all of them and the two groups become licence holders and firms without one: rename them. Press "Reallocate": every firm that sells has the same TFPR, yet output is still below its potential. Hsieh and Klenow measure only the firms they see. Then "Remove licences": the excluded firms enter, as in Khandelwal, Schott and Wei (2013).</li>
+      <li><b>Where productivity growth comes from.</b> The green panel splits the change of average TFPQ (weighted by inputs) into four parts: firms that stay get better ("Upgrade"), inputs move among them ("Reallocate"), entry ("Remove licences") and exit ("Fixed cost", under More settings). This is the dynamic Olley-Pakes decomposition of Melitz and Polanec (2015).</li>
+      <li><b>Production, one firm up close</b> (the panel under the charts): the firm's production function, capital against workers for every firm, the demand curve, and for each input the marginal revenue product against the firm's own cost.</li>
       <li><b>Making a favoured firm more productive is not a free lunch.</b> It also pulls capital and workers away from firms where they produce more. In Hsieh and Song's data, with a fixed capital stock, this drag can exceed the gain (2015, Table 8).</li>
     </ul>
-    <p class="foot">Model of Hsieh and Klenow (2009) with the labour and capital wedges of Hsieh and Song (2015): one industry, elasticity of substitution σ = 3, capital share α = 1/3, total capital and labour fixed. Firm productivities are drawn once. The 1998 and 2007 presets set the two state-firm wedges so that state firms' output per worker and per unit of capital, relative to private firms, match Hsieh and Song's figures: about 60% and 35% in 1998, 75% and 47% in 2007 (BPEA 2015, pp. 310 and 314). Everything else is illustrative.</p>
+    <p class="foot">Model of Hsieh and Klenow (2009) with the labour and capital wedges of Hsieh and Song (2015): one industry, elasticity of substitution σ = 3, capital share α = 1/3, total capital and labour fixed. Firm productivities are drawn once. The 1998 and 2007 presets set the two state-firm wedges so that state firms' output per worker and per unit of capital, relative to private firms, match Hsieh and Song's figures: about 60% and 35% in 1998, 75% and 47% in 2007 (BPEA 2015, pp. 310 and 314). Licences: private firms are left without one in an order drawn once; the licence wedge is not removed by "Reallocate". Fixed cost: firms are dropped one at a time, the smallest first, while their share of sales is below it. Everything else is illustrative.</p>
   </section>
 </div>
 
 <script>
 (function () {
-  var SIG = 3, RHO = (SIG - 1) / SIG, AL = 1 / 3, N = 48, NS = 12, BOOST = 1.3;
-  var DEF = { credit: 0.59, extra: 0.42, constr: 0.2, d: 0.15, gap: 0.4, sd: 0.5, eS: 0, eP: 0 };
+  var SIG = 3, RHO = (SIG - 1) / SIG, AL = 1 / 3, N = 48, NS = 12, BOOST = 1.3, LAMX = 9;
+  var DEF = { credit: 0.59, extra: 0.42, constr: 0.2, d: 0.15, gap: 0.4, sd: 0.5, eS: 0, eP: 0, fc: 0, lsh: 0.34 };
   var PRESETS = [
     { name: "1998", p: { credit: 0.59, extra: 0.42 } },
     { name: "2007", p: { credit: 0.45, extra: 0.27 } },
     { name: "No favours", p: { credit: 0, extra: 0 } }
   ];
-  var S = Object.assign({}, DEF), wscale = 1, boost = 1, upOn = false;
+  var S = Object.assign({}, DEF), wscale = 1, boost = 1, upOn = false, lam = 0, licOn = false;
+  var NAMES = { s: "State firms", p: "Private firms" }, DEFN = { s: "State firms", p: "Private firms" };
   var $ = function (id) { return document.getElementById(id); };
   var pct = function (x) { return (100 * x).toFixed(0) + "%"; };
+  var lc = function (x) { return x.length > 1 && x.charAt(1) === x.charAt(1).toLowerCase() ? x.charAt(0).toLowerCase() + x.slice(1) : x; };
+  var esc = function (x) { return x.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
 
   /* ---------- fixed draws: stratified normal quantiles, shuffled with a seed ---------- */
   function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -217,6 +262,12 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
   var zA = strat(N), zK = strat(N), zL = strat(N), jit = [];
   for (var q = 0; q < N; q++) jit.push(R() * 2 - 1);
   var zM = strat(N); // errors in recorded capital (drawn after the others, so the firms stay the same)
+  // licences: the order in which private firms are left without one, drawn once with its own seed (the other draws do not change)
+  var EXR = [];
+  (function () { var R2 = rng(20261111), p = [], k, j, t; for (k = NS; k < N; k++) p.push(k); for (k = p.length - 1; k > 0; k--) { j = Math.floor(R2() * (k + 1)); t = p[k]; p[k] = p[j]; p[j] = t; }
+    for (k = 0; k < N; k++) EXR.push(99); p.forEach(function (i, r) { EXR[i] = r; }); })();
+  // the firm shown up close: the median state firm by TFPQ
+  var sel = (function () { var s = []; for (var k = 0; k < NS; k++) s.push(k); s.sort(function (x, y) { return zA[x] - zA[y]; }); return s[NS >> 1]; })();
 
   /* ---------- the model ---------- */
   function firms(mult) {
@@ -226,52 +277,84 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
       var A = Math.exp(S.sd * zA[i] + (soe ? Math.log(1 - S.gap) : 0)) * (soe ? mult : 1);
       var cK = (soe ? 1 - S.credit : 1 + S.constr) * Math.exp(S.d * zK[i]);
       var cL = (soe ? 1 - S.extra : 1) * Math.exp(S.d * zL[i]);
-      F.push({ soe: soe, A: A, cK: cK, cL: cL });
+      F.push({ soe: soe, ex: !soe && EXR[i] < Math.round(S.lsh * (N - NS)), A: A, cK: cK, cL: cL });
     }
     return F;
   }
-  // s scales the wedges in logs: 1 = as set, 0 = no wedges
-  function solve(F, s) {
-    var sL = 0, sK = 0, G = F.map(function (f) {
-      var cK = Math.pow(f.cK, s), cL = Math.pow(f.cL, s);
-      var PY = Math.pow(f.A / (Math.pow(cK, AL) * Math.pow(cL, 1 - AL)), SIG - 1);
-      var g = { f: f, l: PY / cL, k: PY / cK }; sL += g.l; sK += g.k; return g;
+  // s scales the wedges in logs (1 = as set, 0 = no wedges); lamv is the licence wedge (log units, firms without a licence only, not
+  // removed by s); fcv is the fixed cost: firms whose share of sales falls below it exit, the smallest first, until none is left below
+  function solve(F, s, lamv, fcv) {
+    var out = F.map(function () { return false; }), G, Y, PYt, Xt;
+    for (var it = 0; it <= N; it++) {
+      var sL = 0, sK = 0, Ys = 0;
+      G = F.map(function (f, i) {
+        var m = f.ex ? Math.exp(lamv) : 1, cK = Math.pow(f.cK, s) * m, cL = Math.pow(f.cL, s) * m;
+        var w = out[i] ? 0 : Math.pow(f.A / (Math.pow(cK, AL) * Math.pow(cL, 1 - AL)), SIG - 1);
+        var g = { f: f, l: w / cL, k: w / cK }; sL += g.l; sK += g.k; return g;
+      });
+      PYt = 0; Xt = 0;
+      G.forEach(function (g) { g.L = g.l / sL; g.K = g.k / sK; g.X = Math.pow(g.K, AL) * Math.pow(g.L, 1 - AL); g.Y = g.f.A * g.X; Ys += Math.pow(g.Y, RHO); });
+      Y = Math.pow(Ys, 1 / RHO);
+      G.forEach(function (g) { g.PY = g.Y > 0 ? Math.pow(Y, 1 / SIG) * Math.pow(g.Y, RHO) : 0; PYt += g.PY; Xt += g.X; });
+      if (!(fcv > 0)) break;
+      var lo = -1;
+      G.forEach(function (g, i) { if (!out[i] && g.PY / PYt < fcv && (lo < 0 || g.PY < G[lo].PY)) lo = i; });
+      if (lo < 0) break;
+      out[lo] = true;
+    }
+    G.forEach(function (g, i) {
+      g.out = out[i]; g.on = !out[i] && g.X / Xt > 1e-4;
+      if (g.on) { g.mrpl = (g.PY / g.L) / PYt; g.mrpk = (g.PY / g.K) / PYt; g.tfpr = (g.PY / g.X) / (PYt / Xt); }
     });
-    var Ys = 0;
-    G.forEach(function (g) { g.L = g.l / sL; g.K = g.k / sK; g.X = Math.pow(g.K, AL) * Math.pow(g.L, 1 - AL); g.Y = g.f.A * g.X; Ys += Math.pow(g.Y, RHO); });
-    var Y = Math.pow(Ys, 1 / RHO), PYt = 0, Xt = 0;
-    G.forEach(function (g) { g.PY = Math.pow(Y, 1 / SIG) * Math.pow(g.Y, RHO); PYt += g.PY; Xt += g.X; });
-    G.forEach(function (g) { g.mrpl = (g.PY / g.L) / PYt; g.mrpk = (g.PY / g.K) / PYt; g.tfpr = (g.PY / g.X) / (PYt / Xt); });
     return { G: G, Y: Y, PY: PYt };
   }
   // what an economist measures when each firm's capital is recorded as K * exp(e * z): Hsieh-Klenow applied to the recorded data
   function measure(cur) {
-    var Ko = cur.G.map(function (g, i) { return g.K * Math.exp((g.f.soe ? S.eS : S.eP) * zM[i]); });
-    var Kt = 0, Xt = 0, sA = 0, Xo = [];
-    cur.G.forEach(function (g, i) { var x = Math.pow(Ko[i], AL) * Math.pow(g.L, 1 - AL); Xo.push(x); Kt += Ko[i]; Xt += x; sA += Math.pow(g.Y / x, SIG - 1); });
-    var G = cur.G.map(function (g, i) { return { f: g.f, A: g.Y / Xo[i], mrpl: g.mrpl, mrpk: (g.PY / Ko[i]) / (cur.PY / Kt), tfpr: (g.PY / Xo[i]) / (cur.PY / Xt) }; });
+    var Kt = 0, Xt = 0, sA = 0, Ko = [], Xo = [];
+    cur.G.forEach(function (g, i) {
+      if (!g.on) { Ko.push(0); Xo.push(0); return; }
+      var k = g.K * Math.exp((g.f.soe ? S.eS : S.eP) * zM[i]), x = Math.pow(k, AL) * Math.pow(g.L, 1 - AL);
+      Ko.push(k); Xo.push(x); Kt += k; Xt += x; sA += Math.pow(g.Y / x, SIG - 1);
+    });
+    var G = cur.G.map(function (g, i) { return g.on ? { f: g.f, on: true, A: g.Y / Xo[i], mrpl: g.mrpl, mrpk: (g.PY / Ko[i]) / (cur.PY / Kt), tfpr: (g.PY / Xo[i]) / (cur.PY / Xt) } : { f: g.f, on: false }; });
     return { G: G, loss: 1 - cur.Y / (Math.pow(sA, 1 / (SIG - 1)) * Math.pow(Kt, AL)) };
   }
   function yWith(F, inputsFrom) { var s = 0; inputsFrom.G.forEach(function (g, i) { s += Math.pow(F[i].A * g.X, RHO); }); return Math.pow(s, 1 / RHO); }
   function ratio(G, key) {
     var n1 = 0, d1 = 0, n0 = 0, d0 = 0;
-    G.forEach(function (g) { if (g.f.soe) { n1 += g.PY; d1 += g[key]; } else { n0 += g.PY; d0 += g[key]; } });
+    G.forEach(function (g) { if (!g.on) return; if (g.f.soe) { n1 += g.PY; d1 += g[key]; } else { n0 += g.PY; d0 += g[key]; } });
     return (n1 / d1) / (n0 / d0);
   }
   function median(a) { var b = a.slice().sort(function (x, y) { return x - y; }); var m = b.length >> 1; return b.length % 2 ? b[m] : (b[m - 1] + b[m]) / 2; }
   function q9010(a) { var b = a.slice().sort(function (x, y) { return x - y; }); var p = function (t) { var k = t * (b.length - 1), lo = Math.floor(k); return b[lo] + (b[Math.min(lo + 1, b.length - 1)] - b[lo]) * (k - lo); }; return p(0.9) / p(0.1); }
 
+  /* ---------- dynamic Olley-Pakes (Melitz and Polanec 2015) on input-weighted log TFPQ ---------- */
+  var base0 = null;
+  function snap(cur) { var t = 0; cur.G.forEach(function (g) { if (g.on) t += g.X; }); return cur.G.map(function (g) { return { A: g.f.A, s: g.on ? g.X / t : 0, on: g.on }; }); }
+  function dop(a, b) {
+    var Sv = [], Ev = [], Xv = [];
+    for (var i = 0; i < N; i++) { if (a[i].on && b[i].on) Sv.push(i); else if (b[i].on) Ev.push(i); else if (a[i].on) Xv.push(i); }
+    var grp = function (sn, idx) { var sh = 0, w = 0, m = 0; idx.forEach(function (i) { sh += sn[i].s; w += sn[i].s * Math.log(sn[i].A); m += Math.log(sn[i].A); }); return { sh: sh, Phi: sh > 0 ? w / sh : 0, mean: idx.length ? m / idx.length : 0 }; };
+    var S1 = grp(a, Sv), S2 = grp(b, Sv), E2 = grp(b, Ev), X1 = grp(a, Xv);
+    var r = { within: S2.mean - S1.mean, realloc: (S2.Phi - S2.mean) - (S1.Phi - S1.mean), entry: E2.sh * (E2.Phi - S2.Phi), exit: X1.sh * (S1.Phi - X1.Phi), nE: Ev.length, nX: Xv.length };
+    r.total = r.within + r.realloc + r.entry + r.exit;
+    return r;
+  }
+
   /* ---------- controls ---------- */
-  var main = ["credit", "extra"], more = ["constr", "d", "gap", "sd"], errs = ["eS", "eP"];
+  var main = ["credit", "extra"], more = ["constr", "d", "gap", "sd", "fc", "lsh"], errs = ["eS", "eP"];
   var errFmt = function (x) { return x < 0.005 ? "none" : "±" + pct(x); };
-  var fmt = { credit: pct, extra: pct, constr: pct, gap: pct, d: function (x) { return x.toFixed(2); }, sd: function (x) { return x.toFixed(2); }, eS: errFmt, eP: errFmt };
+  var fmt = { credit: pct, extra: pct, constr: pct, gap: pct, d: function (x) { return x.toFixed(2); }, sd: function (x) { return x.toFixed(2); }, eS: errFmt, eP: errFmt,
+    fc: function (x) { return x < 0.00025 ? "none" : (100 * x).toFixed(2) + "%"; }, lsh: function (x) { return Math.round(x * (N - NS)) + " of " + (N - NS); } };
   function sync() { main.concat(more, errs).forEach(function (k) { $(k).value = S[k]; $(k + "V").textContent = fmt[k](S[k]); }); }
-  main.concat(more).forEach(function (k) { $(k).addEventListener("input", function (e) { stop(); wscale = 1; S[k] = +e.target.value; render(); }); });
+  // the two policy sliders keep the starting point of the decomposition; the settings below them start it again
+  main.forEach(function (k) { $(k).addEventListener("input", function (e) { stop(); wscale = 1; S[k] = +e.target.value; render(); }); });
+  more.forEach(function (k) { $(k).addEventListener("input", function (e) { stop(); wscale = 1; S[k] = +e.target.value; base0 = null; render(); }); });
   // errors change only what is recorded: they keep the world as it is (also after "Reallocate")
   errs.forEach(function (k) { $(k).addEventListener("input", function (e) { S[k] = +e.target.value; if (!anim) render(); }); });
   PRESETS.forEach(function (pr) {
     var b = document.createElement("button"); b.type = "button"; b.className = "small"; b.textContent = pr.name;
-    b.addEventListener("click", function () { stop(); wscale = 1; Object.assign(S, pr.p); render(); });
+    b.addEventListener("click", function () { stop(); wscale = 1; Object.assign(S, pr.p); base0 = null; render(); });
     $("presets").appendChild(b);
   });
   var anim = null;
@@ -288,79 +371,121 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
     upOn = !upOn; this.setAttribute("aria-pressed", String(upOn));
     tween(function () { return boost; }, function (v) { boost = v; }, upOn ? BOOST : 1, reduce ? 1 : 1400);
   });
-  $("reset").addEventListener("click", function () { stop(); S = Object.assign({}, DEF); wscale = 1; boost = 1; upOn = false; $("upgrade").setAttribute("aria-pressed", "false"); render(); });
+  function licBtn() { $("lic").setAttribute("aria-pressed", String(licOn)); $("lic").textContent = licOn ? "Remove licences" : "Introduce licences"; }
+  $("lic").addEventListener("click", function () {
+    if (!licOn) { stop(); licOn = true; lam = LAMX; base0 = null; licBtn(); render(); }
+    else { licOn = false; licBtn(); tween(function () { return lam; }, function (v) { lam = v; }, 0, reduce ? 1 : 2600); }
+  });
+  $("reset").addEventListener("click", function () { stop(); S = Object.assign({}, DEF); wscale = 1; boost = 1; upOn = false; lam = 0; licOn = false; base0 = null; licBtn(); $("upgrade").setAttribute("aria-pressed", "false"); render(); });
   $("ghosts").addEventListener("change", function () { render(); });
+  function applyNames() {
+    ["s", "p"].forEach(function (k) {
+      document.querySelectorAll(".nm" + k).forEach(function (el) { el.textContent = NAMES[k]; });
+      document.querySelectorAll(".nl" + k).forEach(function (el) { el.textContent = lc(NAMES[k]); });
+    });
+    $("upgrade").textContent = "Upgrade " + lc(NAMES.s) + " +30%";
+  }
+  ["s", "p"].forEach(function (k) {
+    var inp = $("name" + k); inp.value = NAMES[k];
+    inp.addEventListener("input", function () { NAMES[k] = inp.value.trim() || DEFN[k]; applyNames(); render(); });
+  });
+  $("prodBox").addEventListener("toggle", function () { render(); });
+  document.querySelector(".wrap").addEventListener("click", function (e) {
+    var t = e.target.closest ? e.target.closest("[data-i]") : null;
+    if (t) { sel = +t.getAttribute("data-i"); render(); }
+  });
 
-  /* ---------- tiles and upgrade readout ---------- */
-  function renderStats(cur, eff, meas) {
+  /* ---------- tiles, upgrade readout, decomposition ---------- */
+  function renderStats(cur, eff, meas, hk) {
     var loss = 1 - cur.Y / eff.Y;
     var lossD = meas ? 'with these data an economist would measure <b style="color:var(--state)">' + (100 * meas.loss).toFixed(1) + '%</b>' :
+      hk !== null ? 'Hsieh and Klenow, who see only the firms that sell, would measure <b style="color:var(--state)">' + (100 * hk).toFixed(1) + '%</b>' :
       "removing every wedge raises output by +" + (100 * (eff.Y / cur.Y - 1)).toFixed(0) + "%";
     var Ks = 0, Kse = 0;
     cur.G.forEach(function (g) { if (g.f.soe) Ks += g.K; }); eff.G.forEach(function (g) { if (g.f.soe) Kse += g.K; });
-    var apk = ratio(cur.G, "K"), apl = ratio(cur.G, "L");
+    var apk = ratio(cur.G, "K"), apl = ratio(cur.G, "L"), s = esc(lc(NAMES.s)), p = esc(lc(NAMES.p));
     var tiles = [
       { k: "Output lost to misallocation", v: (100 * loss).toFixed(1) + "%", d: lossD, cls: loss > 0.0005 ? "warn" : "" },
-      { k: "Capital held by state firms", v: pct(Ks), d: "without wedges: " + pct(Kse), cls: Ks - Kse > 0.02 ? "warn" : "" },
-      { k: "Output per unit of capital, state ÷ private", v: pct(apk), d: "Hsieh-Song: 35% in 1998, 47% in 2007" },
-      { k: "Output per worker, state ÷ private", v: pct(apl), d: "Hsieh-Song: 60% in 1998, 75% in 2007" }
+      { k: "Capital held by " + s, v: pct(Ks), d: "without wedges: " + pct(Kse), cls: Ks - Kse > 0.02 ? "warn" : "" },
+      { k: "Output per unit of capital, " + s + " ÷ " + p, v: isFinite(apk) ? pct(apk) : "—", d: isFinite(apk) ? "Hsieh-Song: 35% in 1998, 47% in 2007" : "only one group sells" },
+      { k: "Output per worker, " + s + " ÷ " + p, v: isFinite(apl) ? pct(apl) : "—", d: isFinite(apl) ? "Hsieh-Song: 60% in 1998, 75% in 2007" : "only one group sells" }
     ];
     $("stats").innerHTML = tiles.map(function (t) { return '<div class="stat ' + (t.cls || "") + '"><div class="k">' + t.k + '</div><div class="v">' + t.v + '</div><div class="d">' + t.d + '</div></div>'; }).join("");
+  }
+  var sg = function (v) { return (v >= 0 ? "+" : "") + (100 * v).toFixed(1) + "%"; };
+  function bars(rows, label) {
+    var W = 520, rh = 38, H = rows.length * rh + 6, x0 = 150, x1 = W - 64;
+    var vmax = Math.max(0.03, Math.max.apply(null, rows.map(function (r) { return Math.max(Math.abs(r.a), Math.abs(r.b)); }))) * 1.1;
+    var X = function (v) { return x0 + (x1 - x0) * (v + vmax) / (2 * vmax); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + label + '"><line x1="' + X(0) + '" x2="' + X(0) + '" y1="2" y2="' + (H - 2) + '" stroke="var(--line)"/>';
+    rows.forEach(function (r, j) {
+      var y = 6 + j * rh, l = Math.min(X(r.a), X(r.b)), w = Math.abs(X(r.b) - X(r.a)), v = r.b - r.a;
+      s += '<text x="' + (x0 - 10) + '" y="' + (y + 15) + '" text-anchor="end" class="fg">' + r.lab + '</text><rect x="' + l.toFixed(1) + '" y="' + y + '" width="' + Math.max(1, w).toFixed(1) + '" height="20" rx="3" fill="' + r.col + '"/><text x="' + (Math.max(X(r.a), X(r.b)) + 6).toFixed(1) + '" y="' + (y + 15) + '" class="num" style="fill:' + r.col + '">' + sg(v) + '</text>';
+    });
+    return s + "</svg>";
   }
   function renderUpgrade(F0, base, Fb, cur) {
     var show = boost > 1.0001;
     $("upPanel").hidden = !show;
     if (!show) return;
     var direct = yWith(Fb, base) / base.Y - 1, total = cur.Y / base.Y - 1, drag = total - direct;
-    var sh = (100 * (boost - 1)).toFixed(0);
-    var sg = function (v) { return (v >= 0 ? "+" : "") + (100 * v).toFixed(1) + "%"; };
-    $("upTxt").innerHTML = 'The state firms’ TFPQ rises by <b>' + sh + '%</b>. Holding inputs where they were, industry output would rise by <b style="color:var(--good)">' + sg(direct) + '</b>. ' +
-      (drag < -0.0005 ? 'But the upgraded firms also pull capital and workers away from private firms, where they produce more: <b style="color:var(--state)">' + sg(drag) + '</b>. ' :
+    $("upTxt").innerHTML = 'The TFPQ of ' + esc(lc(NAMES.s)) + ' rises by <b>' + (100 * (boost - 1)).toFixed(0) + '%</b>. Holding inputs where they were, industry output would rise by <b style="color:var(--good)">' + sg(direct) + '</b>. ' +
+      (drag < -0.0005 ? 'But the upgraded firms also pull capital and workers away from firms where they produce more: <b style="color:var(--state)">' + sg(drag) + '</b>. ' :
        'Without wedges, moving inputs to the upgraded firms is itself a small gain: <b style="color:var(--good)">' + sg(drag) + '</b>. ') +
       'Net: <b>' + sg(total) + '</b>.';
-    var W = 520, H = 120, x0 = 120, x1 = W - 60, vmax = Math.max(0.05, direct, Math.abs(drag), Math.abs(total)) * 1.1;
-    var X = function (v) { return x0 + (x1 - x0) * (v + vmax) / (2 * vmax); };
-    var bar = function (y, a, b, col, lab, val) {
-      var l = Math.min(X(a), X(b)), w = Math.abs(X(b) - X(a));
-      return '<text x="' + (x0 - 10) + '" y="' + (y + 15) + '" text-anchor="end" class="fg">' + lab + '</text><rect x="' + l.toFixed(1) + '" y="' + y + '" width="' + Math.max(1, w).toFixed(1) + '" height="20" rx="3" fill="' + col + '"/><text x="' + (Math.max(X(a), X(b)) + 6).toFixed(1) + '" y="' + (y + 15) + '" class="num" style="fill:' + col + '">' + (val >= 0 ? "+" : "") + (100 * val).toFixed(1) + '%</text>';
-    };
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Upgrade: direct effect, drag from reallocation, net effect">';
-    s += '<line x1="' + X(0) + '" x2="' + X(0) + '" y1="4" y2="' + (H - 4) + '" stroke="var(--line)"/>';
-    s += bar(8, 0, direct, "var(--good)", "direct gain", direct);
-    s += bar(46, direct, direct + drag, drag < 0 ? "var(--state)" : "var(--good)", "inputs moved", drag);
-    s += bar(84, 0, total, "var(--fg)", "net effect", total);
-    $("upChart").innerHTML = s + "</svg>";
+    $("upChart").innerHTML = bars([
+      { lab: "direct gain", a: 0, b: direct, col: "var(--good)" },
+      { lab: "inputs moved", a: direct, b: direct + drag, col: drag < 0 ? "var(--state)" : "var(--good)" },
+      { lab: "net effect", a: 0, b: total, col: "var(--fg)" }], "Upgrade: direct effect, drag from reallocation, net effect");
+  }
+  function renderDop(cur) {
+    var r = dop(base0, snap(cur));
+    var show = [r.within, r.realloc, r.entry, r.exit].some(function (v) { return Math.abs(v) > 0.0005; });
+    $("dopPanel").hidden = !show;
+    if (!show) return;
+    var c = function (v) { return v < 0 ? "var(--state)" : "var(--good)"; };
+    $("dopTxt").innerHTML = 'Average TFPQ of the capital and labour in use (each firm weighted by its share of the inputs), since the start or the last preset: <b>' + sg(r.total) + '</b>. ' +
+      'Where it comes from, as in Melitz and Polanec (2015), the "dynamic Olley-Pakes" split: firms that stay get better (Upgrade), inputs move among them (Reallocate), firms enter (' + r.nE + '), firms exit (' + r.nX + ').';
+    var acc = 0, rows = [["firms that stay", r.within], ["inputs among them", r.realloc], ["entrants", r.entry], ["exiters", r.exit]].map(function (x) { var o = { lab: x[0], a: acc, b: acc + x[1], col: c(x[1]) }; acc += x[1]; return o; });
+    rows.push({ lab: "total", a: 0, b: r.total, col: "var(--fg)" });
+    $("dopChart").innerHTML = bars(rows, "Decomposition of the change in input-weighted productivity");
   }
 
   /* ---------- scatter: TFPQ vs inputs used ---------- */
   var LX = Math.log(2);
+  var lab2 = function (k) { return k === 0 ? "1" : k > 0 ? "×" + Math.pow(2, k) : "÷" + Math.pow(2, -k); };
+  var col = function (g) { return g.f.soe ? "var(--state)" : "var(--priv)"; };
+  var ring = function (x, y, r) { return '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r + '" fill="none" stroke="var(--fg)" stroke-width="2"/>'; };
+  function dot(x, y, g, i, r, extra) { return '<circle data-i="' + i + '" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r + '" fill="' + col(g) + '" stroke="var(--panel)" stroke-width="1.2"' + (extra || "") + '/>'; }
+  function hollow(x, y, g, i, r) { return '<circle data-i="' + i + '" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + r + '" fill="var(--panel)" stroke="' + col(g) + '" stroke-width="1.6" stroke-dasharray="3 2"/>'; }
   function scatter(cur, eff) {
     var W = 500, H = 430, ml = 58, mr = 12, mt = 12, mb = 52, pw = W - ml - mr, ph = H - mt - mb;
     var med = median(cur.G.map(function (g) { return g.f.A; }));
     var xs = cur.G.map(function (g) { return Math.log(g.f.A / med) / LX; });
-    var ys = cur.G.map(function (g) { return Math.log(g.X * N) / LX; }), ye = eff.G.map(function (g) { return Math.log(g.X * N) / LX; });
+    var ys = cur.G.map(function (g) { return g.on ? Math.log(g.X * N) / LX : -99; }), ye = eff.G.map(function (g) { return g.on ? Math.log(g.X * N) / LX : -99; });
     var xr = [-2.5, 2.5], yr = [-6, 4];
     var X = function (v) { return ml + pw * (Math.max(xr[0], Math.min(xr[1], v)) - xr[0]) / (xr[1] - xr[0]); };
     var Y = function (v) { return mt + ph * (1 - (Math.max(yr[0], Math.min(yr[1], v)) - yr[0]) / (yr[1] - yr[0])); };
-    var lab = function (k) { return k === 0 ? "1" : k > 0 ? "×" + Math.pow(2, k) : "÷" + Math.pow(2, -k); };
     var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Firms by physical productivity and inputs used, with their positions without wedges">';
-    for (var gx = -2; gx <= 2; gx++) { s += '<line class="grid" x1="' + X(gx) + '" x2="' + X(gx) + '" y1="' + mt + '" y2="' + (mt + ph) + '"/><text x="' + X(gx) + '" y="' + (mt + ph + 16) + '" text-anchor="middle" class="num">' + lab(gx) + '</text>'; }
-    for (var gy = -6; gy <= 4; gy += 2) { s += '<line class="grid" x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + Y(gy) + '" y2="' + Y(gy) + '"/><text x="' + (ml - 8) + '" y="' + (Y(gy) + 4) + '" text-anchor="end" class="num">' + lab(gy) + '</text>'; }
+    for (var gx = -2; gx <= 2; gx++) { s += '<line class="grid" x1="' + X(gx) + '" x2="' + X(gx) + '" y1="' + mt + '" y2="' + (mt + ph) + '"/><text x="' + X(gx) + '" y="' + (mt + ph + 16) + '" text-anchor="middle" class="num">' + lab2(gx) + '</text>'; }
+    for (var gy = -6; gy <= 4; gy += 2) { s += '<line class="grid" x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + Y(gy) + '" y2="' + Y(gy) + '"/><text x="' + (ml - 8) + '" y="' + (Y(gy) + 4) + '" text-anchor="end" class="num">' + lab2(gy) + '</text>'; }
     s += '<path class="axis" d="M' + ml + ' ' + mt + 'V' + (mt + ph) + 'H' + (ml + pw) + '"/>';
     // efficient line: inputs ∝ A^(σ-1); fit through the efficient points
-    var c = 0; eff.G.forEach(function (g, i) { c += ye[i] - (SIG - 1) * xs[i]; }); c /= N;
+    var c = 0, nE = 0; eff.G.forEach(function (g, i) { if (g.on) { c += ye[i] - (SIG - 1) * xs[i]; nE++; } }); c /= nE;
     var Yu = function (v) { return mt + ph * (1 - (v - yr[0]) / (yr[1] - yr[0])); };
     s += '<defs><clipPath id="clipS"><rect x="' + ml + '" y="' + mt + '" width="' + pw + '" height="' + ph + '"/></clipPath></defs>';
     s += '<line clip-path="url(#clipS)" x1="' + X(xr[0]) + '" y1="' + Yu(c + (SIG - 1) * xr[0]).toFixed(1) + '" x2="' + X(xr[1]) + '" y2="' + Yu(c + (SIG - 1) * xr[1]).toFixed(1) + '" stroke="var(--muted)" stroke-width="1.4" stroke-dasharray="6 5"/>';
-    var showG = $("ghosts").checked && wscale > 0.02;
+    var showG = $("ghosts").checked && (wscale > 0.02 || lam > 0.05);
     var order = cur.G.map(function (g, i) { return i; }).sort(function (a, b) { return (cur.G[a].f.soe ? 1 : 0) - (cur.G[b].f.soe ? 1 : 0); });
     if (showG) order.forEach(function (i) {
-      s += '<line x1="' + X(xs[i]).toFixed(1) + '" y1="' + Y(ys[i]).toFixed(1) + '" x2="' + X(xs[i]).toFixed(1) + '" y2="' + Y(ye[i]).toFixed(1) + '" stroke="' + (cur.G[i].f.soe ? "var(--state)" : "var(--priv)") + '" stroke-opacity="0.35" stroke-width="1.2"/>';
+      if (!eff.G[i].on) return;
+      if (cur.G[i].on) s += '<line x1="' + X(xs[i]).toFixed(1) + '" y1="' + Y(ys[i]).toFixed(1) + '" x2="' + X(xs[i]).toFixed(1) + '" y2="' + Y(ye[i]).toFixed(1) + '" stroke="' + col(cur.G[i]) + '" stroke-opacity="0.35" stroke-width="1.2"/>';
       s += '<circle cx="' + X(xs[i]).toFixed(1) + '" cy="' + Y(ye[i]).toFixed(1) + '" r="4" fill="none" stroke="var(--muted)" stroke-width="1.2"/>';
     });
     order.forEach(function (i) {
-      var soe = cur.G[i].f.soe;
-      s += '<circle cx="' + X(xs[i]).toFixed(1) + '" cy="' + Y(ys[i]).toFixed(1) + '" r="' + (soe ? 6 : 5) + '" fill="' + (soe ? "var(--state)" : "var(--priv)") + '" stroke="var(--panel)" stroke-width="1.2"/>';
+      var g = cur.G[i];
+      s += g.on ? dot(X(xs[i]), Y(ys[i]), g, i, g.f.soe ? 6 : 5) : hollow(X(xs[i]), Y(yr[0]) - 6, g, i, 5);
+      if (i === sel) s += ring(X(xs[i]), g.on ? Y(ys[i]) : Y(yr[0]) - 6, 10);
     });
     s += '<text x="' + (ml + pw / 2) + '" y="' + (H - 10) + '" text-anchor="middle" class="fg">TFPQ, physical productivity (1 = the median firm)</text>';
     s += '<text transform="translate(14 ' + (mt + ph / 2) + ') rotate(-90)" text-anchor="middle" class="fg">capital and labour used (1 = an equal share)</text>';
@@ -370,56 +495,212 @@ svg .grid { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; fill: n
   /* ---------- strips: TFPQ, MRPL, MRPK, TFPR ---------- */
   function strips(cur, meas) {
     var W = 500, H = 430, ml = 104, mr = 62, mt = 22, rowH = 96, pw = W - ml - mr;
-    var src = meas ? meas.G : cur.G.map(function (g) { return { f: g.f, A: g.f.A, mrpl: g.mrpl, mrpk: g.mrpk, tfpr: g.tfpr }; });
-    var med = median(src.map(function (g) { return g.A; }));
+    var src = meas ? meas.G : cur.G.map(function (g) { return { f: g.f, on: g.on, A: g.f.A, mrpl: g.mrpl, mrpk: g.mrpk, tfpr: g.tfpr }; });
+    var act = []; src.forEach(function (g, i) { if (g.on) act.push(i); });
+    var med = median(act.map(function (i) { return src[i].A; }));
     var rows = [
-      { k: "TFPQ", sub: meas ? "as recorded" : "technology", v: src.map(function (g) { return g.A / med; }) },
-      { k: "MRPL", sub: "labour wedge", v: src.map(function (g) { return g.mrpl; }) },
-      { k: "MRPK", sub: meas ? "as recorded" : "capital wedge", v: src.map(function (g) { return g.mrpk; }) },
-      { k: "TFPR", sub: meas ? "as recorded" : "both wedges", v: src.map(function (g) { return g.tfpr; }) }
+      { k: "TFPQ", sub: meas ? "as recorded" : "technology", key: "A", div: med },
+      { k: "MRPL", sub: "labour wedge", key: "mrpl", div: 1 },
+      { k: "MRPK", sub: meas ? "as recorded" : "capital wedge", key: "mrpk", div: 1 },
+      { k: "TFPR", sub: meas ? "as recorded" : "both wedges", key: "tfpr", div: 1 }
     ];
     // MRPL, MRPK and TFPR are relative to the industry average: revenue per unit of each input
     var lim = 2.2; // log2 range: about ÷4.6 to ×4.6
     var X = function (v) { var t = Math.log(v) / LX; return ml + pw * (Math.max(-lim, Math.min(lim, t)) + lim) / (2 * lim); };
-    var lab = function (k) { return k === 0 ? "1" : k > 0 ? "×" + Math.pow(2, k) : "÷" + Math.pow(2, -k); };
     var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Distribution across firms of TFPQ, MRPL, MRPK and TFPR">';
-    for (var gx = -2; gx <= 2; gx++) s += '<line class="grid" x1="' + X(Math.pow(2, gx)) + '" x2="' + X(Math.pow(2, gx)) + '" y1="' + (mt - 6) + '" y2="' + (mt + 4 * rowH - 18) + '"/><text x="' + X(Math.pow(2, gx)) + '" y="' + (mt + 4 * rowH) + '" text-anchor="middle" class="num">' + lab(gx) + '</text>';
+    for (var gx = -2; gx <= 2; gx++) s += '<line class="grid" x1="' + X(Math.pow(2, gx)) + '" x2="' + X(Math.pow(2, gx)) + '" y1="' + (mt - 6) + '" y2="' + (mt + 4 * rowH - 18) + '"/><text x="' + X(Math.pow(2, gx)) + '" y="' + (mt + 4 * rowH) + '" text-anchor="middle" class="num">' + lab2(gx) + '</text>';
+    var tfprV = [];
     rows.forEach(function (r, j) {
-      var yc = mt + j * rowH + 34;
+      var yc = mt + j * rowH + 34, vals = [];
       s += '<text x="' + (ml - 10) + '" y="' + (yc - 2) + '" text-anchor="end" class="fg" style="font-weight:600">' + r.k + '</text>';
       s += '<text x="' + (ml - 10) + '" y="' + (yc + 13) + '" text-anchor="end" style="font-size:12.5px">' + r.sub + '</text>';
       s += '<line x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + (yc + 30) + '" y2="' + (yc + 30) + '" stroke="var(--line)"/>';
-      var idx = r.v.map(function (v, i) { return i; }).sort(function (a, b) { return (a < NS ? 1 : 0) - (b < NS ? 1 : 0); });
-      idx.forEach(function (i) {
-        var soe = i < NS, y = yc + jit[i] * 22;
-        s += '<circle cx="' + X(r.v[i]).toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (soe ? 5 : 4.2) + '" fill="' + (soe ? "var(--state)" : "var(--priv)") + '" fill-opacity="0.85" stroke="var(--panel)" stroke-width="0.8"/>';
+      act.slice().sort(function (a, b) { return (a < NS ? 1 : 0) - (b < NS ? 1 : 0); }).forEach(function (i) {
+        var v = src[i][r.key] / r.div, y = yc + jit[i] * 22; vals.push(v);
+        s += '<circle data-i="' + i + '" cx="' + X(v).toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + (i < NS ? 5 : 4.2) + '" fill="' + (i < NS ? "var(--state)" : "var(--priv)") + '" fill-opacity="0.85" stroke="var(--panel)" stroke-width="0.8"/>';
+        if (i === sel) s += ring(X(v), y, 8);
       });
-      var spread = q9010(r.v);
+      if (j === 3) tfprV = vals;
+      var spread = q9010(vals);
       s += '<text x="' + (ml + pw + 10) + '" y="' + (yc - 2) + '" class="num fg">90/10</text><text x="' + (ml + pw + 10) + '" y="' + (yc + 13) + '" class="num" style="fill:' + (j > 0 && spread > 1.05 ? "var(--state)" : "var(--fg)") + '">' + spread.toFixed(1) + '×</text>';
     });
     s += '<text x="' + (ml + pw / 2) + '" y="' + (H - 6) + '" text-anchor="middle" class="fg">relative to the industry average</text>';
     $("strips").innerHTML = s + "</svg>";
     var tS = [], tP = [];
-    src.forEach(function (g) { (g.f.soe ? tS : tP).push(Math.log(g.tfpr)); });
+    act.forEach(function (i) { (i < NS ? tS : tP).push(Math.log(src[i].tfpr)); });
     var m = function (a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; };
-    var gapT = Math.exp(m(tS) - m(tP)) - 1;
-    var noWedge = Math.abs(gapT) < 0.005 && q9010(rows[3].v) < 1.05;
+    var gapT = Math.exp(m(tS) - m(tP)) - 1, nOut = N - act.length;
+    var noWedge = Math.abs(gapT) < 0.005 && q9010(tfprV) < 1.05;
     $("stripNote").innerHTML = (meas ? "<b>Capital recorded with errors</b>: TFPQ, MRPK and TFPR as the economist sees them. " : "") +
-      (noWedge ? "Every firm now has the same TFPR: no wedge is left." :
-      "State firms' TFPR is <b style=\"color:var(--state)\">" + Math.abs(100 * gapT).toFixed(0) + "% " + (gapT < 0 ? "lower" : "higher") + "</b> than private firms' on average. Hsieh and Klenow find 41% lower in China's state plants.");
+      (noWedge ? "Every firm that sells now has the same TFPR: no wedge is left among them. " :
+      esc(NAMES.s) + "’ TFPR is <b style=\"color:var(--state)\">" + Math.abs(100 * gapT).toFixed(0) + "% " + (gapT < 0 ? "lower" : "higher") + "</b> than " + esc(lc(NAMES.p)) + "’ on average. Hsieh and Klenow find 41% lower in China's state plants. ") +
+      (nOut > 0 ? "<b>" + nOut + " firms do not sell</b> and do not appear here: the data, and Hsieh and Klenow, cannot see them." : "");
   }
 
+  /* ---------- production, one firm up close ---------- */
+  var view = { az: -0.75, el: 0.5 };
+  var fx = function (v) { return v >= 10 ? v.toFixed(0) : v >= 1 ? v.toFixed(1) : v.toFixed(2); };
+  function surface(cur, eff) {
+    var g = cur.G[sel], ge = eff.G[sel], A = g.f.A, Amed = median(cur.G.map(function (h) { return h.f.A; }));
+    var W = 500, H = 400, sc = 250, cx = W / 2 - 10, cy = H - 120;
+    var Lc = g.L * N, Kc = g.K * N, Le = ge.on ? ge.L * N : 0, Ke = ge.on ? ge.K * N : 0;
+    var m = 1.5 * Math.max(g.on ? Math.max(Lc, Kc) : 0, Le, Ke, 1e-6), zmax = Math.max(A, Amed) * m;
+    var ca = Math.cos(view.az), sa = Math.sin(view.az), ce = Math.cos(view.el), se = Math.sin(view.el);
+    var P = function (u, v, w) { var x = u - 0.5, y = v - 0.5, x1 = x * ca - y * sa, y1 = x * sa + y * ca; return [cx + sc * x1, cy - sc * (0.8 * w * ce + y1 * se)]; };
+    var pt = function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); };
+    var z = function (a, u, v) { return a * Math.pow(v * m, AL) * Math.pow(u * m, 1 - AL) / zmax; };
+    var mesh = function (a, stroke, op, dash) {
+      var s = "", n = 10, k, j, d;
+      for (k = 0; k <= n; k++) {
+        d = ""; for (j = 0; j <= 24; j++) d += (j ? "L" : "M") + pt(P(j / 24, k / n, z(a, j / 24, k / n)));
+        s += '<path d="' + d + '" fill="none" stroke="' + stroke + '" stroke-opacity="' + op + '" stroke-width="1"' + (dash ? ' stroke-dasharray="3 3"' : "") + '/>';
+        d = ""; for (j = 0; j <= 24; j++) d += (j ? "L" : "M") + pt(P(k / n, j / 24, z(a, k / n, j / 24)));
+        s += '<path d="' + d + '" fill="none" stroke="' + stroke + '" stroke-opacity="' + op + '" stroke-width="1"' + (dash ? ' stroke-dasharray="3 3"' : "") + '/>';
+      }
+      return s;
+    };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Production function of the selected firm, output over capital and workers">';
+    s += '<path d="M' + pt(P(0, 0, 0)) + 'L' + pt(P(1, 0, 0)) + 'L' + pt(P(1, 1, 0)) + 'L' + pt(P(0, 1, 0)) + 'Z" fill="var(--bg)" stroke="var(--line)"/>';
+    s += '<path d="M' + pt(P(0, 0, 0)) + 'L' + pt(P(1, 1, 0)) + '" stroke="var(--muted)" stroke-dasharray="6 5" stroke-width="1.2"/>';
+    if (Math.abs(A / Amed - 1) > 0.03) s += mesh(Amed, "var(--muted)", 0.45, true);
+    s += mesh(A, col(g), 0.55, false);
+    var axis = function (a, b, t) { var p = P(a[0], a[1], a[2]), q = P(b[0], b[1], b[2]); return '<path d="M' + pt(p) + 'L' + pt(q) + '" stroke="var(--fg)" stroke-width="1.4"/><text x="' + q[0].toFixed(1) + '" y="' + (q[1] - 6).toFixed(1) + '" text-anchor="middle" class="fg">' + t + '</text>'; };
+    s += axis([0, 0, 0], [1.12, 0, 0], "workers") + axis([0, 0, 0], [0, 1.12, 0], "capital") + axis([0, 0, 0], [0, 0, 1.08], "output");
+    var mark = function (L, K, filled) {
+      var u = L / m, v = K / m, w = z(A, u, v), p = P(u, v, w), f = P(u, v, 0);
+      return '<path d="M' + pt(p) + 'L' + pt(f) + '" stroke="' + col(g) + '" stroke-dasharray="2 3"/><circle cx="' + f[0].toFixed(1) + '" cy="' + f[1].toFixed(1) + '" r="3" fill="var(--muted)"/>' +
+        '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="7" fill="' + (filled ? col(g) : "var(--panel)") + '" stroke="' + (filled ? "var(--panel)" : "var(--fg)") + '" stroke-width="1.6"/>';
+    };
+    if (ge.on) s += mark(Le, Ke, false);
+    if (g.on) s += mark(Lc, Kc, true);
+    $("surf").innerHTML = s + "</svg>";
+    $("surfNote").innerHTML = "Drag to turn it. Filled dot: where the firm is now; hollow dot: where it would be without wedges. The dashed diagonal on the floor is the same capital per worker as the industry." +
+      (Math.abs(A / Amed - 1) > 0.03 ? " Dashed grey surface: the median firm. TFPQ ×" + fx(A / Amed) + " makes this surface " + (A > Amed ? "taller" : "lower") + " by that factor everywhere." : "");
+  }
+  function klPlane(cur, eff) {
+    var W = 500, H = 400, ml = 58, mr = 12, mt = 12, mb = 52, pw = W - ml - mr, ph = H - mt - mb, r0 = [-7, 5];
+    var X = function (v) { return ml + pw * (Math.max(r0[0], Math.min(r0[1], v)) - r0[0]) / (r0[1] - r0[0]); };
+    var Y = function (v) { return mt + ph * (1 - (Math.max(r0[0], Math.min(r0[1], v)) - r0[0]) / (r0[1] - r0[0])); };
+    var lg = function (v) { return Math.log(v * N) / LX; };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Firms by workers and capital used">';
+    for (var k = -6; k <= 4; k += 2) {
+      s += '<line class="grid" x1="' + X(k) + '" x2="' + X(k) + '" y1="' + mt + '" y2="' + (mt + ph) + '"/><text x="' + X(k) + '" y="' + (mt + ph + 16) + '" text-anchor="middle" class="num">' + lab2(k) + '</text>';
+      s += '<line class="grid" x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + Y(k) + '" y2="' + Y(k) + '"/><text x="' + (ml - 8) + '" y="' + (Y(k) + 4) + '" text-anchor="end" class="num">' + lab2(k) + '</text>';
+    }
+    s += '<path class="axis" d="M' + ml + ' ' + mt + 'V' + (mt + ph) + 'H' + (ml + pw) + '"/>';
+    s += '<defs><clipPath id="clipK"><rect x="' + ml + '" y="' + mt + '" width="' + pw + '" height="' + ph + '"/></clipPath></defs>';
+    s += '<line clip-path="url(#clipK)" x1="' + X(r0[0]) + '" y1="' + Y(r0[0]) + '" x2="' + X(r0[1]) + '" y2="' + Y(r0[1]) + '" stroke="var(--muted)" stroke-width="1.4" stroke-dasharray="6 5"/>';
+    s += '<text x="' + X(4.6) + '" y="' + Y(-5.2) + '" text-anchor="end" class="fg" style="font-size:12.5px">dashed: same capital per worker</text><text x="' + X(4.6) + '" y="' + (Y(-5.2) + 15) + '" text-anchor="end" class="fg" style="font-size:12.5px">as the whole industry</text>';
+    var g = cur.G[sel];
+    if (g.on) { // isoquant through the selected firm: (1 - α) log L + α log K constant, slope -(1 - α)/α
+      var lx = lg(g.L), ky = lg(g.K), sl = -(1 - AL) / AL;
+      s += '<line clip-path="url(#clipK)" x1="' + X(lx - 1.6).toFixed(1) + '" y1="' + Y(ky - sl * 1.6).toFixed(1) + '" x2="' + X(lx + 1.6).toFixed(1) + '" y2="' + Y(ky + sl * 1.6).toFixed(1) + '" stroke="' + col(g) + '" stroke-width="1.6" stroke-dasharray="4 3"/>';
+      s += '<text x="' + (X(lx + 1.6) + 4).toFixed(1) + '" y="' + (Y(ky + sl * 1.6) + 4).toFixed(1) + '" style="font-size:12px;fill:' + col(g) + '">same output</text>';
+    }
+    var showG = $("ghosts").checked && (wscale > 0.02 || lam > 0.05);
+    cur.G.forEach(function (h, i) {
+      var e = eff.G[i];
+      if (showG && e.on) {
+        if (h.on) s += '<line x1="' + X(lg(h.L)).toFixed(1) + '" y1="' + Y(lg(h.K)).toFixed(1) + '" x2="' + X(lg(e.L)).toFixed(1) + '" y2="' + Y(lg(e.K)).toFixed(1) + '" stroke="' + col(h) + '" stroke-opacity="0.3" stroke-width="1.1"/>';
+        s += '<circle cx="' + X(lg(e.L)).toFixed(1) + '" cy="' + Y(lg(e.K)).toFixed(1) + '" r="4" fill="none" stroke="var(--muted)" stroke-width="1.2"/>';
+      }
+    });
+    cur.G.forEach(function (h, i) { if (h.on && !h.f.soe) s += dot(X(lg(h.L)), Y(lg(h.K)), h, i, 5); });
+    cur.G.forEach(function (h, i) { if (h.on && h.f.soe) s += dot(X(lg(h.L)), Y(lg(h.K)), h, i, 6); });
+    if (g.on) s += ring(X(lg(g.L)), Y(lg(g.K)), 10);
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (H - 10) + '" text-anchor="middle" class="fg">workers (1 = an equal share)</text>';
+    s += '<text transform="translate(14 ' + (mt + ph / 2) + ') rotate(-90)" text-anchor="middle" class="fg">capital (1 = an equal share)</text>';
+    $("kl").innerHTML = s + "</svg>";
+  }
+  function demand(cur) {
+    var act = cur.G.filter(function (g) { return g.on; });
+    var Ym = median(act.map(function (g) { return g.Y; })), Pm = median(act.map(function (g) { return g.PY / g.Y; }));
+    var lq = act.map(function (g) { return Math.log(g.Y / Ym) / LX; }), lo = Math.floor(Math.min.apply(null, lq)) - 1, hi = Math.ceil(Math.max.apply(null, lq)) + 1;
+    lo -= (lo % 2 + 2) % 2; hi += (hi % 2 + 2) % 2;
+    var W = 340, H = 330, ml = 46, mr = 12, mt = 12, mb = 48, pw = W - ml - mr, ph = H - mt - mb, xr = [lo, hi], yr = [0, Math.ceil(Math.pow(2, -lo / SIG) * 1.05)];
+    var X = function (v) { return ml + pw * (Math.max(xr[0], Math.min(xr[1], v)) - xr[0]) / (xr[1] - xr[0]); };
+    var Y = function (v) { return mt + ph * (1 - (Math.max(yr[0], Math.min(yr[1], v)) - yr[0]) / (yr[1] - yr[0])); };
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Demand: price against quantity, every firm on the same curve">';
+    for (var k = lo; k <= hi; k += (hi - lo > 12 ? 4 : 2)) s += '<line class="grid" x1="' + X(k) + '" x2="' + X(k) + '" y1="' + mt + '" y2="' + (mt + ph) + '"/><text x="' + X(k) + '" y="' + (mt + ph + 16) + '" text-anchor="middle" class="num">' + lab2(k) + '</text>';
+    for (var p = 1; p <= yr[1]; p += (yr[1] > 6 ? 2 : 1)) s += '<line class="grid" x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + Y(p) + '" y2="' + Y(p) + '"/><text x="' + (ml - 6) + '" y="' + (Y(p) + 4) + '" text-anchor="end" class="num">' + p + '</text>';
+    s += '<path class="axis" d="M' + ml + ' ' + mt + 'V' + (mt + ph) + 'H' + (ml + pw) + '"/>';
+    var d = ""; for (var j = 0; j <= 60; j++) { var x = xr[0] + (xr[1] - xr[0]) * j / 60; d += (j ? "L" : "M") + X(x).toFixed(1) + " " + Y(Math.pow(2, -x / SIG)).toFixed(1); }
+    s += '<path d="' + d + '" fill="none" stroke="var(--fg)" stroke-width="2"/>';
+    cur.G.forEach(function (g, i) { if (g.on) s += dot(X(Math.log(g.Y / Ym) / LX), Y((g.PY / g.Y) / Pm), g, i, g.f.soe ? 5.5 : 4.5); });
+    var g = cur.G[sel]; if (g.on) s += ring(X(Math.log(g.Y / Ym) / LX), Y((g.PY / g.Y) / Pm), 9);
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (H - 10) + '" text-anchor="middle" class="fg">quantity sold (1 = the median firm)</text>';
+    s += '<text transform="translate(12 ' + (mt + ph / 2) + ') rotate(-90)" text-anchor="middle" class="fg">price (1 = the median firm)</text>';
+    $("dem").innerHTML = s + "</svg>";
+  }
+  // one input at a time, the other held where it is; aggregate output and the price index held fixed (the firm is small)
+  function slice(cur, which) {
+    var g = cur.G[sel], id = which === "L" ? "slL" : "slK";
+    if (!g.on) { $(id).innerHTML = '<p class="sub">This firm does not sell now. Remove the licences, or pick another firm.</p>'; return; }
+    var e = which === "L" ? (1 - AL) * RHO : AL * RHO, ex = which === "L" ? 1 - AL : AL, xi = (which === "L" ? g.L : g.K) * N, mrp = which === "L" ? g.mrpl : g.mrpk;
+    var xs = xi * Math.pow(mrp, 1 / (1 - e)), xmax = 1.6 * Math.max(xi, xs);
+    var W = 340, H = 430, ml = 46, mr = 14, pw = W - ml - mr, t0 = 12, th = 140, b0 = 196, bh = 170;
+    var X = function (v) { return ml + pw * v / xmax; };
+    var yT = Math.max(1, Math.pow(xmax / xi, ex)) * 1.08, YT = function (v) { return t0 + th * (1 - Math.min(v, yT) / yT); };
+    var yB = 2.6 * Math.max(mrp, 1), YB = function (v) { return b0 + bh * (1 - Math.min(v, yB) / yB); };
+    var name = which === "L" ? "workers" : "capital", mname = which === "L" ? "MRPL" : "MRPK", cost = which === "L" ? "its cost of a worker" : "its cost of capital";
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Output, revenue and marginal revenue product of ' + name + ' for the selected firm">';
+    var curve = function (f, Yf) { var d = ""; for (var j = 1; j <= 60; j++) { var x = xmax * j / 60; d += (j > 1 ? "L" : "M") + X(x).toFixed(1) + " " + Yf(f(x)).toFixed(1); } return d; };
+    s += '<path class="axis" d="M' + ml + ' ' + t0 + 'V' + (t0 + th) + 'H' + (ml + pw) + '"/><path class="axis" d="M' + ml + ' ' + b0 + 'V' + (b0 + bh) + 'H' + (ml + pw) + '"/>';
+    s += '<path d="' + curve(function (x) { return Math.pow(x / xi, ex); }, YT) + '" fill="none" stroke="var(--fg)" stroke-width="2"/>';
+    s += '<path d="' + curve(function (x) { return Math.pow(x / xi, e); }, YT) + '" fill="none" stroke="var(--good)" stroke-width="2"/>';
+    var xl = 0.3 * xi;
+    s += '<text x="' + X(xl).toFixed(1) + '" y="' + (YT(Math.pow(xl / xi, e)) - 8).toFixed(1) + '" style="font-size:12.5px;fill:var(--good)">revenue: price falls</text>';
+    s += '<text x="' + (X(xl) + 8).toFixed(1) + '" y="' + (YT(Math.pow(xl / xi, ex)) + 18).toFixed(1) + '" class="fg" style="font-size:12.5px">output</text>';
+    s += '<text x="' + (ml - 6) + '" y="' + (YT(1) + 4).toFixed(1) + '" text-anchor="end" class="num">1</text>';
+    s += '<line class="grid" x1="' + ml + '" x2="' + X(xi).toFixed(1) + '" y1="' + YT(1).toFixed(1) + '" y2="' + YT(1).toFixed(1) + '"/>';
+    s += '<circle cx="' + X(xi).toFixed(1) + '" cy="' + YT(1).toFixed(1) + '" r="5" fill="' + col(g) + '"/>';
+    s += '<text x="' + (ml + 4) + '" y="' + (t0 + 12) + '" style="font-size:12.5px">today = 1</text>';
+    // bottom: the marginal revenue product falls; the firm stops where it meets its own cost
+    s += '<path d="' + curve(function (x) { return mrp * Math.pow(x / xi, e - 1); }, YB) + '" fill="none" stroke="var(--fg)" stroke-width="2"/>';
+    s += '<line x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + YB(1).toFixed(1) + '" y2="' + YB(1).toFixed(1) + '" stroke="var(--muted)" stroke-width="1.4" stroke-dasharray="6 5"/>';
+    s += '<text x="' + (ml + 6) + '" y="' + (YB(1) + (mrp < 1 ? -5 : 15)).toFixed(1) + '" style="font-size:12.5px">same cost for all</text>';
+    if (Math.abs(mrp - 1) > 0.02) {
+      s += '<line x1="' + ml + '" x2="' + (ml + pw) + '" y1="' + YB(mrp).toFixed(1) + '" y2="' + YB(mrp).toFixed(1) + '" stroke="' + col(g) + '" stroke-width="1.6"/>';
+      s += '<text x="' + (ml + 6) + '" y="' + (YB(mrp) + (mrp < 1 ? 15 : -5)).toFixed(1) + '" style="font-size:12.5px;fill:' + col(g) + '">' + cost + '</text>';
+      s += '<circle cx="' + X(xs).toFixed(1) + '" cy="' + YB(1).toFixed(1) + '" r="6" fill="var(--panel)" stroke="var(--fg)" stroke-width="1.6"/>';
+    }
+    s += '<circle cx="' + X(xi).toFixed(1) + '" cy="' + YB(mrp).toFixed(1) + '" r="6" fill="' + col(g) + '" stroke="var(--panel)" stroke-width="1.2"/>';
+    s += '<text x="' + (ml + pw - 2) + '" y="' + (b0 + 12) + '" text-anchor="end" class="fg" style="font-size:12.5px">' + mname + ' of this firm</text>';
+    s += '<text x="' + (ml - 6) + '" y="' + (YB(1) + 4).toFixed(1) + '" text-anchor="end" class="num">1</text>';
+    s += '<text x="' + (ml + pw / 2) + '" y="' + (H - 12) + '" text-anchor="middle" class="fg">' + name + ' (1 = an equal share)</text>';
+    $(id).innerHTML = s + "</svg>";
+  }
+  function production(cur, eff) {
+    var g = cur.G[sel], Amed = median(cur.G.map(function (h) { return h.f.A; }));
+    $("prodHead").innerHTML = '<b style="color:' + col(g) + '">' + esc(g.f.soe ? NAMES.s : NAMES.p) + ', firm ' + (sel + 1) + '</b>: TFPQ ×' + fx(g.f.A / Amed) + ' the median firm' +
+      (g.on ? ', ' + fx(g.L * N) + ' times an equal share of workers and ' + fx(g.K * N) + ' of capital' : ', not selling now') + (g.f.ex && lam > 0.05 ? ' (no licence)' : '') + '. Click any firm, in any chart, to look at it.';
+    surface(cur, eff); klPlane(cur, eff); demand(cur); slice(cur, "L"); slice(cur, "K");
+  }
+  // drag to turn the surface
+  (function () {
+    var box = $("surf"), drag = null;
+    box.addEventListener("pointerdown", function (e) { drag = { x: e.clientX, y: e.clientY, az: view.az, el: view.el }; if (box.setPointerCapture) box.setPointerCapture(e.pointerId); });
+    box.addEventListener("pointermove", function (e) { if (!drag) return; view.az = drag.az + (e.clientX - drag.x) * 0.01; view.el = Math.max(0.05, Math.min(1.45, drag.el + (e.clientY - drag.y) * 0.01)); if (last) surface(last.cur, last.eff); });
+    ["pointerup", "pointercancel"].forEach(function (t) { box.addEventListener(t, function () { drag = null; }); });
+  })();
+
+  var last = null;
   function render() {
-    sync();
-    var Fb = firms(boost), cur = solve(Fb, wscale), eff = solve(Fb, 0);
-    var F0 = firms(1), base = solve(F0, wscale);
+    sync(); applyNames();
+    var Fb = firms(boost), cur = solve(Fb, wscale, lam, S.fc), eff = solve(Fb, 0, 0, S.fc);
+    var F0 = firms(1), base = solve(F0, wscale, lam, S.fc);
     var meas = S.eS > 0.004 || S.eP > 0.004 ? measure(cur) : null;
-    renderStats(cur, eff, meas);
+    var hk = lam > 0.05 ? 1 - cur.Y / solve(Fb, 0, lam, S.fc).Y : null;
+    if (!base0) base0 = snap(cur);
+    renderStats(cur, eff, meas, hk);
     renderUpgrade(F0, base, Fb, cur);
+    renderDop(cur);
     scatter(cur, eff);
     strips(cur, meas);
+    last = { cur: cur, eff: eff };
+    if ($("prodBox").open) production(cur, eff);
   }
-  render();
+  licBtn(); render();
 })();
 </script>
 
