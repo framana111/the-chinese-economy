@@ -254,7 +254,7 @@
 </ul>
 </div>
 
-<p class="fragment" style="font-size:.5em;margin-top:1em;opacity:.85">Melitz Lab, on the right: press <strong>Closed</strong>, then <strong>Join the WTO</strong>. Then <strong>Trade war</strong></p>
+<p class="fragment" style="font-size:.5em;margin-top:1em;opacity:.85"><a href="labs/melitz-lab.html" target="_blank" style="color:#8ab4f8">Melitz Lab</a>, on the right: press <strong>Closed</strong>, then <strong>Join the WTO</strong>. Then <strong>Trade war</strong></p>
 
 ---
 
@@ -459,7 +459,7 @@
 
 <ul style="font-size:.52em">
 <li><strong>January 2021</strong>: the UK leaves the EU single market. Tariffs stay at <strong>zero</strong>. But every shipment now needs customs forms, proof of origin, checks</li>
-<li class="fragment">In the lab: press <strong>Open</strong>, then move <strong>only f<sub>X</sub></strong>, the fixed cost of exporting, from 1.5 to 3. Leave τ alone</li>
+<li class="fragment">In the <a href="labs/melitz-lab.html" target="_blank" style="color:#8ab4f8">Melitz Lab</a>: press <strong>Open</strong>, then move <strong>only f<sub>X</sub></strong>, the fixed cost of exporting, from 1.5 to 3. Leave τ alone</li>
 <li class="fragment">Answer, with the lab and today's slides:
 <ol style="margin-top:.2em">
 <li>Who stops exporting? Who keeps exporting?</li>
