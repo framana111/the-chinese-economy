@@ -1,0 +1,18 @@
+{
+  "iphone-back.jpg": {
+    "title": "IPhone 5s (model A1457)-3321.jpg",
+    "author": "Raimond Spekking",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:IPhone_5s_(model_A1457)-3321.jpg",
+    "date": "2021-08-19",
+    "changes": "cropped to the engraved text, IMEI line removed, resized to 900 px"
+  },
+  "granlund-take-that-china.jpg": {
+    "title": "Take that, China! (trade war)",
+    "author": "Dave Granlund",
+    "source": "PoliticalCartoons.com (via Francesco's 2024 slides, policies to support Firm internationalization_UniGE_202411_v3.pptm)",
+    "license": "copyrighted, not verified for public use",
+    "note": "classroom use; check before publishing the deck"
+  }
+}
