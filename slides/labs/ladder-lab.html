@@ -1,0 +1,260 @@
+<!-- Standalone copy of artefatti-chat/44-ladder-lab.html for lectures 10-11. Edit the source, then re-copy. -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;font-size:14px}[hidden]{display:none!important}img{max-width:100%}</style></head><body>
+<title>Ladder Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Ladder Lab (lectures 10-11, written 19/11 night; on the public site since 23/11, Francesco's go, as slides/labs/ladder-lab.html).
+   Panel A: Acemoglu, Aghion and Zilibotti (2006), imitation or innovation, exact model with illustrative parameters (ricognizione, section D).
+   Panel B: a quality ladder in the spirit of Aghion-Howitt (1992), entrants vs incumbents, with relabelled R&D (Chen et al. 2021: 24.2%).
+   Style and layout from the Melitz and SOE labs: half of the classroom screen, next to the slides. */
+:root {
+  --bg: #f4f3f0; --panel: #ffffff; --fg: #1d1f24; --muted: #5d6270; --line: #d9d6cf;
+  --imi: #1f6f9f; --imi-soft: rgba(31, 111, 159, 0.16); --inn: #d98c0a; --inn-ink: #a66100; --inn-soft: rgba(217, 140, 10, 0.18);
+  --sw: #6b4fa0; --grey: #9aa0aa; --good: #2f7d4a; --bad: #c0392b;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15161a; --panel: #1e2026; --fg: #e8e9ec; --muted: #a0a5b1; --line: #353843;
+    --imi: #6cb8e6; --imi-soft: rgba(108, 184, 230, 0.2); --inn: #f2a93b; --inn-ink: #f5b95a; --inn-soft: rgba(242, 169, 59, 0.2);
+    --sw: #b9a2e8; --grey: #7d838e; --good: #7fcf98; --bad: #ff7b6b; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15161a; --panel: #1e2026; --fg: #e8e9ec; --muted: #a0a5b1; --line: #353843;
+  --imi: #6cb8e6; --imi-soft: rgba(108, 184, 230, 0.2); --inn: #f2a93b; --inn-ink: #f5b95a; --inn-soft: rgba(242, 169, 59, 0.2);
+  --sw: #b9a2e8; --grey: #7d838e; --good: #7fcf98; --bad: #ff7b6b; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; padding-inline: 16px; padding-block: 20px 44px; margin: 0; }
+.wrap { max-width: 1180px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
+h1 { font-size: 1.6rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+h1 .tag { font-size: 0.8rem; font-weight: 500; color: var(--muted); letter-spacing: 0.04em; margin-left: 8px; }
+.lede { color: var(--muted); margin: 2px 0 0; max-width: 75ch; }
+h2 { font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 8px; }
+h3 { font-size: 1.1rem; margin: 0 0 4px; text-wrap: balance; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+.slider label { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-weight: 500; }
+.slider .val { font-family: var(--font-num); font-size: 1.1rem; white-space: nowrap; }
+input[type="range"] { width: 100%; margin: 8px 0 2px; accent-color: var(--sw); }
+.sub { color: var(--muted); font-size: 0.84rem; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button { font: inherit; font-size: 0.88rem; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+button:hover { border-color: var(--muted); }
+button.on { background: var(--sw); border-color: var(--sw); color: #fff; }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.tile { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+.tile b { display: block; font-family: var(--font-num); font-size: 1.35rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.tile span { color: var(--muted); font-size: 0.8rem; }
+svg.chart { width: 100%; height: auto; display: block; }
+svg.chart text { font-family: var(--font-ui); font-size: 12px; fill: var(--muted); }
+svg.chart .axis { stroke: var(--line); stroke-width: 1; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.82rem; color: var(--muted); }
+.legend i { display: inline-block; width: 22px; height: 0; border-top: 3px solid; vertical-align: middle; margin-right: 6px; }
+.ladder { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; }
+.cell { border: 1px solid var(--line); border-radius: 6px; height: 64px; position: relative; overflow: hidden; background: var(--bg); }
+.cell i { position: absolute; left: 0; right: 0; bottom: 0; background: var(--grey); opacity: 0.55; transition: height 0.25s; }
+.cell.E i { background: var(--inn); opacity: 1; }
+.cell.I i { background: var(--imi); opacity: 1; }
+.cell b { position: absolute; top: 3px; left: 5px; font-family: var(--font-num); font-size: 0.72rem; font-weight: 500; color: var(--muted); }
+.cell.flash { outline: 2px solid var(--inn); }
+.notes { color: var(--muted); font-size: 0.84rem; }
+.notes p { margin: 0 0 6px; max-width: 95ch; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Ladder Lab <span class="tag">LECTURES 10-11</span></h1>
+    <p class="lede">Two ways to grow. Far from the frontier, a country grows by <b style="color:var(--imi)">imitating</b> and investing; close to it, only by <b style="color:var(--inn-ink)">innovating</b>, and innovation needs new firms to replace old ones. When should China switch, and what do subsidies buy?</p>
+  </header>
+
+  <!-- Panel A -->
+  <section class="panel">
+    <h2>A · Imitate or innovate? (Acemoglu, Aghion and Zilibotti 2006)</h2>
+    <div class="grid2">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="slider"><label for="sw">Year the country switches to innovation <span class="val" id="swv">20</span></label>
+          <input type="range" id="sw" min="0" max="60" step="1" value="20">
+          <div class="row"><button id="never">Never switch</button><button id="best">Switch when a > a*</button><span class="sub">a = distance to the frontier: 1 = as productive as the frontier</span></div>
+        </div>
+        <div class="tiles">
+          <div class="tile"><b id="tA1">—</b><span>a when it switches</span></div>
+          <div class="tile"><b id="tA2">—</b><span>a after 60 years</span></div>
+          <div class="tile"><b id="tA3">—</b><span>growth in year 60</span></div>
+          <div class="tile"><b id="tA4">—</b><span>years to reach a = 0.7</span></div>
+        </div>
+        <p class="sub" id="msgA"></p>
+      </div>
+      <div>
+        <svg class="chart" id="chA" viewBox="0 0 520 300" role="img" aria-label="Distance to the frontier over 60 years"></svg>
+        <div class="legend"><span><i style="border-color:var(--imi)"></i>always imitate</span><span><i style="border-color:var(--inn)"></i>always innovate</span><span><i style="border-color:var(--sw)"></i>your switch</span><span><i style="border-color:var(--grey);border-top-style:dashed"></i>a* = 0.525</span></div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div><svg class="chart" id="chG" viewBox="0 0 520 220" role="img" aria-label="Growth rate over 60 years"></svg></div>
+      <div class="notes"><p><b>The rule.</b> Productivity grows by imitating (η·frontier) and by building on what is there (γ·own). Imitation: η = 0.06, γ = 0.92. Innovation: η = 0.018, γ = 1. Far from the frontier imitation pays (at a = 0.3: 12% against 6%); close to it, innovation pays. The two cross at <b>a* = 0.525</b>.</p>
+      <p><b>The trap.</b> A country that never switches stops at a = 0.6, 60% of the frontier, growing at the frontier's 2%. Switching too early slows the catch-up; switching too late wastes years near the trap. Parameters are illustrative, not estimated.</p></div>
+    </div>
+  </section>
+
+  <!-- Panel B -->
+  <section class="panel">
+    <h2>B · Climbing the quality ladder: who climbs? (Aghion and Howitt 1992)</h2>
+    <div class="grid2">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="slider"><label for="bar">Barriers to entry <span class="val" id="barv">0%</span></label><input type="range" id="bar" min="0" max="90" step="5" value="0"><div class="sub">licences, access to credit, local protection: fewer new firms try</div></div>
+        <div class="slider"><label for="sub">R&amp;D subsidy <span class="val" id="subv">0%</span></label><input type="range" id="sub" min="0" max="100" step="5" value="0"><div class="sub">raises the R&amp;D firms report</div></div>
+        <div class="slider"><label for="rel">Share of subsidised R&amp;D that is only relabelled <span class="val" id="relv">24%</span></label><input type="range" id="rel" min="0" max="80" step="1" value="24"><div class="sub">Chen et al. (2021): 24.2% among firms bunching at the tax-cut threshold</div></div>
+        <div class="tiles">
+          <div class="tile"><b id="tB1">—</b><span>reported R&amp;D</span></div>
+          <div class="tile"><b id="tB2">—</b><span>real R&amp;D</span></div>
+          <div class="tile"><b id="tB3">—</b><span>growth per year</span></div>
+          <div class="tile"><b id="tB4">—</b><span>growth from new firms</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div class="row"><button id="run" class="on">Pause</button><button id="step">One year</button><button id="reset">Reset</button><span class="sub" id="yr">year 0</span></div>
+        <div class="ladder" id="ladder" aria-label="Twenty product lines"></div>
+        <div class="legend"><span><i style="border-color:var(--inn)"></i>a new firm climbed a rung and took over the line</span><span><i style="border-color:var(--imi)"></i>the incumbent climbed</span></div>
+        <p class="sub" id="msgB"></p>
+      </div>
+    </div>
+    <div class="notes" style="margin-top:10px"><p><b>The rule.</b> Twenty product lines. Each year, in each line, a new firm succeeds with probability x<sub>E</sub> and replaces the leader one rung higher (quality ×1.2); otherwise the incumbent climbs with probability x<sub>I</sub>. Growth = ln(1.2) × [x<sub>E</sub> + (1 − x<sub>E</sub>) x<sub>I</sub>]. Here x<sub>E</sub> = 0.12 × (1 − barriers) and x<sub>I</sub> = 0.06 × √(real R&amp;D), with real R&amp;D = 1 + subsidy × (1 − relabelled). Illustrative numbers: the point is the direction, not the size.</p></div>
+  </section>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const $ = (id) => document.getElementById(id);
+  const NS = "http://www.w3.org/2000/svg";
+  // ---------- Panel A ----------
+  const G = 0.02, I = { eta: 0.06, gam: 0.92 }, N = { eta: 0.018, gam: 1.0 }, A0 = 0.3, T = 60, ASTAR = (I.eta - N.eta) / (N.gam - I.gam);
+  let mode = "year";  // "year" | "never" | "best"
+  function path(rule) {
+    const a = [A0], g = [null];
+    for (let t = 1; t <= T; t++) {
+      const s = rule(t - 1, a[t - 1]);
+      const p = s === "I" ? I : N;
+      g.push(p.eta / a[t - 1] + p.gam - 1);
+      a.push((p.eta + p.gam * a[t - 1]) / (1 + G));
+    }
+    return { a, g };
+  }
+  function line(svg, xs, ys, xmax, ymin, ymax, w, h, color, dash, width) {
+    const pad = { l: 40, r: 10, t: 12, b: 26 };
+    const X = (x) => pad.l + (x / xmax) * (w - pad.l - pad.r);
+    const Y = (y) => pad.t + (1 - (y - ymin) / (ymax - ymin)) * (h - pad.t - pad.b);
+    const d = xs.map((x, i) => (ys[i] == null ? null : (i && ys[i - 1] != null ? "L" : "M") + X(x).toFixed(1) + "," + Y(ys[i]).toFixed(1))).filter(Boolean).join(" ");
+    const p = document.createElementNS(NS, "path");
+    p.setAttribute("d", d); p.setAttribute("fill", "none"); p.setAttribute("stroke", color); p.setAttribute("stroke-width", width || 2.5);
+    if (dash) p.setAttribute("stroke-dasharray", dash);
+    svg.appendChild(p);
+    return { X, Y };
+  }
+  function axes(svg, w, h, xmax, ymin, ymax, yticks, fmt, xlabel) {
+    svg.textContent = "";
+    const pad = { l: 40, r: 10, t: 12, b: 26 };
+    const X = (x) => pad.l + (x / xmax) * (w - pad.l - pad.r);
+    const Y = (y) => pad.t + (1 - (y - ymin) / (ymax - ymin)) * (h - pad.t - pad.b);
+    const add = (tag, attrs, txt) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; };
+    yticks.forEach((v) => { add("line", { x1: pad.l, x2: w - pad.r, y1: Y(v), y2: Y(v), class: "axis" }); add("text", { x: pad.l - 6, y: Y(v) + 4, "text-anchor": "end" }, fmt(v)); });
+    [0, 10, 20, 30, 40, 50, 60].forEach((v) => add("text", { x: X(v), y: h - 8, "text-anchor": v === 60 ? "end" : "middle" }, v));
+    add("text", { x: pad.l, y: pad.t - 2, "text-anchor": "start" }, "");
+    add("text", { x: (pad.l + w - pad.r) / 2, y: h - 8 + 0, "text-anchor": "middle", dy: "0" }, "");
+    add("text", { x: w - pad.r - 26, y: h - 8, "text-anchor": "end" }, xlabel);
+    return { X, Y, add };
+  }
+  function drawA() {
+    const yr = +$("sw").value;
+    $("swv").textContent = mode === "never" ? "never" : mode === "best" ? "a > a*" : yr;
+    $("never").classList.toggle("on", mode === "never"); $("best").classList.toggle("on", mode === "best");
+    const imi = path(() => "I"), inn = path(() => "N");
+    const mine = path((t, a) => mode === "never" ? "I" : mode === "best" ? (a > ASTAR ? "N" : "I") : (t >= yr ? "N" : "I"));
+    const xs = [...Array(T + 1).keys()];
+    const s = $("chA"); const ax = axes(s, 520, 300, T, 0.2, 1.0, [0.2, 0.4, 0.6, 0.8, 1.0], (v) => v.toFixed(1), "years");
+    ax.add("line", { x1: ax.X(0), x2: ax.X(T), y1: ax.Y(ASTAR), y2: ax.Y(ASTAR), stroke: "var(--grey)", "stroke-dasharray": "5 5" });
+    ax.add("line", { x1: ax.X(0), x2: ax.X(T), y1: ax.Y(0.6), y2: ax.Y(0.6), stroke: "var(--imi)", "stroke-dasharray": "2 4", "stroke-opacity": "0.6" });
+    ax.add("text", { x: ax.X(T) - 4, y: ax.Y(0.6) - 5, "text-anchor": "end" }, "the trap: 0.6");
+    line(s, xs, imi.a, T, 0.2, 1.0, 520, 300, "var(--imi)", "", 2);
+    line(s, xs, inn.a, T, 0.2, 1.0, 520, 300, "var(--inn)", "", 2);
+    line(s, xs, mine.a, T, 0.2, 1.0, 520, 300, "var(--sw)", "", 3.5);
+    const g = $("chG"); const gx = axes(g, 520, 220, T, 0, 0.14, [0, 0.04, 0.08, 0.12], (v) => Math.round(v * 100) + "%", "years");
+    line(g, xs, imi.g, T, 0, 0.14, 520, 220, "var(--imi)", "", 2);
+    line(g, xs, inn.g, T, 0, 0.14, 520, 220, "var(--inn)", "", 2);
+    line(g, xs, mine.g, T, 0, 0.14, 520, 220, "var(--sw)", "", 3.5);
+    gx.add("text", { x: gx.X(0) + 4, y: gx.Y(0.135) + 4 }, "growth per year");
+    // tiles
+    let swAt = null;
+    for (let t = 0; t < T; t++) { const st = mode === "never" ? "I" : mode === "best" ? (mine.a[t] > ASTAR ? "N" : "I") : (t >= yr ? "N" : "I"); if (st === "N") { swAt = t; break; } }
+    $("tA1").textContent = swAt == null ? "never" : mine.a[swAt].toFixed(2);
+    $("tA2").textContent = mine.a[T].toFixed(2);
+    $("tA3").textContent = (mine.g[T] * 100).toFixed(1) + "%";
+    const reach = mine.a.findIndex((v) => v >= 0.7);
+    $("tA4").textContent = reach < 0 ? "not in 60" : reach;
+    const bestPath = path((t, a) => (a > ASTAR ? "N" : "I"));
+    const bestReach = bestPath.a.findIndex((v) => v >= 0.7);
+    $("msgA").textContent = swAt == null ? "Never switching: fast at first, then stuck at 60% of the frontier." :
+      mine.a[swAt] < ASTAR - 0.03 ? "Switched early: below a*, imitation still paid more, so the catch-up is slower." :
+      mine.a[swAt] > ASTAR + 0.03 ? "Switched late: years spent near the trap, where imitation no longer pays." :
+      "Switched near a*: the fastest catch-up (" + bestReach + " years to reach 0.7).";
+  }
+  $("sw").addEventListener("input", () => { mode = "year"; drawA(); });
+  $("never").addEventListener("click", () => { mode = mode === "never" ? "year" : "never"; drawA(); });
+  $("best").addEventListener("click", () => { mode = mode === "best" ? "year" : "best"; drawA(); });
+  drawA();
+
+  // ---------- Panel B ----------
+  const J = 20, LAM = 1.2;
+  let q, who, year, entrants, incumb, timer = null, seed = 12345;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+  const cells = [];
+  for (let j = 0; j < J; j++) { const c = document.createElement("div"); c.className = "cell"; c.innerHTML = "<i></i><b></b>"; $("ladder").appendChild(c); cells.push(c); }
+  function rates() {
+    const bar = +$("bar").value / 100, sub = +$("sub").value / 100, rel = +$("rel").value / 100;
+    const real = 1 + sub * (1 - rel), reported = 1 + sub;
+    const xE = 0.12 * (1 - bar), xI = 0.06 * Math.sqrt(real);
+    const tot = xE + (1 - xE) * xI;
+    return { bar, sub, rel, real, reported, xE, xI, g: Math.log(LAM) * tot, shareE: xE / tot };
+  }
+  function reset() { q = Array(J).fill(0); who = Array(J).fill(""); year = 0; entrants = 0; incumb = 0; draw(); }
+  function step() {
+    const r = rates();
+    for (let j = 0; j < J; j++) {
+      cells[j].classList.remove("flash");
+      if (rnd() < r.xE) { q[j] += 1; who[j] = "E"; entrants++; cells[j].classList.add("flash"); }
+      else if (rnd() < r.xI) { q[j] += 1; who[j] = "I"; incumb++; }
+    }
+    year++; draw();
+  }
+  function draw() {
+    const r = rates();
+    $("barv").textContent = Math.round(r.bar * 100) + "%"; $("subv").textContent = "+" + Math.round(r.sub * 100) + "%"; $("relv").textContent = Math.round(r.rel * 100) + "%";
+    $("tB1").textContent = "+" + Math.round((r.reported - 1) * 100) + "%";
+    $("tB2").textContent = "+" + Math.round((r.real - 1) * 100) + "%";
+    $("tB3").textContent = (r.g * 100).toFixed(1) + "%";
+    $("tB4").textContent = Math.round(r.shareE * 100) + "%";
+    const top = Math.max(6, ...q);
+    cells.forEach((c, j) => { c.className = "cell" + (who[j] ? " " + who[j] : "") + (c.classList.contains("flash") ? " flash" : ""); c.querySelector("i").style.height = (100 * q[j] / top) + "%"; c.querySelector("b").textContent = q[j]; });
+    $("yr").textContent = "year " + year + " · rungs climbed by new firms " + entrants + ", by incumbents " + incumb;
+    const base = Math.log(LAM) * (0.12 + 0.88 * 0.06);
+    $("msgB").textContent = r.sub > 0 && r.bar > 0.4 ? "Subsidies with high barriers: reported R&D rises a lot, growth little, and almost all of it comes from incumbents." :
+      r.sub > 0 ? "Reported R&D rises by more than real R&D, and growth rises by less than either: diminishing returns and relabelling." :
+      r.bar > 0.4 ? "High barriers: fewer new firms climb, growth falls from " + (base * 100).toFixed(1) + "% to " + (r.g * 100).toFixed(1) + "%." :
+      "No barriers, no subsidy: new firms do most of the climbing.";
+  }
+  ["bar", "sub", "rel"].forEach((id) => $(id).addEventListener("input", draw));
+  $("step").addEventListener("click", () => { step(); });
+  $("reset").addEventListener("click", reset);
+  $("run").addEventListener("click", () => { if (timer) { clearInterval(timer); timer = null; $("run").textContent = "Run"; $("run").classList.remove("on"); } else { timer = setInterval(step, 700); $("run").textContent = "Pause"; $("run").classList.add("on"); } });
+  reset();
+  timer = setInterval(step, 700);
+  setTimeout(() => { if (timer && year > 120) { clearInterval(timer); timer = null; $("run").textContent = "Run"; $("run").classList.remove("on"); } }, 90000);
+})();
+</script>
+
+</body></html>
