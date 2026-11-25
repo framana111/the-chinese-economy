@@ -1,0 +1,496 @@
+<!-- Built by publish/tools/test-exam/build_test.py; edit the template, not this file. -->
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Practice Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Practice test (lecture 12). Template: publish/tools/test-exam/test_template.html, filled by build_test.py.
+   One column: the paper sheet, the DAG editor, the written answers, the send box. Style from the course labs. */
+:root {
+  --bg: #f4f3f0; --panel: #ffffff; --fg: #1d1f24; --muted: #5d6270; --line: #d9d6cf; --soft: #ecebe6;
+  --node: #ffffff; --node-line: #3a3d45; --own: #6b4fa0; --own-soft: rgba(107, 79, 160, 0.10);
+  --arrow: #3a3d45; --sel: #1f6f9f; --sel-soft: rgba(31, 111, 159, 0.16);
+  --effect: #c98a00; --warn: #b5471b; --good: #2f7d4a;
+  --font-ui: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-read: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15161a; --panel: #1e2026; --fg: #e8e9ec; --muted: #a0a5b1; --line: #353843; --soft: #262830;
+    --node: #262931; --node-line: #c9ccd4; --own: #b9a2e8; --own-soft: rgba(185, 162, 232, 0.14);
+    --arrow: #c9ccd4; --sel: #6cb8e6; --sel-soft: rgba(108, 184, 230, 0.2);
+    --effect: #f2b632; --warn: #ff8a5c; --good: #7fcf98; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15161a; --panel: #1e2026; --fg: #e8e9ec; --muted: #a0a5b1; --line: #353843; --soft: #262830;
+  --node: #262931; --node-line: #c9ccd4; --own: #b9a2e8; --own-soft: rgba(185, 162, 232, 0.14);
+  --arrow: #c9ccd4; --sel: #6cb8e6; --sel-soft: rgba(108, 184, 230, 0.2);
+  --effect: #f2b632; --warn: #ff8a5c; --good: #7fcf98; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-ui); font-size: 15px; line-height: 1.5; padding-inline: 16px; padding-block: 18px 60px; margin: 0; }
+.wrap { max-width: 980px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
+header.top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+h1 { font-size: 1.55rem; font-weight: 600; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.tag { font-size: 0.8rem; color: var(--muted); letter-spacing: 0.04em; }
+.timer { margin-left: auto; font-family: var(--font-num); font-size: 1.05rem; color: var(--muted); white-space: nowrap; }
+.timer.late { color: var(--warn); }
+.lede { color: var(--muted); margin: 0; max-width: 72ch; }
+h2 { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 10px; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; min-width: 0; }
+.sheet { font-family: var(--font-read); font-size: 1.04rem; line-height: 1.6; }
+.sheet h3 { font-family: var(--font-ui); font-size: 1.15rem; margin: 0 0 4px; text-wrap: balance; }
+.sheet .ref { font-family: var(--font-ui); font-size: 0.85rem; color: var(--muted); margin: 0 0 10px; }
+.sheet p { margin: 0 0 10px; max-width: 70ch; }
+.sheet table { border-collapse: collapse; font-family: var(--font-ui); font-size: 0.9rem; margin: 6px 0 10px; font-variant-numeric: tabular-nums; }
+.sheet th, .sheet td { border-bottom: 1px solid var(--line); padding: 4px 10px; text-align: left; }
+.sheet .tablewrap, .sheet .tbl { overflow-x: auto; }
+.sheet h1 { font-family: var(--font-ui); font-size: 1.25rem; margin: 0 0 6px; text-wrap: balance; }
+.sheet .kicker { font-family: var(--font-ui); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 4px; }
+.sheet .cite { font-family: var(--font-ui); font-size: 0.84rem; color: var(--muted); margin: 0 0 12px; max-width: 80ch; }
+.sheet .lead { font-size: 1.08rem; }
+.sheet caption { text-align: left; font-family: var(--font-ui); font-size: 0.84rem; color: var(--muted); padding-bottom: 4px; }
+.sheet .tnote { font-family: var(--font-ui); font-size: 0.8rem; color: var(--muted); margin: 4px 0 0; }
+.q { display: flex; flex-direction: column; gap: 6px; }
+.q .qn { font-weight: 600; }
+.q .hint { color: var(--muted); font-size: 0.88rem; margin: 0; max-width: 72ch; }
+textarea { font: inherit; font-size: 0.98rem; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; width: 100%; min-height: 96px; resize: vertical; }
+textarea:focus, input[type="text"]:focus { outline: 2px solid var(--sel); outline-offset: 1px; }
+.count { font-family: var(--font-num); font-size: 0.78rem; color: var(--muted); align-self: flex-end; }
+.count.over { color: var(--warn); }
+input[type="text"] { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; min-width: 0; }
+button { font: inherit; font-size: 0.88rem; color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+button:hover { border-color: var(--muted); }
+button:disabled { opacity: 0.45; cursor: default; }
+button.primary { background: var(--fg); border-color: var(--fg); color: var(--panel); font-weight: 600; padding: 9px 18px; font-size: 0.95rem; }
+button.on { background: var(--effect); border-color: var(--effect); color: #1d1f24; font-weight: 500; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.row .grow { flex: 1; }
+/* DAG editor */
+.dagbox { border: 1px solid var(--line); border-radius: 8px; background: var(--bg); overflow: hidden; touch-action: none; }
+.dagbox svg { display: block; width: 100%; height: auto; user-select: none; -webkit-user-select: none; }
+.node rect { fill: var(--node); stroke: var(--node-line); stroke-width: 2; }
+.node.own rect { fill: var(--own-soft); stroke: var(--own); stroke-dasharray: 6 4; }
+.node text { fill: var(--fg); font-family: var(--font-ui); font-size: 16px; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.node { cursor: grab; }
+.node.picked rect { stroke: var(--sel); stroke-width: 3.5; fill: var(--sel-soft); }
+.edge path.vis { fill: none; stroke: var(--arrow); stroke-width: 2.6; }
+.edge path.hit { fill: none; stroke: transparent; stroke-width: 20; cursor: pointer; }
+.edge.effect path.vis { stroke: var(--effect); stroke-width: 4.5; }
+.edge.picked path.vis { stroke: var(--sel); stroke-width: 4; }
+.ghost { fill: none; stroke: var(--sel); stroke-width: 2; stroke-dasharray: 5 5; pointer-events: none; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 36px; }
+.toolbar .say { color: var(--muted); font-size: 0.9rem; }
+.note { font-size: 0.88rem; color: var(--warn); margin: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.84rem; color: var(--muted); }
+.legend i { display: inline-block; width: 26px; height: 0; border-top: 3px solid var(--arrow); vertical-align: middle; margin-right: 6px; }
+.legend i.eff { border-top: 4px solid var(--effect); }
+/* send */
+.status { font-size: 0.95rem; }
+.status.ok { color: var(--good); font-weight: 600; }
+.status.err { color: var(--warn); }
+.code { font-family: var(--font-num); font-size: 0.8rem; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px; white-space: pre-wrap; word-break: break-all; max-height: 220px; overflow: auto; }
+.preview { background: var(--sel-soft); border: 1px solid var(--sel); color: var(--fg); border-radius: 8px; padding: 8px 12px; font-size: 0.9rem; }
+.small { font-size: 0.84rem; color: var(--muted); }
+.phoneonly { display: none; margin: 0; }
+@media (max-width: 640px) { .timer { margin-left: 0; } .phoneonly { display: block; } }
+</style></head><body>
+
+<div class="wrap">
+  <header class="top">
+    <h1 id="ttl">Practice test</h1>
+    <span class="tag">THE CHINESE ECONOMY · UNIGE</span>
+    <span class="timer" id="timer" title="Time since you opened the page">00:00</span>
+  </header>
+  <p class="lede" id="lede">About 35 minutes. This is practice, not a grade: we will look at the answers together, grouped by type, without names. Read the paper below, then answer the questions. Your draft is kept on this device until you send it.</p>
+  <div class="preview" id="previewNote" hidden>Preview: answers are not sent anywhere from this copy.</div>
+
+  <section class="panel sheet" id="sheet"><!-- Part 1 sheet ("A paper you have not seen"): Li and Branstetter, Made in China 2025.
+     Numbers from the NBER working paper w30676 (Nov 2022), literature/li-branstetter_made-in-china-2025_ResPol2024_NBER-w30676.pdf
+     (PDF page = printed page). Every number checked on that PDF, 2026-11-19: verification table in lb-mic2025-model.md.
+     No figures from the paper. -->
+<article id="lb-mic2025">
+<p class="kicker">Part 1 · A paper you have not seen</p>
+<h1>Made in China 2025: what did the money buy?</h1>
+<p class="cite">Guangwei Li and Lee G. Branstetter, "Does 'Made in China 2025' Work for China? Evidence from Chinese Listed Firms", <em>Research Policy</em> 53(6), 2024, article 105009. Numbers from the 2022 working-paper version (NBER Working Paper 30676).</p>
+
+<p class="lead">In May 2015 China's State Council launched "Made in China 2025", a plan to turn the "world's factory" into an innovator in ten industries, from robots and aircraft to electric cars and medicines. Abroad, the plan caused alarm: in 2018 the United States cited it when it began its trade war with China. But did it work for China itself?</p>
+
+<p>Lee Branstetter (Carnegie Mellon) and Guangwei Li (ShanghaiTech) ask whether the firms the plan supported received more money, spent more on research, and became more inventive, productive and profitable.</p>
+
+<p>The first problem: the government never said which firms were in the plan. Listed companies must report every subsidy they receive, but of about 286,000 subsidy records only 109 name the plan. So the authors had a computer read every annual report of China's listed firms from 2015 to 2018, looking for the words "Made in China 2025". 1,120 of 3,486 firms used them, and a manual check showed that these firms expected to benefit. To apply for the plan's funds, a firm had to send three years of audited accounts and proof of its "technical level", including its intellectual property.</p>
+
+<p>The authors then follow 1,657 listed manufacturing firms from 2011 to 2018. 718 of them are "targeted": they mention the plan. For each outcome, they compare how the targeted firms changed after they first mentioned the plan with how the other firms changed over the same years. Subsidies come from the firms' reports, patents (in China and in the United States) from a global patent database, productivity from sales and inputs.</p>
+
+<p>Targeted firms received about a fifth more innovation subsidies, and raised research spending by 0.45 percentage points of sales, in a sample where the average is 3.9%. Their patents, productivity and profits did not change in any clear way. The data stop in 2018; from that year, with the trade war, the government spoke of the plan much less.</p>
+
+<div class="tbl"><table><caption>Targeted firms after they joined the plan, compared with the other firms over the same years</caption>
+<tr><th>Outcome</th><th>Change</th></tr>
+<tr><td>Innovation subsidies</td><td>about +20% (clear)</td></tr>
+<tr><td>Research spending, % of sales</td><td>+0.45 points (clear)</td></tr>
+<tr><td>Invention patents in China</td><td>no clear change</td></tr>
+<tr><td>Patents in the United States</td><td>no clear change</td></tr>
+<tr><td>Productivity (two measures)</td><td>no clear change</td></tr>
+<tr><td>Profit margin</td><td>no clear change</td></tr>
+</table><p class="tnote">"Points" are percentage points: from 4% to 5% of sales is one point. "Clear" means statistically clear at the 5% level. The authors' main estimates: Branstetter and Li (2022), Table 2; the subsidy change is 0.18 on a log scale, about +20%.</p></div>
+</article>
+</section>
+
+  <section class="panel q" id="qdag">
+    <h2>Question 1 · The causal graph</h2>
+    <p class="hint" id="dagHint">Draw the causal graph (DAG) of the paper with the boxes below. <b>To draw an arrow</b>, tap a box and then the box it points to. <b>Tap an arrow</b> to delete it, reverse it, or mark it as the effect the paper wants to measure (gold). You can drag the boxes, and add up to two boxes of your own. You do not have to use every box.</p>
+    <p class="small phoneonly">On a phone, turn it sideways: the boxes get bigger.</p>
+    <div class="dagbox"><svg id="dag" viewBox="0 0 900 500" role="img" aria-label="Causal graph editor">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--arrow)"/></marker>
+        <marker id="ahE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--effect)"/></marker>
+        <marker id="ahS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--sel)"/></marker>
+      </defs>
+      <g id="edges"></g><path id="ghost" class="ghost" d="" /><g id="nodes"></g>
+    </svg></div>
+    <div class="toolbar" id="toolbar"><span class="say" id="say">Tap a box to start an arrow.</span></div>
+    <p class="note" id="cycleNote" hidden>Careful: some arrows form a loop. A DAG has no loops: is one of them the wrong way round?</p>
+    <div class="row">
+      <input type="text" id="ownLabel" maxlength="40" placeholder="A box of your own (optional)" aria-label="Label of your own box" style="flex:1;min-width:200px;max-width:340px">
+      <button id="addOwn">Add box</button>
+      <span class="grow"></span>
+      <button id="undo">Undo</button>
+      <button id="clearArrows">Clear arrows</button>
+    </div>
+    <div class="legend"><span><i></i>arrow: "causes"</span><span><i class="eff"></i>the effect the paper wants to measure</span></div>
+  </section>
+
+  <div id="textQs" style="display:flex;flex-direction:column;gap:16px"></div>
+
+  <section class="panel q" id="send">
+    <h2>Send</h2>
+    <div class="row">
+      <input type="text" id="nick" maxlength="30" placeholder="Nickname (optional, not your real name if you prefer)" aria-label="Nickname" style="flex:1;min-width:220px">
+      <button class="primary" id="sendBtn">Send my answers</button>
+    </div>
+    <p class="status" id="status" aria-live="polite"></p>
+    <div id="fallback" hidden>
+      <p class="small">If sending does not work, copy this text and paste it in the Teams chat to Francesco. It contains all your answers.</p>
+      <div class="row"><button id="copyBtn">Copy my answers</button><span class="small" id="copyMsg"></span></div>
+      <div class="code" id="code" tabindex="0"></div>
+    </div>
+  </section>
+</div>
+
+<script type="application/json" id="cfg">{"test_id": "pt-2026-11-25", "endpoint": "https://script.google.com/macros/s/AKfycbxk2noz9aeyZawlgE_QEVd2plwdrxxaQnfww0_R5AF1b7Wwp3ng2KaKi0f2mASoYEMf/exec", "minutes": 35, "paper": "lb-mic2025", "dag": {"nodes": [{"id": "T", "label": "Targeted by\nMade in China 2025", "x": 130, "y": 270}, {"id": "Y", "label": "Patents and\nproductivity", "x": 770, "y": 270}, {"id": "S", "label": "Innovation\nsubsidies", "x": 450, "y": 360}, {"id": "P", "label": "Firm's patent record\nbefore the plan", "x": 450, "y": 165}, {"id": "N", "label": "Shocks to all firms\nafter 2015", "x": 450, "y": 60}, {"id": "I", "label": "Industry and\nfirm size", "x": 450, "y": 460}]}, "questions": [{"id": "q2", "head": "Question 2 · The comparison", "text": "What is compared with what? Who are the groups, and when?", "hint": "Two or three lines. Think of the counterfactual: what would have happened without the treatment?", "words": 50, "rows": 3}, {"id": "q3", "head": "Question 3 · A back door that is closed", "text": "Name one back door that this comparison closes, and say how it closes it.", "hint": "A back door is a path from the treatment to the outcome through a common cause.", "words": 50, "rows": 3}, {"id": "q4", "head": "Question 4 · A back door that may stay open", "text": "Name one back door, or one threat, that the comparison may leave open. How could you check it?", "hint": "", "words": 50, "rows": 3}, {"id": "q5", "head": "Question 5 · The answer, and its limits", "text": "In two sentences: what is the paper's answer to its question? And what can it not conclude from these numbers?", "hint": "", "words": 60, "rows": 3}, {"id": "q6", "head": "Question 6 · Why it matters for China", "text": "Where does this plan sit in the story of China's economy that we told in class? Name one earlier period, policy or process that it continues or resembles, and say in what way.", "hint": "This question is not about method: answer with what you know of China's history and economy from this course.", "words": 80, "rows": 4}, {"id": "q7", "head": "Question 7 · Why it matters for the world", "text": "Why should a country outside China, the United States or Italy for example, care about the answer to this paper's question?", "hint": "No method needed here either.", "words": 60, "rows": 3}]}</script>
+<script>
+(function () {
+  "use strict";
+  const CFG = JSON.parse(document.getElementById("cfg").textContent);
+  const NS = "http://www.w3.org/2000/svg";
+  const $ = (id) => document.getElementById(id);
+  const KEY = "pt:" + CFG.test_id;
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem(KEY + ":" + k)); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(KEY + ":" + k, JSON.stringify(v)); } catch (e) { /* storage blocked: drafts live in memory only */ } }
+  };
+  if (CFG.title) { $("ttl").textContent = CFG.title; }
+  if (CFG.lede) { $("lede").textContent = CFG.lede; }
+  if (!CFG.endpoint) { $("previewNote").hidden = false; }
+
+  // ---------- identity and timer ----------
+  let sid = store.get("id");
+  if (!sid) { sid = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2)); store.set("id", sid); }
+  let started = store.get("started");
+  if (!started) { started = Date.now(); store.set("started", started); }
+  const tick = () => {
+    const s = Math.max(0, Math.round((Date.now() - started) / 1000));
+    const m = Math.floor(s / 60), r = s % 60;
+    $("timer").textContent = String(m).padStart(2, "0") + ":" + String(r).padStart(2, "0") + (CFG.minutes ? " / " + CFG.minutes + ":00" : "");
+    $("timer").classList.toggle("late", CFG.minutes && s > CFG.minutes * 60);
+  };
+  tick(); setInterval(tick, 1000);
+
+  // ---------- written questions ----------
+  const answers = store.get("answers") || {};
+  const wc = (t) => (t.trim().match(/\S+/g) || []).length;
+  CFG.questions.forEach((q) => {
+    const sec = document.createElement("section");
+    sec.className = "panel q";
+    sec.innerHTML = '<h2></h2><p class="qn"></p><p class="hint"></p><textarea></textarea><span class="count"></span>';
+    sec.querySelector("h2").textContent = q.head;
+    sec.querySelector(".qn").textContent = q.text;
+    const hint = sec.querySelector(".hint");
+    if (q.hint) { hint.textContent = q.hint; } else { hint.remove(); }
+    const ta = sec.querySelector("textarea");
+    ta.id = "ans-" + q.id; ta.setAttribute("aria-label", q.text);
+    ta.rows = q.rows || 4; ta.value = answers[q.id] || "";
+    const cnt = sec.querySelector(".count");
+    const upd = () => { const n = wc(ta.value); cnt.textContent = n + (q.words ? " / about " + q.words + " words" : " words"); cnt.classList.toggle("over", q.words && n > q.words * 1.6); };
+    ta.addEventListener("input", () => { answers[q.id] = ta.value; store.set("answers", answers); upd(); });
+    upd();
+    $("textQs").appendChild(sec);
+  });
+  $("nick").value = store.get("nick") || "";
+  $("nick").addEventListener("input", () => store.set("nick", $("nick").value));
+
+  // ---------- DAG editor ----------
+  const svg = $("dag");
+  const gN = $("nodes"), gE = $("edges"), ghost = $("ghost");
+  const base = CFG.dag.nodes.map((n) => ({ id: n.id, label: n.label, x: n.x, y: n.y, own: false }));
+  let st = store.get("dag");
+  if (!st || !Array.isArray(st.nodes)) { st = { nodes: base, edges: [], effect: null }; }
+  else {  // keep saved positions, but always use the current labels of given boxes
+    const saved = Object.fromEntries(st.nodes.map((n) => [n.id, n]));
+    st.nodes = base.map((n) => saved[n.id] ? Object.assign({}, n, { x: saved[n.id].x, y: saved[n.id].y }) : n)
+      .concat(st.nodes.filter((n) => n.own));
+  }
+  const hist = [];
+  const snap = () => { hist.push(JSON.stringify(st)); if (hist.length > 60) hist.shift(); };
+  const save = () => store.set("dag", st);
+  let picked = null;      // node id waiting for the head of an arrow
+  let pickedEdge = null;  // [from, to]
+  const sizes = {};
+
+  function svgPt(ev) {
+    const p = svg.createSVGPoint(); p.x = ev.clientX; p.y = ev.clientY;
+    return p.matrixTransform(svg.getScreenCTM().inverse());
+  }
+  const nodeById = (id) => st.nodes.find((n) => n.id === id);
+  const hasEdge = (a, b) => st.edges.some((e) => e[0] === a && e[1] === b);
+  const sameEdge = (e, f) => e && f && e[0] === f[0] && e[1] === f[1];
+
+  function boxPoint(n, tx, ty) {  // where the segment from the centre of n towards (tx, ty) leaves its box
+    const s = sizes[n.id] || { w: 120, h: 44 };
+    const dx = tx - n.x, dy = ty - n.y;
+    if (!dx && !dy) { return [n.x, n.y]; }
+    const hw = s.w / 2 + 6, hh = s.h / 2 + 6;
+    const t = Math.min(hw / Math.abs(dx || 1e-9), hh / Math.abs(dy || 1e-9));
+    return [n.x + dx * Math.min(t, 1), n.y + dy * Math.min(t, 1)];
+  }
+
+  function drawNodes() {
+    gN.textContent = "";
+    st.nodes.forEach((n) => {
+      const g = document.createElementNS(NS, "g");
+      g.setAttribute("class", "node" + (n.own ? " own" : "") + (picked === n.id ? " picked" : ""));
+      g.dataset.id = n.id;
+      const r = document.createElementNS(NS, "rect");
+      const t = document.createElementNS(NS, "text");
+      const lines = String(n.label).split("\n");
+      lines.forEach((ln, i) => {
+        const ts = document.createElementNS(NS, "tspan");
+        ts.setAttribute("x", n.x);
+        ts.setAttribute("dy", i === 0 ? (-(lines.length - 1) * 10) + "" : "20");
+        ts.textContent = ln;
+        t.appendChild(ts);
+      });
+      t.setAttribute("x", n.x); t.setAttribute("y", n.y);
+      g.appendChild(r); g.appendChild(t); gN.appendChild(g);
+      let w = 120;
+      const est = Math.max(...lines.map((l) => l.length)) * 8.6 + 28;
+      try { const bw = t.getBBox().width; w = Math.max(90, bw > 0 ? bw + 28 : est); } catch (e) { w = Math.max(90, est); }
+      const h = 26 + lines.length * 20;
+      sizes[n.id] = { w, h };
+      r.setAttribute("x", n.x - w / 2); r.setAttribute("y", n.y - h / 2);
+      r.setAttribute("width", w); r.setAttribute("height", h); r.setAttribute("rx", 10);
+      g.addEventListener("pointerdown", (ev) => nodeDown(ev, n));
+    });
+  }
+
+  function edgePath(a, b) {
+    const A = nodeById(a), B = nodeById(b);
+    const both = hasEdge(b, a);
+    let mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+    if (both) {  // two opposite arrows: bend each one to its own side
+      const dx = B.x - A.x, dy = B.y - A.y, L = Math.hypot(dx, dy) || 1;
+      mx += (-dy / L) * 34; my += (dx / L) * 34;
+    }
+    const p1 = boxPoint(A, mx, my), p2 = boxPoint(B, mx, my);
+    return both ? `M${p1[0]},${p1[1]} Q${mx},${my} ${p2[0]},${p2[1]}` : `M${p1[0]},${p1[1]} L${p2[0]},${p2[1]}`;
+  }
+
+  function drawEdges() {
+    gE.textContent = "";
+    st.edges.forEach((e) => {
+      const g = document.createElementNS(NS, "g");
+      const isEff = sameEdge(st.effect, e), isSel = sameEdge(pickedEdge, e);
+      g.setAttribute("class", "edge" + (isEff ? " effect" : "") + (isSel ? " picked" : ""));
+      const d = edgePath(e[0], e[1]);
+      const hit = document.createElementNS(NS, "path"); hit.setAttribute("class", "hit"); hit.setAttribute("d", d);
+      const vis = document.createElementNS(NS, "path"); vis.setAttribute("class", "vis"); vis.setAttribute("d", d);
+      vis.setAttribute("marker-end", isSel ? "url(#ahS)" : isEff ? "url(#ahE)" : "url(#ah)");
+      g.appendChild(vis); g.appendChild(hit); gE.appendChild(g);
+      hit.addEventListener("pointerdown", (ev) => { ev.stopPropagation(); });
+      hit.addEventListener("click", (ev) => { ev.stopPropagation(); picked = null; pickedEdge = sameEdge(pickedEdge, e) ? null : e; render(); });
+    });
+  }
+
+  function hasCycle() {
+    const adj = {}; st.edges.forEach(([a, b]) => { (adj[a] = adj[a] || []).push(b); });
+    const col = {};
+    const dfs = (u) => { col[u] = 1; for (const v of adj[u] || []) { if (col[v] === 1) return true; if (!col[v] && dfs(v)) return true; } col[u] = 2; return false; };
+    return st.nodes.some((n) => !col[n.id] && dfs(n.id));
+  }
+
+  function toolbar() {
+    const tb = $("toolbar"); tb.textContent = "";
+    const say = document.createElement("span"); say.className = "say"; say.id = "say";
+    const btn = (label, fn, cls) => { const b = document.createElement("button"); b.textContent = label; if (cls) b.className = cls; b.addEventListener("click", fn); tb.appendChild(b); return b; };
+    if (pickedEdge) {
+      const [a, b] = pickedEdge;
+      say.textContent = "Arrow: " + oneLine(nodeById(a).label) + " → " + oneLine(nodeById(b).label);
+      tb.appendChild(say);
+      const isEff = sameEdge(st.effect, pickedEdge);
+      btn(isEff ? "Not the effect" : "This is the effect", () => { snap(); st.effect = isEff ? null : [a, b]; pickedEdge = null; commit(); }, isEff ? "on" : "");
+      btn("Reverse", () => { snap(); st.edges = st.edges.filter((e) => !sameEdge(e, [a, b])); if (!hasEdge(b, a)) st.edges.push([b, a]); if (sameEdge(st.effect, [a, b])) st.effect = [b, a]; pickedEdge = null; commit(); });
+      btn("Delete arrow", () => { snap(); st.edges = st.edges.filter((e) => !sameEdge(e, [a, b])); if (sameEdge(st.effect, [a, b])) st.effect = null; pickedEdge = null; commit(); });
+      btn("Done", () => { pickedEdge = null; render(); });
+    } else if (picked) {
+      const n = nodeById(picked);
+      say.textContent = "From “" + oneLine(n.label) + "”: now tap the box it points to.";
+      tb.appendChild(say);
+      btn("Cancel", () => { picked = null; render(); });
+      if (n.own) btn("Delete this box", () => { snap(); st.nodes = st.nodes.filter((m) => m.id !== n.id); st.edges = st.edges.filter((e) => e[0] !== n.id && e[1] !== n.id); if (st.effect && (st.effect[0] === n.id || st.effect[1] === n.id)) st.effect = null; picked = null; commit(); });
+    } else {
+      say.textContent = st.edges.length ? st.edges.length + (st.edges.length === 1 ? " arrow" : " arrows") + (st.effect ? ", effect marked." : ". Tap an arrow to mark the effect.") : "Tap a box to start an arrow.";
+      tb.appendChild(say);
+    }
+  }
+  const oneLine = (s) => String(s).replace(/\n/g, " ");
+
+  function render() { drawNodes(); drawEdges(); toolbar(); $("cycleNote").hidden = !hasCycle(); $("undo").disabled = !hist.length; }
+  function commit() { save(); render(); }
+
+  // dragging and tapping boxes
+  let drag = null;
+  function nodeDown(ev, n) {
+    ev.preventDefault(); ev.stopPropagation();
+    const p = svgPt(ev);
+    drag = { id: n.id, dx: p.x - n.x, dy: p.y - n.y, sx: ev.clientX, sy: ev.clientY, moved: false, pre: JSON.stringify(st) };
+    svg.setPointerCapture && svg.setPointerCapture(ev.pointerId);
+  }
+  svg.addEventListener("pointermove", (ev) => {
+    if (drag) {
+      if (!drag.moved && Math.hypot(ev.clientX - drag.sx, ev.clientY - drag.sy) < 7) return;
+      drag.moved = true;
+      const p = svgPt(ev), n = nodeById(drag.id), s = sizes[n.id] || { w: 120, h: 44 };
+      n.x = Math.min(900 - s.w / 2 - 4, Math.max(s.w / 2 + 4, p.x - drag.dx));
+      n.y = Math.min(500 - s.h / 2 - 4, Math.max(s.h / 2 + 4, p.y - drag.dy));
+      drawNodes(); drawEdges();
+    } else if (picked) {
+      const p = svgPt(ev), n = nodeById(picked);
+      const q = boxPoint(n, p.x, p.y);
+      ghost.setAttribute("d", `M${q[0]},${q[1]} L${p.x},${p.y}`);
+    }
+  });
+  svg.addEventListener("pointerup", (ev) => {
+    if (!drag) return;
+    const d = drag; drag = null;
+    if (d.moved) { hist.push(d.pre); save(); render(); return; }
+    tapNode(d.id);
+  });
+  svg.addEventListener("pointerdown", () => { if (!drag) { picked = null; pickedEdge = null; ghost.setAttribute("d", ""); render(); } });
+  function tapNode(id) {
+    pickedEdge = null;
+    if (!picked) { picked = id; }
+    else if (picked === id) { picked = null; }
+    else {
+      const a = picked, b = id;
+      if (!hasEdge(a, b)) { snap(); st.edges.push([a, b]); save(); }
+      picked = null;
+    }
+    ghost.setAttribute("d", "");
+    render();
+  }
+
+  $("addOwn").addEventListener("click", () => {
+    const label = $("ownLabel").value.trim();
+    if (!label) { $("ownLabel").focus(); return; }
+    const own = st.nodes.filter((n) => n.own);
+    if (own.length >= 2) { $("say").textContent = "At most two boxes of your own."; return; }
+    snap();
+    const id = own.some((n) => n.id === "U1") ? "U2" : "U1";
+    const words = label.split(/\s+/); let l1 = "", l2 = "";
+    words.forEach((w) => { if ((l1 + " " + w).trim().length <= 20 && !l2) l1 = (l1 + " " + w).trim(); else l2 = (l2 + " " + w).trim(); });
+    st.nodes.push({ id, label: l2 ? l1 + "\n" + l2 : l1, x: id === "U1" ? 760 : 140, y: 455, own: true, text: label });
+    $("ownLabel").value = "";
+    commit();
+  });
+  $("ownLabel").addEventListener("keydown", (ev) => { if (ev.key === "Enter") { ev.preventDefault(); $("addOwn").click(); } });
+  $("undo").addEventListener("click", () => { if (!hist.length) return; st = JSON.parse(hist.pop()); picked = null; pickedEdge = null; commit(); });
+  $("clearArrows").addEventListener("click", () => { if (!st.edges.length) return; snap(); st.edges = []; st.effect = null; pickedEdge = null; commit(); });
+  window.addEventListener("keydown", (ev) => { if (ev.key === "Escape") { picked = null; pickedEdge = null; ghost.setAttribute("d", ""); render(); } });
+  render();
+
+  // ---------- sending ----------
+  function payload() {
+    const ans = {}; CFG.questions.forEach((q) => { ans[q.id] = ($("ans-" + q.id).value || "").trim(); });
+    return {
+      test: CFG.test_id, id: sid, nick: $("nick").value.trim().slice(0, 30),
+      started_at: new Date(started).toISOString(), sent_at: new Date().toISOString(),
+      minutes: Math.round((Date.now() - started) / 600) / 100,
+      answers: ans,
+      dag: { edges: st.edges, effect: st.effect, own: st.nodes.filter((n) => n.own).map((n) => ({ id: n.id, label: n.text || oneLine(n.label) })) },
+      device: (matchMedia("(pointer: coarse)").matches ? "touch" : "mouse")
+    };
+  }
+  function codeText(p) {
+    const lab = (id) => { const n = nodeById(id); return n ? oneLine(n.label) : id; };
+    const lines = ["PRACTICE TEST " + p.test + " · id " + p.id.slice(0, 8) + (p.nick ? " · " + p.nick : "")];
+    lines.push("ARROWS: " + (p.dag.edges.map((e) => e[0] + ">" + e[1]).join("; ") || "none"));
+    lines.push("EFFECT: " + (p.dag.effect ? p.dag.effect[0] + ">" + p.dag.effect[1] : "none"));
+    p.dag.own.forEach((o) => lines.push("OWN BOX " + o.id + ": " + o.label));
+    lines.push("(boxes: " + st.nodes.map((n) => n.id + "=" + lab(n.id)).join(", ") + ")");
+    CFG.questions.forEach((q) => lines.push(q.id.toUpperCase() + ": " + (p.answers[q.id] || "")));
+    lines.push("CODE: " + btoa(unescape(encodeURIComponent(JSON.stringify(p)))));
+    return lines.join("\n");
+  }
+  function showFallback(p, why) {
+    $("status").className = "status err";
+    $("status").textContent = why;
+    $("code").textContent = codeText(p);
+    $("fallback").hidden = false;
+  }
+  async function confirmById(id) {
+    try {
+      const r = await fetch(CFG.endpoint + (CFG.endpoint.includes("?") ? "&" : "?") + "check=" + encodeURIComponent(id), { cache: "no-store" });
+      const j = await r.json(); return !!(j && j.found);
+    } catch (e) { return false; }
+  }
+  $("sendBtn").addEventListener("click", async () => {
+    const p = payload();
+    const empty = !p.dag.edges.length && CFG.questions.every((q) => !p.answers[q.id]);
+    if (empty) { $("status").className = "status err"; $("status").textContent = "Nothing to send yet."; return; }
+    if (!CFG.endpoint) { showFallback(p, "Preview copy: nothing was sent. This is what Francesco would receive."); return; }
+    $("sendBtn").disabled = true; $("status").className = "status"; $("status").textContent = "Sending…";
+    let ok = false;
+    try {
+      const r = await fetch(CFG.endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(p) });
+      const j = await r.json(); ok = !!(j && j.ok);
+    } catch (e) {
+      try { await fetch(CFG.endpoint, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(p) }); } catch (e2) { /* offline */ }
+      await new Promise((r) => setTimeout(r, 1500));
+      ok = await confirmById(p.id);
+    }
+    $("sendBtn").disabled = false;
+    if (ok) {
+      store.set("sent", p.sent_at);
+      $("status").className = "status ok";
+      $("status").textContent = "Sent at " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + ". Thank you! You can still change something and send again: the last version counts.";
+      $("fallback").hidden = true;
+      $("sendBtn").textContent = "Send again";
+    } else {
+      showFallback(p, "Sending did not work. Please copy your answers below and paste them in the Teams chat.");
+    }
+  });
+  if (store.get("sent")) { $("sendBtn").textContent = "Send again"; $("status").textContent = "Already sent from this device. You can send again: the last version counts."; }
+  $("copyBtn").addEventListener("click", async () => {
+    const txt = $("code").textContent;
+    try { await navigator.clipboard.writeText(txt); $("copyMsg").textContent = "Copied."; }
+    catch (e) {
+      const range = document.createRange(); range.selectNodeContents($("code"));
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      $("copyMsg").textContent = "Selected: press Ctrl+C (or ⌘C).";
+    }
+  });
+  window.__practiceTest = { state: () => JSON.parse(JSON.stringify(st)), payload, tapNode };  // used by the automated test
+})();
+</script>
+</body></html>
