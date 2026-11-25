@@ -583,7 +583,7 @@
 
 ---
 
-## What the policies did for China
+## What the policies did for China's solar industry
 <!-- .slide: class="dense" -->
 
 <p class="qkick">Banares-Sanchez et al. (2026) · part 2 · results</p>
@@ -593,7 +593,7 @@
 <ul style="font-size:.45em;line-height:1.3;margin:0;text-align:left;width:430px;flex:none">
 <li><strong>Without</strong> subsidies, 2006-2020: innovation and revenue about 3.7 times, price −25%. Demand for solar was growing anyway, in China and abroad</li>
 <li class="fragment"><strong>With</strong> them: innovation and revenue far higher, and the price falls by another quarter</li>
-<li class="fragment">The policies explain about <strong>45%</strong> of the rise in innovation, <strong>38%</strong> of the rise in revenue, <strong>50%</strong> of the fall in price</li>
+<li class="fragment">The policies explain about <strong>45%</strong> of the rise in solar innovation, <strong>38%</strong> of the rise in solar revenue, <strong>50%</strong> of the fall in the panel price</li>
 <li class="fragment"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">The city effects do not wash out: they add up for China</span>. And they cost money: panel (d)</li>
 </ul>
 </div>
