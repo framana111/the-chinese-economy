@@ -385,7 +385,7 @@
 <li class="fragment" data-fragment-index="1"><strong style="color:#8fc59a">Innovation</strong> (with production) first, <strong style="color:#ef8a6f">production</strong> second. <strong style="color:#8ab4f8">Demand</strong>: small, and we cannot tell it from zero</li>
 <li class="fragment" data-fragment-index="2">The same ranking for firms, revenue, capacity and exports</li>
 <li class="fragment" data-fragment-index="3">Why is demand so weak? A solar farm in one city can buy its panels <strong>from another city</strong>. A comparison between cities cannot see that: the effect <strong>leaks</strong></li>
-<li class="fragment" data-fragment-index="3"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">Weak locally does not mean weak for China</span>. We come back to it tomorrow</li>
+<li class="fragment" data-fragment-index="3"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">Weak locally does not mean weak for China</span></li>
 </ul>
 </div>
 
@@ -466,7 +466,7 @@
 <li class="fragment">The neighbours <strong>gain</strong> too, a bit less than the subsidised city. Even next to <strong>production</strong> subsidies, which could steal their business</li>
 <li class="fragment">So, next door, <strong>knowledge spillovers beat business stealing</strong></li>
 <li class="fragment">And the city comparison <strong>understates</strong> the effect: some "untreated" cities were helped. Drop the neighbours from the twins, and the effects grow</li>
-<li class="fragment"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">Local subsidies may yield even larger gains for China as a whole</span>. How much larger? Tomorrow, with a model</li>
+<li class="fragment"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">Local subsidies may yield even larger gains for China as a whole</span></li>
 </ul>
 
 ---
@@ -481,7 +481,7 @@
 <li class="fragment"><strong>Other policies</strong>: national feed-in tariffs varied by zone, and some provinces had their own subsidies. Within one zone, or outside those provinces: the same results</li>
 <li class="fragment"><strong>Other inventors</strong>: count every solar patent of the city, including universities and labs. The same</li>
 <li class="fragment"><strong>Firms in several cities</strong> (7.3%): the same</li>
-<li class="fragment" style="margin-top:.6em"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">Tomorrow: from the cities to China</span>. Does it add up, and was it worth the money?</li>
+<li class="fragment" style="margin-top:.6em"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">Next: from the cities to China</span>. Does it add up, and was it worth the money?</li>
 </ul>
 
 ---
@@ -574,11 +574,11 @@
 <ol style="font-size:.48em;line-height:1.35">
 <li><strong>Borrow and measure</strong>: how easily buyers switch between products (from other studies), trade costs (from travel times), and from their own firm data: a new patent raises a firm's output by <strong>just under 6%</strong>; other firms' past patents raise it by <strong>8.4%</strong></li>
 <li class="fragment"><strong>Before the subsidies</strong> (2004-2006): find the costs and each city's productivity that reproduce what each city produced</li>
-<li class="fragment"><strong>Size the subsidies</strong>: the policy texts do not say how big they were. So choose the sizes that make the model, run on the real roll-out, <strong>reproduce yesterday's city estimates</strong>: production <strong>16%</strong>, demand <strong>8%</strong>, innovation <strong>12%</strong></li>
+<li class="fragment"><strong>Size the subsidies</strong>: the policy texts do not say how big they were. So choose the sizes that make the model, run on the real roll-out, <strong>reproduce the city estimates</strong>: production <strong>16%</strong>, demand <strong>8%</strong>, innovation <strong>12%</strong></li>
 </ol>
 <ul style="font-size:.46em;line-height:1.3">
 <li class="fragment">A check: the model says 3 billion yuan of solar subsidies in 2010; firms declared 2 billion. The difference: <strong>hidden</strong> support</li>
-<li class="fragment"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">Yesterday's estimates become the model's targets</span></li>
+<li class="fragment"><span style="background:#ffcf5a;color:#1b1b1b;font-weight:700;padding:.02em .35em;border-radius:5px">The city estimates become the model's targets</span></li>
 </ul>
 
 ---
